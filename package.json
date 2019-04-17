@@ -1,0 +1,11 @@
+{
+  "name": "top11",
+  "version": "1.0.0",
+  "description": "vote for radioactives top 11 tunes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "jessebw",
+  "license": "ISC"
+}
