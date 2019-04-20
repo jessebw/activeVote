@@ -25,7 +25,7 @@ pipeline {
                 archiveArtifacts artifacts: 'dist/**', onlyIfSuccessful: true
                     script {
                         step ([$class: 'CopyArtifact',
-                        projectName: 'ActiveVote (Development)',
+                        projectName: 'activeVote',
                         target: '/var/www/active-vote',
                         fingerprintArtifacts: true,
                         selector: [$class: 'SpecificBuildSelector', buildNumber: '${BUILD_NUMBER}']
