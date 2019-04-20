@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\"",
     "start": "webpack-dev-server",
-    "build": ""
+    "build": "webpack"
   },
   "author": "jessebw",
   "license": "ISC",
