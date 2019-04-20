@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+
+    tools {nodejs "node"}
+
+    stages {
+        stage('Install Dependiencies') { 
+            steps {
+                sh 'npm install' 
+            }
+        }
+        stage('Test') { 
+            steps {
+                sh 'npm run test'
+            }
+        }
+        stage('Build') { 
+            steps {
+                sh 'npm run build' 
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'rm -rf /var/www/active-vote/build'
+                archiveArtifacts artifacts: 'build/**', onlyIfSuccessful: true
+                    script {
+                        step ([$class: 'CopyArtifact',
+                        projectName: 'ActiveVote (Development)',
+                        target: '/var/www/active-vote',
+                        fingerprintArtifacts: true,
+                        selector: [$class: 'SpecificBuildSelector', buildNumber: '${BUILD_NUMBER}']
+                        ]);
+                }
+            }
+        }
+    }
+}
