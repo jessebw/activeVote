@@ -21,8 +21,8 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh 'rm -rf /var/www/active-vote/build'
-                archiveArtifacts artifacts: 'build/**', onlyIfSuccessful: true
+                sh 'rm -rf /var/www/active-vote/dist'
+                archiveArtifacts artifacts: 'dist/**', onlyIfSuccessful: true
                     script {
                         step ([$class: 'CopyArtifact',
                         projectName: 'ActiveVote (Development)',
