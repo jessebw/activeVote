@@ -3,6 +3,10 @@ pipeline {
 
     tools {nodejs "node"}
 
+    options {
+		disableConcurrentBuilds()
+    }
+
     stages {
         stage('Install Dependiencies') { 
             steps {
