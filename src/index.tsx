@@ -7,7 +7,6 @@ import "normalize.css";
 
 ReactDOM.render(
   <div>
-    Active vote
     <MainList />
   </div>,
   document.getElementById("app")
