@@ -2,25 +2,72 @@ import React from "react";
 import styled, { AnyStyledComponent } from "styled-components";
 
 var dummyData = [
-  { songName: "Here we bend", artist: "Womb", album: "one" },
-  { songName: "jams", artist: "FKJ", album: "two" },
+  {
+    songName: "Here we bend",
+    artist: "Womb",
+    album: "one",
+    image: "./img/trackImage/womb.jpg",
+  },
+  {
+    songName: "jams",
+    artist: "Finn Johannson",
+    album: "two",
+    image: "./img/trackImage/finnJohannson.jpg",
+  },
   {
     songName: "Skeletons from oblivion",
     artist: "Melting Faces",
     album: "three",
+    image: "./img/trackImage/meltingFaces.jpg",
   },
-  { songName: "Hewn", artist: "Groeni", album: "four" },
-  { songName: "Black Bird", artist: "Fat Freddies Drop", album: "five" },
-  { songName: "You maintain the stain", artist: "Mermaidens", album: "six" },
+  {
+    songName: "Hewn",
+    artist: "Groeni",
+    album: "four",
+    image: "./img/trackImage/groeni.jpg",
+  },
+  {
+    songName: "Black Bird",
+    artist: "Fat Freddies Drop",
+    album: "five",
+    image: "./img/trackImage/fatFreddies.jpg",
+  },
+  {
+    songName: "You maintain the stain",
+    artist: "Mermaidens",
+    album: "six",
+    image: "./img/trackImage/mermaidens.jpg",
+  },
   {
     songName: "Well of pristene order",
-    artist: "Earth Tungue",
+    artist: "Earth Tongue",
     album: "seven",
+    image: "./img/trackImage/earthTongue.jpg",
   },
-  { songName: "Romancy", artist: "Ben Woods", album: "eight" },
-  { songName: "Bizzy Living", artist: "Clicks", album: "nine" },
-  { songName: "Adovcate", artist: "Dr Reknaw", album: "ten" },
-  { songName: "Jimmy cheese", artist: "Dan", album: "eleven" },
+  {
+    songName: "Romancy",
+    artist: "Ben Woods",
+    album: "eight",
+    image: "./img/trackImage/benWoods.jpg",
+  },
+  {
+    songName: "Bizzy Living",
+    artist: "Clicks",
+    album: "nine",
+    image: "./img/trackImage/clicks.jpg",
+  },
+  {
+    songName: "Adovcate",
+    artist: "Dr Reknaw",
+    album: "ten",
+    image: "./img/trackImage/drReknaw.jpg",
+  },
+  {
+    songName: "Jimmy cheese",
+    artist: "Dan",
+    album: "eleven",
+    image: "./img/trackImage/cheese.jpg",
+  },
 ];
 
 const GridWrapper = styled.div`
@@ -55,10 +102,23 @@ const Title = styled.div`
   background-color: #f2f2f2;
 `;
 
+// Custom button component
+const Button = () => {
+  const Button = styled.button`
+    width: 80%;
+    border: 1px solid lightblue;
+    border-radius: 0.2em;
+  `;
+  return (
+    <div>
+      <Button>Vote</Button>
+    </div>
+  );
+};
+
 export const MainList = () => {
   return (
     <GridWrapper>
-      {/* <div> */}
       <Title />
       {dummyData.map((x, i) => {
         return (
@@ -67,10 +127,11 @@ export const MainList = () => {
             <div>{x.artist}</div>
             <div>{x.songName}</div>
             <div>{x.album}</div>
+            {/* <div>{x.image}</div> */}
+            <Button />
           </VoteItem>
         );
       })}
-      {/* </div> */}
     </GridWrapper>
   );
 };
