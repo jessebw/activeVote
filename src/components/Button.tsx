@@ -5,14 +5,27 @@ import styled from "styled-components";
 // Custom button component
 export const Button = () => {
   const Button = styled.button`
-    width: 80%;
-    border: 1px solid lightblue;
-    border-radius: 0.2em;
+    width: 100%;
+    /* border: 1px solid lightblue; */
+height: 4em;
+background-color: lightblue;
+/* justify-content: flex-end; */
+  /* display: flex; */
+    /* border-radius: 0.2em; */
   `;
 
+  const BtnWrapper = styled.div `
+  /* display: flex; */
+  width: 100%;
+  justify-content: flex-end;
+  /* align-self: flex-end; */
+  position: absolute;
+  bottom: 0;
+  `
+
   return (
-    <div>
+    <BtnWrapper>
       <Button>Vote</Button>
-    </div>
+    </BtnWrapper>
   );
 };

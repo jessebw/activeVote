@@ -5,9 +5,9 @@ import { IVoteItem } from "../interfaces";
 
 // url loader - bringing images in as 
 const logo1 = require ('../img/top11idea.png'); 
-console.log(logo1);
+// console.log(logo1);
 const logo2 = require ('../img/RadioActive886.png');
-console.log(logo2);
+// console.log(logo2);
 
 const GridWrapper = styled.div`
   width: 100vw;
@@ -20,14 +20,32 @@ const GridWrapper = styled.div`
 const VoteItem = styled.div`
   color: #000;
   font-size: 100%;
-  /* background-color: deeppink; */
   border: 1px dotted #bbb;
   align-items: center;
   margin: auto;
   text-align: center;
   width: 100%;
   height: 100%;
+  display: flex; 
+  flex-direction: column;
+  position: relative;
 `;
+
+const VoteItemOne = styled.div`
+margin-top: .8em;
+letter-spacing: .8em;
+font-size: 1em;
+font-weight: 900;
+`
+
+const VoteItemTwo = styled.div`
+letter-spacing: .4em;
+font-size: 1em;
+font-weight: 300;
+`
+
+const VoteItemThree = styled.div`
+`
 
 const VoteItemNumber = styled.span`
   color: white;
@@ -35,7 +53,7 @@ const VoteItemNumber = styled.span`
 
 // ${var} is inter[polition for string literals (inserting js into strings)
 const Title = styled.div`
-  background-image: url(${logo1}), url(${logo2});
+  background-image: url(${logo2}), url(${logo1});
   background-repeat: no-repeat;
   background-position: left, center;
   background-size: contain;
@@ -46,15 +64,14 @@ export const MainList = (props: {data: IVoteItem[], name: string}) => {
   return (
     <GridWrapper>
       <Title />
-      {props.name}
       {props.data.map((x, i: number) => {
         return (
           <VoteItem key={i}>
             {/* <VoteItemNumber>{i + 1}</VoteItemNumber> */}
-            <div>{x.id}{props.name}</div>
-            <div>{x.artist}</div>
-            <div>{x.songName}</div>
-            <div>{x.album}</div>
+            {/* <div>{x.id}</div> */}
+            <VoteItemOne>{x.artist}</VoteItemOne>
+            <VoteItemTwo>{x.songName}</VoteItemTwo>
+            <VoteItemThree>{x.album}</VoteItemThree>
             {/* <div>{x.image}</div> */}
             <Button />
           </VoteItem>
