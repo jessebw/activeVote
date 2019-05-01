@@ -1,13 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { MainList } from "./components/MainList";
-// import Potato from './components/MainList';
 import "./sass/style";
 import "normalize.css";
+import { App } from "./App";
 
 ReactDOM.render(
   <div>
-    <MainList />
+    <App />
   </div>,
   document.getElementById("app")
 );

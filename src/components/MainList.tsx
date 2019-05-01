@@ -1,74 +1,13 @@
 import React from "react";
-import styled, { AnyStyledComponent } from "styled-components";
+import styled from "styled-components";
+import { Button } from "./Button";
+import { IVoteItem } from "../interfaces";
 
-var dummyData = [
-  {
-    songName: "Here we bend",
-    artist: "Womb",
-    album: "one",
-    image: "./img/trackImage/womb.jpg",
-  },
-  {
-    songName: "jams",
-    artist: "Finn Johannson",
-    album: "two",
-    image: "./img/trackImage/finnJohannson.jpg",
-  },
-  {
-    songName: "Skeletons from oblivion",
-    artist: "Melting Faces",
-    album: "three",
-    image: "./img/trackImage/meltingFaces.jpg",
-  },
-  {
-    songName: "Hewn",
-    artist: "Groeni",
-    album: "four",
-    image: "./img/trackImage/groeni.jpg",
-  },
-  {
-    songName: "Black Bird",
-    artist: "Fat Freddies Drop",
-    album: "five",
-    image: "./img/trackImage/fatFreddies.jpg",
-  },
-  {
-    songName: "You maintain the stain",
-    artist: "Mermaidens",
-    album: "six",
-    image: "./img/trackImage/mermaidens.jpg",
-  },
-  {
-    songName: "Well of pristene order",
-    artist: "Earth Tongue",
-    album: "seven",
-    image: "./img/trackImage/earthTongue.jpg",
-  },
-  {
-    songName: "Romancy",
-    artist: "Ben Woods",
-    album: "eight",
-    image: "./img/trackImage/benWoods.jpg",
-  },
-  {
-    songName: "Bizzy Living",
-    artist: "Clicks",
-    album: "nine",
-    image: "./img/trackImage/clicks.jpg",
-  },
-  {
-    songName: "Adovcate",
-    artist: "Dr Reknaw",
-    album: "ten",
-    image: "./img/trackImage/drReknaw.jpg",
-  },
-  {
-    songName: "Jimmy cheese",
-    artist: "Dan",
-    album: "eleven",
-    image: "./img/trackImage/cheese.jpg",
-  },
-];
+// url loader - bringing images in as 
+const logo1 = require ('../img/top11idea.png'); 
+console.log(logo1);
+const logo2 = require ('../img/RadioActive886.png');
+console.log(logo2);
 
 const GridWrapper = styled.div`
   width: 100vw;
@@ -94,36 +33,25 @@ const VoteItemNumber = styled.span`
   color: white;
 `;
 
+// ${var} is inter[polition for string literals (inserting js into strings)
 const Title = styled.div`
-  background-image: url("/img/RadioActive886.png"), url("/img/top11idea.png");
+  background-image: url(${logo1}), url(${logo2});
   background-repeat: no-repeat;
   background-position: left, center;
   background-size: contain;
   background-color: #f2f2f2;
 `;
 
-// Custom button component
-const Button = () => {
-  const Button = styled.button`
-    width: 80%;
-    border: 1px solid lightblue;
-    border-radius: 0.2em;
-  `;
-  return (
-    <div>
-      <Button>Vote</Button>
-    </div>
-  );
-};
-
-export const MainList = () => {
+export const MainList = (props: {data: IVoteItem[], name: string}) => {
   return (
     <GridWrapper>
       <Title />
-      {dummyData.map((x, i) => {
+      {props.name}
+      {props.data.map((x, i: number) => {
         return (
           <VoteItem key={i}>
             {/* <VoteItemNumber>{i + 1}</VoteItemNumber> */}
+            <div>{x.id}{props.name}</div>
             <div>{x.artist}</div>
             <div>{x.songName}</div>
             <div>{x.album}</div>
@@ -135,3 +63,6 @@ export const MainList = () => {
     </GridWrapper>
   );
 };
+
+
+

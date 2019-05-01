@@ -31,11 +31,22 @@ module.exports = {
           "css-loader", // translates CSS into CommonJS
         ],
       },
+      {
+        test: /\.(png|jpg|gif)$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192
+            }
+          }
+        ]
+      }
     ],
   },
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
-    extensions: [".ts", ".tsx", ".js", ".json", ".scss"],
+    extensions: [".ts", ".tsx", ".js", ".json", ".scss", "png"],
   },
 
   plugins: [new HtmlWebpackPlugin(htmlPluginObj)],
