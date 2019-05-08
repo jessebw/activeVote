@@ -7,21 +7,22 @@ export const Button = () => {
   const Button = styled.button`
     width: 100%;
     /* border: 1px solid lightblue; */
-height: 4em;
-background-color: lightblue;
-/* justify-content: flex-end; */
-  /* display: flex; */
+    height: 4em;
+    background-color: lightblue;
+    /* justify-content: flex-end; */
+    /* display: flex; */
     /* border-radius: 0.2em; */
   `;
 
-  const BtnWrapper = styled.div `
-  /* display: flex; */
-  width: 100%;
-  justify-content: flex-end;
-  /* align-self: flex-end; */
-  position: absolute;
-  bottom: 0;
-  `
+  const BtnWrapper = styled.div`
+    /* display: flex; */
+    height: 25%;
+    width: 100%;
+    /* justify-content: flex-end; */
+    /* align-self: flex-end; */
+    /* position: absolute; */
+    /* bottom: 0; */
+  `;
 
   return (
     <BtnWrapper>

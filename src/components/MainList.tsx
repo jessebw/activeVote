@@ -1,12 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import { Button } from "./Button";
+import { Toggle } from "./toggle";
 import { IVoteItem } from "../interfaces";
 
-// url loader - bringing images in as 
-const logo1 = require ('../img/top11idea.png'); 
+// url loader - bringing images in as
+const logo1 = require("../img/top11idea.png");
 // console.log(logo1);
-const logo2 = require ('../img/RadioActive886.png');
+const logo2 = require("../img/RadioActive886.png");
 // console.log(logo2);
 
 const GridWrapper = styled.div`
@@ -26,26 +27,29 @@ const VoteItem = styled.div`
   text-align: center;
   width: 100%;
   height: 100%;
-  display: flex; 
+  display: flex;
   flex-direction: column;
   position: relative;
 `;
 
 const VoteItemOne = styled.div`
-margin-top: .8em;
-letter-spacing: .8em;
-font-size: 1em;
-font-weight: 900;
-`
+  margin-top: 0.8em;
+  letter-spacing: 0.8em;
+  font-size: 1em;
+  font-weight: 900;
+  height: 25%;
+`;
 
 const VoteItemTwo = styled.div`
-letter-spacing: .4em;
-font-size: 1em;
-font-weight: 300;
-`
+  letter-spacing: 0.4em;
+  font-size: 1em;
+  font-weight: 300;
+  height: 25%;
+`;
 
 const VoteItemThree = styled.div`
-`
+  height: 25%;
+`;
 
 const VoteItemNumber = styled.span`
   color: white;
@@ -60,13 +64,14 @@ const Title = styled.div`
   background-color: #f2f2f2;
 `;
 
-export const MainList = (props: {data: IVoteItem[], name: string}) => {
+export const MainList = (props: { data: IVoteItem[]; name: string }) => {
   return (
     <GridWrapper>
       <Title />
       {props.data.map((x, i: number) => {
         return (
           <VoteItem key={i}>
+            <Toggle />
             {/* <VoteItemNumber>{i + 1}</VoteItemNumber> */}
             {/* <div>{x.id}</div> */}
             <VoteItemOne>{x.artist}</VoteItemOne>
@@ -80,6 +85,3 @@ export const MainList = (props: {data: IVoteItem[], name: string}) => {
     </GridWrapper>
   );
 };
-
-
-
