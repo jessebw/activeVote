@@ -9,8 +9,8 @@ export const Button = () => {
     /* border: 1px solid lightblue; */
     height: 4em;
     background-color: lightblue;
-    /* justify-content: flex-end; */
-    /* display: flex; */
+    justify-content: flex-end;
+    display: flex;
     /* border-radius: 0.2em; */
   `;
 

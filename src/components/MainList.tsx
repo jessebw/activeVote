@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Button } from "./Button";
-import { Toggle } from "./toggle";
 import { IVoteItem } from "../interfaces";
 
 // url loader - bringing images in as
@@ -64,22 +63,73 @@ const Title = styled.div`
   background-color: #f2f2f2;
 `;
 
+const VoteItemWrapper = (props: {
+  key: number;
+  data: IVoteItem;
+  shouldShowData: boolean;
+  setShowData: Function;
+}) => {
+  return (
+    <VoteItem
+      onClick={e => {
+        props.setShowData(!props.shouldShowData);
+      }}
+      onMouseOver={e => {
+        props.setShowData(true);
+      }}
+      onMouseOut={e => {
+        props.setShowData(false);
+      }}
+    >
+      {props.shouldShowData && (
+        <div>
+          <VoteItemOne>{props.data.artist}</VoteItemOne>
+          <VoteItemTwo>{props.data.songName}</VoteItemTwo>
+          <VoteItemThree>{props.data.album}</VoteItemThree>
+          <Button />
+        </div>
+      )}
+    </VoteItem>
+  );
+};
+
 export const MainList = (props: { data: IVoteItem[]; name: string }) => {
+  const defaultShowData: any = {};
+  props.data.forEach((voteItemData, i) => {
+    defaultShowData[i] = false;
+  });
+  const [showData, setShowData] = useState(defaultShowData);
+  console.log(defaultShowData);
+
+  const updateShowDataObject = (key: number, state: boolean) => {
+    console.log(key);
+    console.log(state);
+    const newShowData: any = {};
+    props.data.forEach((voteData: IVoteItem, i: number) => {
+      if (i === key) {
+        newShowData[i] = state;
+      } else {
+        newShowData[i] = false;
+      }
+      console.log(i === key);
+    });
+    console.log("newShowData", newShowData);
+    setShowData(newShowData);
+  };
+
   return (
     <GridWrapper>
       <Title />
-      {props.data.map((x, i: number) => {
+      {props.data.map((voteItem, i: number) => {
         return (
-          <VoteItem key={i}>
-            <Toggle />
-            {/* <VoteItemNumber>{i + 1}</VoteItemNumber> */}
-            {/* <div>{x.id}</div> */}
-            <VoteItemOne>{x.artist}</VoteItemOne>
-            <VoteItemTwo>{x.songName}</VoteItemTwo>
-            <VoteItemThree>{x.album}</VoteItemThree>
-            {/* <div>{x.image}</div> */}
-            <Button />
-          </VoteItem>
+          <VoteItemWrapper
+            key={i}
+            data={voteItem}
+            shouldShowData={showData[i]}
+            setShowData={(state: boolean) => {
+              updateShowDataObject(i, state);
+            }}
+          />
         );
       })}
     </GridWrapper>
