@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Button } from "./Button";
 import { IVoteItem } from "../interfaces";
 
 // url loader - bringing images in as
-const logo1 = require("../img/top11idea.png");
+// const logo1 = require("../img/top11idea.png");
 // console.log(logo1);
 const logo2 = require("../img/RadioActive886.png");
 // console.log(logo2);
@@ -13,8 +13,16 @@ const GridWrapper = styled.div`
   width: 100vw;
   height: 100vh;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   grid-auto-flow: row;
+  > div {
+    height: 250px;
+  }
+  /* --auto-grid-min-size: 100px;
+  grid-template-columns: repeat (
+      auto-fill,
+      minmax(var(--auto-grid-min-size), 1fr) */
+  /* ); */
 `;
 
 const VoteItem = styled.div`
@@ -29,6 +37,14 @@ const VoteItem = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
+  .vote-info {
+    display: none;
+  }
+  &:hover {
+    .vote-info {
+      display: block;
+    }
+  }
 `;
 
 const VoteItemOne = styled.div`
@@ -50,87 +66,48 @@ const VoteItemThree = styled.div`
   height: 25%;
 `;
 
-const VoteItemNumber = styled.span`
-  color: white;
-`;
-
 // ${var} is inter[polition for string literals (inserting js into strings)
 const Title = styled.div`
-  background-image: url(${logo2}), url(${logo1});
+  background-image: url(${logo2});
   background-repeat: no-repeat;
   background-position: left, center;
   background-size: contain;
   background-color: #f2f2f2;
 `;
 
-const VoteItemWrapper = (props: {
-  key: number;
-  data: IVoteItem;
-  shouldShowData: boolean;
-  setShowData: Function;
-}) => {
+const VoteItemWrapper = (props: { key: number; data: IVoteItem }) => {
   return (
-    <VoteItem
-      onClick={e => {
-        props.setShowData(!props.shouldShowData);
-      }}
-      onMouseOver={e => {
-        props.setShowData(true);
-      }}
-      onMouseOut={e => {
-        props.setShowData(false);
-      }}
-    >
-      {props.shouldShowData && (
-        <div>
-          <VoteItemOne>{props.data.artist}</VoteItemOne>
-          <VoteItemTwo>{props.data.songName}</VoteItemTwo>
-          <VoteItemThree>{props.data.album}</VoteItemThree>
-          <Button />
-        </div>
-      )}
+    <VoteItem>
+      <div className="vote-info">
+        <VoteItemOne>{props.data.artist}</VoteItemOne>
+        <VoteItemTwo>{props.data.songName}</VoteItemTwo>
+        <VoteItemThree>{props.data.album}</VoteItemThree>
+        <Button />
+      </div>
     </VoteItem>
   );
 };
 
 export const MainList = (props: { data: IVoteItem[]; name: string }) => {
-  const defaultShowData: any = {};
-  props.data.forEach((voteItemData, i) => {
-    defaultShowData[i] = false;
-  });
-  const [showData, setShowData] = useState(defaultShowData);
-  console.log(defaultShowData);
-
-  const updateShowDataObject = (key: number, state: boolean) => {
-    console.log(key);
-    console.log(state);
-    const newShowData: any = {};
-    props.data.forEach((voteData: IVoteItem, i: number) => {
-      if (i === key) {
-        newShowData[i] = state;
-      } else {
-        newShowData[i] = false;
+  useEffect(() => {
+    fetch("http://activevoteserver.deverall.co.nz/song").then(
+      (response: any) => {
+        return response.json().then(
+          (json: any) => {
+            console.log(json);
+          },
+          (error: any) => {
+            console.log("no internet");
+          }
+        );
       }
-      console.log(i === key);
-    });
-    console.log("newShowData", newShowData);
-    setShowData(newShowData);
-  };
-
+    );
+  });
   return (
     <GridWrapper>
       <Title />
       {props.data.map((voteItem, i: number) => {
-        return (
-          <VoteItemWrapper
-            key={i}
-            data={voteItem}
-            shouldShowData={showData[i]}
-            setShowData={(state: boolean) => {
-              updateShowDataObject(i, state);
-            }}
-          />
-        );
+        return <VoteItemWrapper key={i} data={voteItem} />;
       })}
     </GridWrapper>
   );
