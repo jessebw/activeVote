@@ -13,16 +13,11 @@ const GridWrapper = styled.div`
   width: 100vw;
   height: 100vh;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  grid-auto-flow: row;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  align-items: center;
   > div {
     height: 250px;
   }
-  /* --auto-grid-min-size: 100px;
-  grid-template-columns: repeat (
-      auto-fill,
-      minmax(var(--auto-grid-min-size), 1fr) */
-  /* ); */
 `;
 
 const VoteItem = styled.div`
@@ -67,13 +62,7 @@ const VoteItemThree = styled.div`
 `;
 
 // ${var} is inter[polition for string literals (inserting js into strings)
-const Title = styled.div`
-  background-image: url(${logo2});
-  background-repeat: no-repeat;
-  background-position: left, center;
-  background-size: contain;
-  background-color: #f2f2f2;
-`;
+const Title = styled.div``;
 
 const VoteItemWrapper = (props: { key: number; data: IVoteItem }) => {
   return (
@@ -105,7 +94,9 @@ export const MainList = (props: { data: IVoteItem[]; name: string }) => {
   });
   return (
     <GridWrapper>
-      <Title />
+      <Title>
+        <h1>Top Eleven</h1>
+      </Title>
       {props.data.map((voteItem, i: number) => {
         return <VoteItemWrapper key={i} data={voteItem} />;
       })}
