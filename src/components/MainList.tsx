@@ -1,7 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Button } from "./Button";
 import { IVoteItem } from "../interfaces";
+// import ApiService from "./apiService";
+import httpService from "./httpService";
+console.log(httpService);
 
 // url loader - bringing images in as
 // const logo1 = require("../img/top11idea.png");
@@ -77,27 +80,26 @@ const VoteItemWrapper = (props: { key: number; data: IVoteItem }) => {
   );
 };
 
-export const MainList = (props: { data: IVoteItem[]; name: string }) => {
+export const MainList = (props: { data: IVoteItem[] }) => {
+  const [voteItems, setVoteItems] = useState([]);
   useEffect(() => {
-    fetch("http://activevoteserver.deverall.co.nz/song").then(
-      (response: any) => {
-        return response.json().then(
-          (json: any) => {
-            console.log(json);
-          },
-          (error: any) => {
-            console.log("no internet");
-          }
-        );
-      }
-    );
-  });
+    httpService
+      .get(
+        "http://activevoteserver.deverall.co.nz/poll/" +
+          "5cd2b86784ae3822a2678bba"
+      )
+      .then(result => {
+        console.log("POO", result);
+        setVoteItems(result.songs);
+      });
+  }, []);
+
   return (
     <GridWrapper>
       <Title>
         <h1>Top Eleven</h1>
       </Title>
-      {props.data.map((voteItem, i: number) => {
+      {voteItems.map((voteItem: IVoteItem, i: number) => {
         return <VoteItemWrapper key={i} data={voteItem} />;
       })}
     </GridWrapper>

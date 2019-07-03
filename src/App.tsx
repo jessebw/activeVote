@@ -74,8 +74,16 @@ const dummyData = [
 
 export const App = () => {
   return (
-    <div>
-      <MainList data={dummyData} name="jesse" />
-    </div>
+    <div />
+    // <div>
+    //   <Router>
+    //     <Route path={"/poll/:pollId"}>
+    //       <MainList />
+    //     </Route>
+    //     <Route path={"/admin"}>
+    //       <Admin />
+    //     </Route>
+    //   </Router>
+    // </div>
   );
 };
