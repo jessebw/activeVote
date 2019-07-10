@@ -5,15 +5,20 @@ import { IVoteItem } from "../interfaces";
 
 // create a form for admin to create records which will become vote DataTransferItemList.
 
-<button>Add Record</button>;
-
 const adminForm = () => {
   return (
-    <form>
+    <form action="post">
       <input type="text" placeholder="Artist" />
       <input type="text" placeholder="Track" />
       <input type="text" placeholder="Album" />
-      <input type="submit" />
+      <input type="submit" placeholder="submit" />
+    </form>
+  );
+};
+const pollName = () => {
+  return (
+    <form action="post">
+      <input type="text" placeholder="Poll Name" />
     </form>
   );
 };
@@ -24,8 +29,8 @@ const adminForm = () => {
 const userForm = () => {
   return (
     <form>
-      <input type="email" />
-      <input type="submit" />
+      <input type="email" placeholder="Email" />
+      <input type="submit" placeholder="submit" />
     </form>
   );
 };
