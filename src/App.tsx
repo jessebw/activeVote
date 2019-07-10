@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { MainList } from "./components/MainList";
+// import { CustomBrowserRouter } from "./routing/router";
 
 const dummyData = [
   {
@@ -72,18 +74,19 @@ const dummyData = [
   },
 ];
 
+const Admin = () => {
+  return <h2>Poos and Wees</h2>;
+};
+
 export const App = () => {
   return (
-    <div />
-    // <div>
-    //   <Router>
-    //     <Route path={"/poll/:pollId"}>
-    //       <MainList />
-    //     </Route>
-    //     <Route path={"/admin"}>
-    //       <Admin />
-    //     </Route>
-    //   </Router>
-    // </div>
+    <div>
+      <Router>
+        <Switch>
+          <Route exact path={"/poll/:pollId"} component={MainList} />
+          <Route exact path={"/admin"} component={Admin} />
+        </Switch>
+      </Router>
+    </div>
   );
 };

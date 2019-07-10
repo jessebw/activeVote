@@ -3,8 +3,7 @@ import styled from "styled-components";
 import { Button } from "./Button";
 import { IVoteItem } from "../interfaces";
 // import ApiService from "./apiService";
-import httpService from "./httpService";
-console.log(httpService);
+import apiService from "./apiService";
 
 // url loader - bringing images in as
 // const logo1 = require("../img/top11idea.png");
@@ -80,17 +79,19 @@ const VoteItemWrapper = (props: { key: number; data: IVoteItem }) => {
   );
 };
 
-export const MainList = (props: { data: IVoteItem[] }) => {
+export const MainList = ({ match }: any) => {
   const [voteItems, setVoteItems] = useState([]);
+  const id = match.params.pollId;
+
   useEffect(() => {
-    httpService
-      .get(
-        "http://activevoteserver.deverall.co.nz/poll/" +
-          "5cd2b86784ae3822a2678bba"
-      )
-      .then(result => {
-        console.log("POO", result);
-        setVoteItems(result.songs);
+    apiService
+      .getPollById(id)
+      .then(poll => {
+        console.log("POO", poll);
+        setVoteItems(poll.songs);
+      })
+      .catch(err => {
+        console.log("error happened", err);
       });
   }, []);
 

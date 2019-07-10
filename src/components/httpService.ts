@@ -3,6 +3,7 @@ class HttpService {
     if (!HttpService.instance) {
       HttpService.instance = new HttpService();
     }
+    console.log("httpService Instance Given");
     return HttpService.instance;
   }
 
