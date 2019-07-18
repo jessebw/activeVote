@@ -15,7 +15,11 @@ class APIService {
     // default for all requests
   }
 
-  getCurrentPoll() {}
+  getCurrentPoll() {
+    return httpService.get(
+      "http://activevoteserver.deverall.co.nz/currentpoll/"
+    );
+  }
 
   getPollById(id: string) {
     return httpService.get("http://activevoteserver.deverall.co.nz/poll/" + id);

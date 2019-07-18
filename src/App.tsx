@@ -83,7 +83,8 @@ export const App = () => {
     <div>
       <Router>
         <Switch>
-          <Route exact path={"/poll/:pollId"} component={MainList} />
+          <Route exact path={"/"} component={MainList} />
+          {/* <Route exact path={"/poll/:pollId"} component={MainList} /> */}
           <Route exact path={"/admin"} component={Admin} />
         </Switch>
       </Router>

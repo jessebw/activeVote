@@ -85,9 +85,9 @@ export const MainList = ({ match }: any) => {
 
   useEffect(() => {
     apiService
-      .getPollById(id)
+      .getCurrentPoll()
       .then(poll => {
-        console.log("POO", poll);
+        // console.log("POO", poll);
         setVoteItems(poll.songs);
       })
       .catch(err => {
@@ -100,9 +100,18 @@ export const MainList = ({ match }: any) => {
       <Title>
         <h1>Top Eleven</h1>
       </Title>
-      {voteItems.map((voteItem: IVoteItem, i: number) => {
-        return <VoteItemWrapper key={i} data={voteItem} />;
-      })}
+      {!voteItems || voteItems.length === 0 ? (
+        <NoCurrentPolls />
+      ) : (
+        voteItems.map((voteItem: IVoteItem, i: number) => {
+          return <VoteItemWrapper key={i} data={voteItem} />;
+        })
+      )}
+      ;
     </GridWrapper>
   );
+};
+
+const NoCurrentPolls = () => {
+  return <div>No Current Polls</div>;
 };
