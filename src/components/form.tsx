@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { Button } from "./Button";
+import { VoteButton } from "./VoteButton";
 import { IVoteItem } from "../interfaces";
 
 // create a form for admin to create records which will become vote DataTransferItemList.

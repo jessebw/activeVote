@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 // import "./components/MainList";
-const VoteButton = styled.button`
+const Button = styled.button`
   width: 100%;
   height: 4em;
   background-color: lightblue;
@@ -20,10 +20,10 @@ const BtnWrapper = styled.div`
   /* bottom: 0; */
 `;
 // Custom button component
-export const Button: any = () => {
+export const VoteButton: any = (props: any) => {
   return (
-    <BtnWrapper>
-      <VoteButton>Vote</VoteButton>
+    <BtnWrapper {...props}>
+      <Button>Vote</Button>
     </BtnWrapper>
   );
 };

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import styled from "styled-components";
-import { Button } from "./Button";
-import { IVoteItem } from "../interfaces";
+import { VoteButton } from "./VoteButton";
+import { IVoteItem, IPoll } from "../interfaces";
 // import ApiService from "./apiService";
 import apiService from "./apiService";
 
@@ -66,28 +66,40 @@ const VoteItemThree = styled.div`
 // ${var} is inter[polition for string literals (inserting js into strings)
 const Title = styled.div``;
 
-const VoteItemWrapper = (props: { key: number; data: IVoteItem }) => {
+const VoteItemWrapper = (props: {
+  key: number;
+  data: IVoteItem;
+  onVote: Function;
+}) => {
   return (
     <VoteItem>
       <div className="vote-info">
         <VoteItemOne>{props.data.artist}</VoteItemOne>
         <VoteItemTwo>{props.data.songName}</VoteItemTwo>
         <VoteItemThree>{props.data.album}</VoteItemThree>
-        <Button />
+        <VoteButton
+          onClick={(e: MouseEvent) => {
+            console.log("show form");
+            props.onVote(props.data._id);
+          }}
+        />
       </div>
     </VoteItem>
   );
 };
 
 export const MainList = ({ match }: any) => {
-  const [voteItems, setVoteItems] = useState([]);
+  const [voteItems, setVoteItems] = useState<IVoteItem[]>([]);
+  const [voteFormOpen, setVoteFormOpen] = useState<boolean>(false);
+  const [voteSong, setVoteSong] = useState<string>();
+  const [currentPoll, setCurrentPoll] = useState<IPoll>();
   const id = match.params.pollId;
 
   useEffect(() => {
     apiService
       .getCurrentPoll()
-      .then(poll => {
-        // console.log("POO", poll);
+      .then((poll: IPoll) => {
+        setCurrentPoll(poll);
         setVoteItems(poll.songs);
       })
       .catch(err => {
@@ -95,20 +107,50 @@ export const MainList = ({ match }: any) => {
       });
   }, []);
 
+  const VoteForm = () => {
+    const [email, setEmail] = useState<string>();
+    return (
+      <div>
+        {voteSong}
+        <br />
+        {email}
+        <br />
+        {currentPoll && currentPoll._id}
+        <input
+          type="email"
+          onChange={(event: any) => {
+            setEmail(event.target.value);
+          }}
+        />
+        <button>submit</button>
+      </div>
+    );
+  };
+
+  const buttonClicked = (songID: string) => {
+    setVoteFormOpen(true);
+    setVoteSong(songID);
+  };
+
   return (
-    <GridWrapper>
-      <Title>
-        <h1>Top Eleven</h1>
-      </Title>
-      {!voteItems || voteItems.length === 0 ? (
-        <NoCurrentPolls />
-      ) : (
-        voteItems.map((voteItem: IVoteItem, i: number) => {
-          return <VoteItemWrapper key={i} data={voteItem} />;
-        })
-      )}
-      ;
-    </GridWrapper>
+    <React.Fragment>
+      {voteFormOpen && <VoteForm />}
+      <GridWrapper>
+        <Title>
+          <h1>Top Eleven</h1>
+        </Title>
+        {!voteItems || voteItems.length === 0 ? (
+          <NoCurrentPolls />
+        ) : (
+          voteItems.map((voteItem: IVoteItem, i: number) => {
+            return (
+              <VoteItemWrapper key={i} data={voteItem} onVote={buttonClicked} />
+            );
+          })
+        )}
+        ;
+      </GridWrapper>
+    </React.Fragment>
   );
 };
 
