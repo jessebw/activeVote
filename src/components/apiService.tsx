@@ -1,4 +1,5 @@
 import httpService from "./httpService";
+import { string } from "prop-types";
 
 class APIService {
   static getInstance() {
@@ -23,6 +24,14 @@ class APIService {
 
   getPollById(id: string) {
     return httpService.get("http://activevoteserver.deverall.co.nz/poll/" + id);
+  }
+
+  postSubmitVote(email: string, songId: string, pollId: string) {
+    return httpService.post("http://activevoteserver.deverall.co.nz/vote", {
+      email: email,
+      songId: songId,
+      pollId: pollId,
+    });
   }
 }
 
