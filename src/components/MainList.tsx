@@ -5,16 +5,15 @@ import { IVoteItem, IPoll } from "../interfaces";
 // import ApiService from "./apiService";
 import apiService from "./apiService";
 import { Image } from "react-native";
-
-// url loader - bringing images in as
-// const logo1 = require("../img/top11idea.png");
-// console.log(logo1);
-const logo2 = require("../img/RadioActive886.png");
-// console.log(logo2);
+<link
+  href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+  rel="stylesheet"
+/>;
 
 const GridWrapper = styled.div`
+  background-color: #0c0c0c;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   align-items: center;
@@ -27,57 +26,84 @@ const VoteItem = styled.div<{ imagePath: string }>`
   color: #000;
   font-size: 100%;
   background-image: url(http://activevoteserver.deverall.co.nz/${props => props.imagePath});
-  /* border: 1px dotted #bbb; */
-  /* align-items: center; */
-
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
   margin: auto;
   text-align: center;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
+  /* justify-content: center;
+  align-items: center; */
   position: relative;
+
   .vote-btn {
-    display: none;
+    /* text-align: center; */
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    transition: width 0.1s, opacity 0.4s;
+    transition-timing-function: ease-out;
+    opacity: 0;
+    height: 100%;
+    width: 0%;
+    background: RGBA(127, 127, 213, 0.5);
+    background: -webkit-linear-gradient(to left, #7f7fd5, #86a8e7, #91eae4);
+    background: linear-gradient(to left, #7f7fd5, #86a8e7, #91eae4);
   }
   &:hover {
     .vote-btn {
       display: block;
+      width: 100%;
+      opacity: 0.8;
     }
   }
 `;
 
 const VoteItemOne = styled.div`
-  margin-top: 2.5em;
+  font-family: "Roboto", sans-serif;
+  /* margin-top: 2.5em; */
   /* letter-spacing: 0.8em; */
-  font-size: 1em;
-  font-weight: 900;
-  height: 25%;
+  font-size: 3em;
+  /* font-weight: 900; */
+  /* height: 25%; */
 `;
 
 const VoteItemTwo = styled.div`
   /* letter-spacing: 0.4em; */
-  font-size: 1em;
+  /* font-size: 1em; */
   font-weight: 300;
-  height: 25%;
+  /* height: 25%; */
 `;
 
 const VoteItemThree = styled.div`
-  height: 25%;
+  /* height: 25%; */
 `;
 
 const VoteButton = styled.div<{ onClick: any }>`
-  position: absolute;
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+
+  /* position: absolute; */
+
   /* background-color: blue; */
   /* background-image: linear-gradient(-90deg, lightblue, white); */
   /* display: flex; */
-  transform: skewY(-10deg);
+
+  /* transform: skewY(-10deg);
   opacity: 0.5;
   height: 50%;
   width: 100%;
   background: RGBA(127, 127, 213, 0.5);
   background: -webkit-linear-gradient(to left, #7f7fd5, #86a8e7, #91eae4);
-  background: linear-gradient(to left, #7f7fd5, #86a8e7, #91eae4);
+  background: linear-gradient(to left, #7f7fd5, #86a8e7, #91eae4); */
 
   /* justify-content: flex-end; */
   /* align-self: flex-end; */
@@ -96,9 +122,6 @@ const VoteItemWrapper = (props: {
   return (
     <VoteItem imagePath={props.data.image as string}>
       <div className="vote-info">
-        <VoteItemOne>{props.data.artist}</VoteItemOne>
-        <VoteItemTwo>{props.data.songName}</VoteItemTwo>
-        <VoteItemThree>{props.data.album}</VoteItemThree>
         <VoteButton
           className="vote-btn"
           onClick={(e: MouseEvent) => {
@@ -106,7 +129,9 @@ const VoteItemWrapper = (props: {
             props.onVote(props.data._id);
           }}
         >
-          Vote
+          <VoteItemOne>{props.data.artist}</VoteItemOne>
+          <VoteItemTwo>{props.data.songName}</VoteItemTwo>
+          <VoteItemThree>{props.data.album}</VoteItemThree>
         </VoteButton>
       </div>
     </VoteItem>
@@ -137,9 +162,10 @@ export const MainList = ({ match }: any) => {
       position: fixed;
       top: 50%;
       left: 50%;
-      background: white;
+      background: rgba(255, 255, 255, 0.5);
       padding: 8px;
-      border: black 1px solid;
+      /* border: black 1px solid; */
+      /* border-radius: 12px; */
       box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
       transform: translate(-50%, -50%);
       z-index: 2;
@@ -148,7 +174,7 @@ export const MainList = ({ match }: any) => {
       content: "";
       position: fixed;
       z-index: 1;
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.7);
       top: 0;
       right: 0;
       bottom: 0;
