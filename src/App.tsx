@@ -9,23 +9,30 @@ import {
 import { CurrentPoll } from "./pages/CurrentPoll";
 import { Dashboard } from "./pages/Dashboard";
 import { Login } from "./pages/Login";
+import userService from "./components/userService";
+import { GlobalState } from "./state/globalState";
+import { useStateValue } from "./state/stateContext";
 
 const isTheGuyLoggedIn: boolean = false;
 
-const PrivateRoute: any = ({ component: Component, ...rest }: any) => (
-  <Route
-    {...rest}
-    render={props => {
-      return isTheGuyLoggedIn ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to="/login" />
-      );
-    }}
-  />
-);
+const PrivateRoute: any = ({ component: Component, ...rest }: any) => {
+  const [globalState, dispatch] = useStateValue();
+  return (
+    <Route
+      {...rest}
+      render={props => {
+        return globalState.auth ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to="/login" />
+        );
+      }}
+    />
+  );
+};
 
-export const App = () => {
+const AppContent = () => {
+  const [globalState, dispatch] = useStateValue();
   return (
     <div>
       <Router>
@@ -36,6 +43,17 @@ export const App = () => {
           <Route exact path={"/login"} component={Login} />
         </Switch>
       </Router>
+      <div>
+        The user is <b>{globalState.auth ? "currently" : "not"}</b> logged in.
+      </div>
     </div>
+  );
+};
+
+export const App = () => {
+  return (
+    <GlobalState>
+      <AppContent />
+    </GlobalState>
   );
 };

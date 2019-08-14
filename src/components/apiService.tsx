@@ -33,16 +33,6 @@ class APIService {
       pollId: pollId,
     });
   }
-
-  authenticateUser(email: string, password: string) {
-    return httpService.post(
-      "http://activevoteserver.deverall.co.nz/authenticate",
-      {
-        email: email,
-        password: password,
-      }
-    );
-  }
 }
 
 export default APIService.getInstance();

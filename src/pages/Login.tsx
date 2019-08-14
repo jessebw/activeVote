@@ -1,21 +1,23 @@
 import React, { useState } from "react";
-import apiService from "../components/apiService";
-
-const authenticateUser = (email: string, password: string) => {
-  apiService.authenticateUser(email, password).then(data => {
-    console.log("dataLogin", data);
-    localStorage.setItem("auth", JSON.stringify(data));
-    // const auth = localStorage.getItem("auth");
-    // const token = JSON.parse(auth as string).token;
-  });
-};
+// import apiService from "../components/apiService";
+import userService from "../components/userService";
+import { useStateValue } from "../state/stateContext";
 
 // jesse.b.walsh@gmail.com
 // littleatlas
 
 export const Login = () => {
+  const [globalState, dispatch] = useStateValue();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
+  const authenticateUser = () => {
+    userService.authenticateUser(email, password).then(data => {
+      console.log("dataLogin", data);
+      dispatch({ type: "setAuth", payload: data });
+    });
+  };
+
   return (
     <div>
       <input
@@ -32,7 +34,7 @@ export const Login = () => {
       />
       <button
         onClick={(e: any) => {
-          authenticateUser(email, password);
+          authenticateUser();
         }}
       >
         enter

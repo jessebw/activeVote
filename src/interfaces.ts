@@ -24,3 +24,18 @@ export interface IPoll {
     artist: string;
   }[];
 }
+
+export interface IAuth {
+  token: string;
+  expiresIn: number;
+  refreashToken: string;
+  refreashExpiresIn: string;
+}
+
+export interface IGlobalState {
+  auth?: IAuth;
+}
+export type TStateAction = { type: string; payload: any };
+export interface IReducer {
+  (prevState: IGlobalState, action: any): IGlobalState;
+}
