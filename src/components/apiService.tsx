@@ -1,5 +1,5 @@
 import httpService from "./httpService";
-import { string } from "prop-types";
+// import { string } from "prop-types";
 
 class APIService {
   static getInstance() {
@@ -32,6 +32,16 @@ class APIService {
       songId: songId,
       pollId: pollId,
     });
+  }
+
+  authenticateUser(email: string, password: string) {
+    return httpService.post(
+      "http://activevoteserver.deverall.co.nz/authenticate",
+      {
+        email: email,
+        password: password,
+      }
+    );
   }
 }
 

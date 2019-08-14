@@ -3,10 +3,10 @@ import styled from "styled-components";
 // import { VoteButton } from "./VoteButton";
 import { IVoteItem, IPoll } from "../interfaces";
 // import ApiService from "./apiService";
-import apiService from "./apiService";
-import { Image } from "react-native";
+import apiService from "../components/apiService";
+// import { Image } from "react-native";
 <link
-  href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+  href="https://fonts.googleapis.com/css?family=Montserrat|Roboto:500&display=swap"
   rel="stylesheet"
 />;
 
@@ -41,9 +41,10 @@ const VoteItem = styled.div<{ imagePath: string }>`
 
   .vote-btn {
     /* text-align: center; */
-    /* display: flex; */
-    /* align-items: center; */
-    /* justify-content: center; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -59,9 +60,12 @@ const VoteItem = styled.div<{ imagePath: string }>`
   }
   &:hover {
     .vote-btn {
-      display: block;
+      /* display: block; */
       width: 100%;
       opacity: 0.8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 `;
@@ -112,7 +116,14 @@ const VoteButton = styled.div<{ onClick: any }>`
 `;
 
 // ${var} is inter[polition for string literals (inserting js into strings)
-const Title = styled.div``;
+const Title = styled.div`
+  font-family: "Montserrat", sans-serif;
+  color: white;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const VoteItemWrapper = (props: {
   key: number;
@@ -132,13 +143,42 @@ const VoteItemWrapper = (props: {
           <VoteItemOne>{props.data.artist}</VoteItemOne>
           <VoteItemTwo>{props.data.songName}</VoteItemTwo>
           <VoteItemThree>{props.data.album}</VoteItemThree>
+          {/* <h3>{props.data.artist}</h3>
+          <br />
+          <h3>{props.data.songName}</h3>
+          <p>{props.data.album}</p> */}
         </VoteButton>
       </div>
     </VoteItem>
   );
 };
 
-export const MainList = ({ match }: any) => {
+const VoteModal = styled.div`
+  > * {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 8px;
+    /* border: black 1px solid; */
+    /* border-radius: 12px; */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    transform: translate(-50%, -50%);
+    z-index: 2;
+  }
+  &:after {
+    content: "";
+    position: fixed;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.7);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+`;
+
+export const CurrentPoll = ({ match }: any) => {
   const [voteItems, setVoteItems] = useState<IVoteItem[]>([]);
   const [voteFormOpen, setVoteFormOpen] = useState<boolean>(false);
   const [voteSong, setVoteSong] = useState<string>();
@@ -156,31 +196,6 @@ export const MainList = ({ match }: any) => {
         console.log("error happened", err);
       });
   }, []);
-
-  const VoteModal = styled.div`
-    > * {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      background: rgba(255, 255, 255, 0.5);
-      padding: 8px;
-      /* border: black 1px solid; */
-      /* border-radius: 12px; */
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-      transform: translate(-50%, -50%);
-      z-index: 2;
-    }
-    &:after {
-      content: "";
-      position: fixed;
-      z-index: 1;
-      background: rgba(0, 0, 0, 0.7);
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-    }
-  `;
 
   const VoteForm = () => {
     const [email, setEmail] = useState<string>("");
