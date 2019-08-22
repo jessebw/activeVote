@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import {
   HashRouter as Router,
@@ -12,11 +12,13 @@ import { Login } from "./pages/Login";
 import userService from "./components/userService";
 import { GlobalState } from "./state/globalState";
 import { useStateValue } from "./state/stateContext";
+import { TStateAction, IVote } from "./interfaces";
 
-const isTheGuyLoggedIn: boolean = false;
+// const isTheGuyLoggedIn: boolean = false;
 
 const PrivateRoute: any = ({ component: Component, ...rest }: any) => {
   const [globalState, dispatch] = useStateValue();
+
   return (
     <Route
       {...rest}
@@ -31,8 +33,23 @@ const PrivateRoute: any = ({ component: Component, ...rest }: any) => {
   );
 };
 
+// session storage = open as long as window is open - key pair strings
+// local storage = keeps data accross sessions opening and closing
+
 const AppContent = () => {
   const [globalState, dispatch] = useStateValue();
+  useEffect(() => {
+    const sessionState = userService.readSessionState();
+    if (dispatch == null) {
+    } else {
+      const changeState: TStateAction = {
+        type: "setAuth",
+        payload: sessionState,
+      };
+      dispatch(changeState);
+    }
+  });
+
   return (
     <div>
       <Router>

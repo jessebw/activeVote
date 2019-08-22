@@ -39,3 +39,10 @@ export type TStateAction = { type: string; payload: any };
 export interface IReducer {
   (prevState: IGlobalState, action: any): IGlobalState;
 }
+
+export interface IVote {
+  _id: string;
+  singId: string;
+  pollId: string;
+  email: string;
+}

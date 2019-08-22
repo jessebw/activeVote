@@ -14,7 +14,12 @@ class UserService {
   public auth?: IAuth;
 
   private constructor() {
+    this.readSessionState();
+  }
+
+  readSessionState() {
     this.auth = JSON.parse(sessionStorage.getItem("auth") as string);
+    return this.auth;
   }
 
   authenticateUser(email: string, password: string) {
@@ -27,7 +32,7 @@ class UserService {
       .then(defineAuth => {
         this.auth = defineAuth;
         sessionStorage.setItem("auth", JSON.stringify(defineAuth));
-        console.log("token", this.auth && this.auth.token);
+        // console.log("token", this.auth && this.auth.token);
         return defineAuth;
       });
   }

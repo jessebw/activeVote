@@ -10,10 +10,16 @@ class APIService {
     return APIService.instance;
   }
 
+  dummyURL = "http://activevoteserver.deverall.co.nz/";
+
   private static instance: APIService;
 
   private constructor() {
     // default for all requests
+  }
+
+  getAllVotes() {
+    return httpService.get(this.dummyURL + "vote");
   }
 
   getCurrentPoll() {
