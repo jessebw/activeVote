@@ -48,7 +48,7 @@ const AppContent = () => {
       };
       dispatch(changeState);
     }
-  });
+  }, [sessionStorage.getItem("auth")]);
 
   return (
     <div>

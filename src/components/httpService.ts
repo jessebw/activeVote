@@ -1,5 +1,6 @@
 import fetchIntercept from "fetch-intercept";
 import userService from "./userService";
+import jwtDecode from "jwt-decode";
 
 fetchIntercept.register({
   request: function(url, config = {}) {
@@ -8,7 +9,7 @@ fetchIntercept.register({
     const auth = userService.auth;
     console.log("auth", auth);
     // config = config || {};
-    console.log("z", config);
+    console.log("authConfig:", config);
     if (auth) {
       config.headers = {
         ...config.headers,
@@ -26,9 +27,9 @@ fetchIntercept.register({
 
   response: function(response) {
     // Modify the reponse object
+    console.log("response", response);
     return response;
   },
-
   responseError: function(error) {
     // Handle an fetch error
     return Promise.reject(error);
@@ -56,7 +57,31 @@ class HttpService {
         console.log(
           "Looks like there was a problem. Status Code: " + response.status
         );
-        return;
+
+        if (response.status === 401) {
+          const auth = JSON.parse(sessionStorage.getItem("auth") as string);
+          const decoded: any = jwtDecode(auth.token);
+          console.log("decoded token", decoded);
+
+          return HttpService.getInstance()
+            .post("http://activevoteserver.deverall.co.nz/refreshtoken", {
+              email: decoded.email,
+              refreshToken: auth.refreshToken,
+            })
+            .then(data => {
+              sessionStorage.setItem("auth", JSON.stringify(data));
+              // console.log("token", this.auth && this.auth.token);
+              userService.readSessionState();
+              return fetch(url).then(successfullResponse => {
+                return successfullResponse.json().then(data => {
+                  console.log("refreshed Token", data);
+                  return data;
+                });
+              });
+            });
+        }
+
+        return Promise.reject();
       }
 
       return response.json().then(data => {
