@@ -1,11 +1,7 @@
 import React, { useState } from "react";
-// import apiService from "../components/apiService";
-import userService from "../components/userService";
+import userService from "../services/userService";
 import { useStateValue } from "../state/stateContext";
 import { Redirect } from "react-router-dom";
-
-// jesse.b.walsh@gmail.com
-// littleatlas
 
 export const Login = () => {
   const [globalState, dispatch] = useStateValue();
@@ -40,8 +36,6 @@ export const Login = () => {
       <button
         onClick={(e: any) => {
           authenticateUser();
-          // const url = "activevote.devrall"
-          // const dashboard = "/dashboard"
         }}
       >
         enter

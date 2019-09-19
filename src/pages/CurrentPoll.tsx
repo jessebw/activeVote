@@ -3,8 +3,9 @@ import styled from "styled-components";
 // import { VoteButton } from "./VoteButton";
 import { IVoteItem, IPoll } from "../interfaces";
 // import ApiService from "./apiService";
-import apiService from "../components/apiService";
+import apiService from "../services/apiService";
 // import { Image } from "react-native";
+import { FormModal } from "../components/StyledComponents";
 <link
   href="https://fonts.googleapis.com/css?family=Montserrat|Roboto:500&display=swap"
   rel="stylesheet"
@@ -153,31 +154,6 @@ const VoteItemWrapper = (props: {
   );
 };
 
-const VoteModal = styled.div`
-  > * {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    background: rgba(255, 255, 255, 0.5);
-    padding: 8px;
-    /* border: black 1px solid; */
-    /* border-radius: 12px; */
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-    transform: translate(-50%, -50%);
-    z-index: 2;
-  }
-  &:after {
-    content: "";
-    position: fixed;
-    z-index: 1;
-    background: rgba(0, 0, 0, 0.7);
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  }
-`;
-
 export const CurrentPoll = ({ match }: any) => {
   const [voteItems, setVoteItems] = useState<IVoteItem[]>([]);
   const [voteFormOpen, setVoteFormOpen] = useState<boolean>(false);
@@ -200,7 +176,7 @@ export const CurrentPoll = ({ match }: any) => {
   const VoteForm = () => {
     const [email, setEmail] = useState<string>("");
     return (
-      <VoteModal>
+      <FormModal>
         <div>
           <p>Please enter your email address and click vote.</p>
           <input
@@ -231,7 +207,7 @@ export const CurrentPoll = ({ match }: any) => {
             Cancel
           </button>
         </div>
-      </VoteModal>
+      </FormModal>
     );
   };
 

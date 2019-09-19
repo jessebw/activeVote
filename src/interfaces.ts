@@ -46,3 +46,10 @@ export interface IVote {
   pollId: string;
   email: string;
 }
+
+export interface ISong {
+  _id: string;
+  songName: string;
+  album: string;
+  artist: string;
+}

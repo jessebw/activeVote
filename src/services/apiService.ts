@@ -28,8 +28,16 @@ class APIService {
     );
   }
 
+  getAllPolls() {
+    return httpService.get("http://activevoteserver.deverall.co.nz/poll/");
+  }
+
   getPollById(id: string) {
     return httpService.get("http://activevoteserver.deverall.co.nz/poll/" + id);
+  }
+
+  getAllSongs() {
+    return httpService.get("http://activevoteserver.deverall.co.nz/song");
   }
 
   postSubmitVote(email: string, songId: string, pollId: string) {

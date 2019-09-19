@@ -7,9 +7,9 @@ import {
   Redirect,
 } from "react-router-dom";
 import { CurrentPoll } from "./pages/CurrentPoll";
-import { Dashboard } from "./pages/Dashboard";
+import { Dashboard } from "./pages/dashboard/Dashboard";
 import { Login } from "./pages/Login";
-import userService from "./components/userService";
+import userService from "./services/userService";
 import { GlobalState } from "./state/globalState";
 import { useStateValue } from "./state/stateContext";
 import { TStateAction, IVote } from "./interfaces";
@@ -56,13 +56,11 @@ const AppContent = () => {
         <Switch>
           <Route exact path={"/"} component={CurrentPoll} />
           {/* <Route exact path={"/poll/:pollId"} component={MainList} /> */}
-          <PrivateRoute exact path={"/dashboard"} component={Dashboard} />
+          <PrivateRoute path={"/dashboard"} component={Dashboard} />
+
           <Route exact path={"/login"} component={Login} />
         </Switch>
       </Router>
-      <div>
-        The user is <b>{globalState.auth ? "currently" : "not"}</b> logged in.
-      </div>
     </div>
   );
 };
