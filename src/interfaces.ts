@@ -42,7 +42,7 @@ export interface IReducer {
 
 export interface IVote {
   _id: string;
-  singId: string;
+  songId: string;
   pollId: string;
   email: string;
 }
@@ -52,4 +52,5 @@ export interface ISong {
   songName: string;
   album: string;
   artist: string;
+  image: string;
 }
