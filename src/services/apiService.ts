@@ -47,6 +47,19 @@ class APIService {
       pollId: pollId,
     });
   }
+  addNewPoll(
+    name: string,
+    songsIds: string[],
+    startDateTime: string,
+    endDateTime: string
+  ) {
+    return httpService.post("http://activevoteserver.deverall.co.nz/poll", {
+      name: name,
+      songsIds: songsIds,
+      startDateTime: startDateTime,
+      endDateTime: endDateTime,
+    });
+  }
 }
 
 export default APIService.getInstance();

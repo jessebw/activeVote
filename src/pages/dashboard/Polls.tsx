@@ -1,4 +1,5 @@
 import React, { useEffect, useState, ChangeEvent } from "react";
+import { Link } from "react-router-dom";
 import apiService from "../../services/apiService";
 import { IPoll } from "../../interfaces";
 import { FormModal, EventButton } from "../../components/StyledComponents";
@@ -67,7 +68,11 @@ export const Polls = () => {
             <div key={poll._id}>
               <p>{poll.name}</p>
               <p>{poll.createdDateTime}</p>
-              <button>edit</button>
+              <nav>
+                <Link to={"/dashboard/editpoll/" + poll._id}>
+                  <button>edit</button>
+                </Link>
+              </nav>
             </div>
           );
         })}
