@@ -21,6 +21,12 @@ export const PollForm = (props: {
   startDate: Date;
   endDate: Date;
   songIds: string[];
+  updateCallBack: (
+    pollName: string,
+    ChosenItems: string[],
+    startDate: string,
+    endDate: string
+  ) => void;
 }) => {
   const [pollName, setPollName] = useState<string>(props.pollName);
   const [startDate, setStartDate] = useState<Date>(props.startDate);
@@ -95,6 +101,7 @@ export const PollForm = (props: {
 
       <InputComponent>
         Start Date
+        {startDate.toISOString()}
         <DatePicker
           selected={startDate}
           dateFormat="dd/MM/yyyy"
@@ -115,7 +122,7 @@ export const PollForm = (props: {
       </InputComponent>
       <button
         onClick={() => {
-          apiService.addNewPoll(
+          props.updateCallBack(
             pollName,
             chosenItems.map((value: ISong) => value._id),
             startDate.toISOString(),

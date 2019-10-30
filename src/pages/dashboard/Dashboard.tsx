@@ -9,22 +9,35 @@ import { Users } from "./Users";
 import { EditPoll } from "./EditPoll";
 import { SideMenu } from "./SideMenu";
 import styled from "styled-components";
+import { useStateValue } from "../../state/stateContext";
 
 const DashWrapper = styled.div`
   display: flex;
   height: 100vh;
+  /* clear: left; */
   > div:first-child {
     flex: 0 0 auto;
   }
   .view-panel {
     flex: 1 1 auto;
-    background-color: green;
+    border-left: 1px dotted #000;
   }
 `;
 
+const UserStatus = styled.div`
+  position: absolute;
+  /* bottom: 0; */
+  right: 0;
+  margin: 10px;
+`;
+
 export const Dashboard = () => {
+  const [globalState, dispatch] = useStateValue();
   return (
     <DashWrapper>
+      <UserStatus>
+        Status: <b>{globalState.auth ? "currently" : "not"}</b> logged in.
+      </UserStatus>
       <SideMenu />
       <div className="view-panel">
         <Route path={`/dashboard/polls`} component={Polls} />

@@ -1,11 +1,15 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
 import styled from "styled-components";
-// import { VoteButton } from "./VoteButton";
 import { IVoteItem, IPoll } from "../interfaces";
-// import ApiService from "./apiService";
 import apiService from "../services/apiService";
-// import { Image } from "react-native";
-import { FormModal } from "../components/StyledComponents";
+import {
+  FormModal,
+  EmailInput,
+  SubmitButton,
+  CancelButton,
+  LeftRight,
+  RightLeft,
+} from "../components/StyledComponents";
 <link
   href="https://fonts.googleapis.com/css?family=Montserrat|Roboto:500&display=swap"
   rel="stylesheet"
@@ -36,16 +40,12 @@ const VoteItem = styled.div<{ imagePath: string }>`
   height: 100%;
   display: flex;
   flex-direction: column;
-  /* justify-content: center;
-  align-items: center; */
   position: relative;
 
   .vote-btn {
-    /* text-align: center; */
     display: flex;
     align-items: center;
     justify-content: center;
-
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -73,48 +73,10 @@ const VoteItem = styled.div<{ imagePath: string }>`
 
 const VoteItemOne = styled.div`
   font-family: "Roboto", sans-serif;
-  /* margin-top: 2.5em; */
-  /* letter-spacing: 0.8em; */
-  font-size: 3em;
-  /* font-weight: 900; */
-  /* height: 25%; */
+  font-size: 1.2em;
 `;
 
-const VoteItemTwo = styled.div`
-  /* letter-spacing: 0.4em; */
-  /* font-size: 1em; */
-  font-weight: 300;
-  /* height: 25%; */
-`;
-
-const VoteItemThree = styled.div`
-  /* height: 25%; */
-`;
-
-const VoteButton = styled.div<{ onClick: any }>`
-  /* display: flex;
-  align-items: center;
-  justify-content: center; */
-
-  /* position: absolute; */
-
-  /* background-color: blue; */
-  /* background-image: linear-gradient(-90deg, lightblue, white); */
-  /* display: flex; */
-
-  /* transform: skewY(-10deg);
-  opacity: 0.5;
-  height: 50%;
-  width: 100%;
-  background: RGBA(127, 127, 213, 0.5);
-  background: -webkit-linear-gradient(to left, #7f7fd5, #86a8e7, #91eae4);
-  background: linear-gradient(to left, #7f7fd5, #86a8e7, #91eae4); */
-
-  /* justify-content: flex-end; */
-  /* align-self: flex-end; */
-  /* position: absolute; */
-  /* bottom: 0; */
-`;
+const VoteButton = styled.div<{ onClick: any }>``;
 
 // ${var} is inter[polition for string literals (inserting js into strings)
 const Title = styled.div`
@@ -141,13 +103,11 @@ const VoteItemWrapper = (props: {
             props.onVote(props.data._id);
           }}
         >
-          <VoteItemOne>{props.data.artist}</VoteItemOne>
-          <VoteItemTwo>{props.data.songName}</VoteItemTwo>
-          <VoteItemThree>{props.data.album}</VoteItemThree>
-          {/* <h3>{props.data.artist}</h3>
-          <br />
-          <h3>{props.data.songName}</h3>
-          <p>{props.data.album}</p> */}
+          <VoteItemOne>
+            <h3>{props.data.artist}</h3>
+            <p>{props.data.songName}</p>
+            <p>{props.data.album}</p>
+          </VoteItemOne>
         </VoteButton>
       </div>
     </VoteItem>
@@ -175,17 +135,35 @@ export const CurrentPoll = ({ match }: any) => {
 
   const VoteForm = () => {
     const [email, setEmail] = useState<string>("");
+    // * help here *
     return (
       <FormModal>
         <div>
-          <p>Please enter your email address and click vote.</p>
-          <input
+          <CancelButton
+            onClick={(e: any) => {
+              setVoteFormOpen(false);
+            }}
+          >
+            <LeftRight />
+            <RightLeft />
+          </CancelButton>
+          <p>Please enter your email address to submit vote.</p>
+          {/* // * help Here */}
+          {voteItems.reduce((accumulator: string, value: IVoteItem) => {
+            if (value._id === voteSong) {
+              return `${value.artist} - ${value.songName}`;
+            }
+            return accumulator;
+          }, "")}
+
+          <EmailInput
+            placeholder="Email"
             type="email"
             onChange={(event: any) => {
               setEmail(event.target.value);
             }}
           />
-          <button
+          <SubmitButton
             onClick={(e: any) => {
               console.log("Submit Clicked");
               apiService
@@ -198,14 +176,7 @@ export const CurrentPoll = ({ match }: any) => {
             }}
           >
             Vote
-          </button>
-          <button
-            onClick={(e: any) => {
-              setVoteFormOpen(false);
-            }}
-          >
-            Cancel
-          </button>
+          </SubmitButton>
         </div>
       </FormModal>
     );

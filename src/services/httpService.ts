@@ -112,7 +112,26 @@ class HttpService {
     });
   }
 
-  //   put() {};
+  put(url: string, bodyData: any) {
+    return fetch(url, {
+      body: JSON.stringify(bodyData),
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(function(response) {
+      if (response.status !== 200) {
+        console.log(
+          "Looks like there was a problem. Status Code: " + response.status
+        );
+        return;
+      }
+      return response.json().then(data => {
+        console.log(data);
+        return data;
+      });
+    });
+  }
 
   //   delete(){};
 }

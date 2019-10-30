@@ -7,16 +7,14 @@ import { IPoll } from "../../interfaces";
 export const EditPoll = () => {
   let { id } = useParams();
 
-  const [poll, setPoll] = useState();
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
+  const [poll, setPoll] = useState<IPoll>();
+  // const [startDate, setStartDate] = useState();
+  // const [endDate, setEndDate] = useState();
 
   useEffect(() => {
     if (id) {
       apiService.getPollById(id).then((poll: IPoll) => {
         setPoll(poll);
-        setStartDate(new Date(poll.startDateTime));
-        setEndDate(new Date(poll.endDateTime));
       });
     }
   }, []);
@@ -26,9 +24,23 @@ export const EditPoll = () => {
       {poll && (
         <PollForm
           pollName={poll.name}
-          startDate={startDate}
-          endDate={endDate}
+          startDate={new Date(poll.startDateTime)}
+          endDate={new Date(poll.endDateTime)}
           songIds={poll.songIds}
+          updateCallBack={(
+            pollName: string,
+            chosenItems: string[],
+            startDate: string,
+            endDate: string
+          ) => {
+            apiService.editPoll(
+              pollName,
+              chosenItems,
+              startDate,
+              endDate,
+              poll._id
+            );
+          }}
         />
       )}
       {id}

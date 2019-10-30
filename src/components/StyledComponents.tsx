@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 export const FormModal = styled.div`
   > * {
+    /* border: 0px solid #fff; */
+    border-radius: 4px;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -25,4 +27,59 @@ export const FormModal = styled.div`
   }
 `;
 
+export const EmailInput = styled.input`
+  width: 100%;
+  /* border: 1px solid #fff; */
+  border-radius: 4px;
+  /* margin-bottom: 0.3em; */
+  text-align: center;
+  line-height: 2em;
+  :focus {
+    outline: 0;
+  }
+`;
+
+export const SubmitButton = styled.button`
+  color: blue;
+  width: 100%;
+  /* border: 1px solid #fff; */
+  border-radius: 4px;
+  line-height: 2em;
+  color: #fff;
+  background-color: #3f7b96;
+  :focus {
+    outline: 0;
+  }
+`;
+
+export const CancelButton = styled.div`
+  /* border: 1px solid #fff; */
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  top: -23px;
+  right: -23px;
+  margin: auto;
+  cursor: pointer;
+`;
+
 export const EventButton = styled.button<{ onClick: any }>``;
+
+export const LeftRight = styled.div`
+  height: 4px;
+  width: 20px;
+  position: absolute;
+  margin-top: 10px;
+  background-color: #ff4b17;
+  border-radius: 2px;
+  transform: rotate(45deg);
+`;
+export const RightLeft = styled.div`
+  height: 4px;
+  width: 20px;
+  position: absolute;
+  margin-top: 10px;
+  background-color: #ff4b17;
+  border-radius: 2px;
+  transform: rotate(-45deg);
+`;
