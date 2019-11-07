@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import "./components/MainList";
+
 const Button = styled.button`
   width: 100%;
   height: 4em;

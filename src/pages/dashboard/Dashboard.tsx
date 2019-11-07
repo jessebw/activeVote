@@ -20,15 +20,16 @@ const DashWrapper = styled.div`
   }
   .view-panel {
     flex: 1 1 auto;
-    border-left: 1px dotted #000;
+    border-left: 5px solid #dbdbdb;
   }
 `;
 
 const UserStatus = styled.div`
   position: absolute;
-  /* bottom: 0; */
-  right: 0;
+  bottom: 0;
+  /* right: 0; */
   margin: 10px;
+  left: 0;
 `;
 
 export const Dashboard = () => {

@@ -14,6 +14,7 @@ export const FormModal = styled.div`
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
     transform: translate(-50%, -50%);
     z-index: 2;
+    text-align: center;
   }
   &:after {
     content: "";
@@ -27,11 +28,16 @@ export const FormModal = styled.div`
   }
 `;
 
+export const FormModalSelection = styled.div`
+  letter-spacing: 3px;
+  font-size: 1.2em;
+  font-weight: bold;
+`;
+
 export const EmailInput = styled.input`
   width: 100%;
-  /* border: 1px solid #fff; */
+  border: 0 solid #000;
   border-radius: 4px;
-  /* margin-bottom: 0.3em; */
   text-align: center;
   line-height: 2em;
   :focus {

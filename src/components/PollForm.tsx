@@ -12,8 +12,32 @@ import {
   DropResult,
 } from "react-beautiful-dnd";
 
+const PollFormWrapper = styled.div`
+  margin: 2em;
+  button {
+    border-radius: 5px;
+    background-color: #3f7b96;
+    color: #fff;
+    width: 15em;
+    line-height: 2em;
+    :focus {
+      outline: 0;
+    }
+  }
+`;
+
 const InputComponent = styled.label`
-  display: block;
+  /* display: block; */
+  line-height: 2em;
+  margin-right: 2em;
+  input {
+    border: none;
+    border-bottom: 1px dashed #000;
+    text-align: center;
+    :focus {
+      outline: 0;
+    }
+  }
 `;
 
 export const PollForm = (props: {
@@ -87,51 +111,52 @@ export const PollForm = (props: {
 
   return (
     <div>
-      <InputComponent>
-        Poll Name
-        <input
-          type="text"
-          placeholder="Poll Name"
-          value={pollName}
-          onChange={(event: any) => {
-            setPollName(event.target.value);
-          }}
-        />
-      </InputComponent>
+      <PollFormWrapper>
+        <InputComponent>
+          Poll Name:
+          <input
+            type="text"
+            placeholder="Poll Name"
+            value={pollName}
+            onChange={(event: any) => {
+              setPollName(event.target.value);
+            }}
+          />
+        </InputComponent>
 
-      <InputComponent>
-        Start Date
-        {startDate.toISOString()}
-        <DatePicker
-          selected={startDate}
-          dateFormat="dd/MM/yyyy"
-          onChange={(date: Date) => {
-            setStartDate(date);
+        <InputComponent>
+          Start Date:
+          <DatePicker
+            selected={startDate}
+            dateFormat="dd/MM/yyyy"
+            onChange={(date: Date) => {
+              setStartDate(date);
+            }}
+          />
+        </InputComponent>
+        <InputComponent>
+          End Date:
+          <DatePicker
+            selected={endDate}
+            dateFormat="dd/MM/yyyy"
+            onChange={(date: Date) => {
+              setEndDate(date);
+            }}
+          />
+        </InputComponent>
+        <button
+          onClick={() => {
+            props.updateCallBack(
+              pollName,
+              chosenItems.map((value: ISong) => value._id),
+              startDate.toISOString(),
+              endDate.toISOString()
+            );
           }}
-        />
-      </InputComponent>
-      <InputComponent>
-        End Date
-        <DatePicker
-          selected={endDate}
-          dateFormat="dd/MM/yyyy"
-          onChange={(date: Date) => {
-            setEndDate(date);
-          }}
-        />
-      </InputComponent>
-      <button
-        onClick={() => {
-          props.updateCallBack(
-            pollName,
-            chosenItems.map((value: ISong) => value._id),
-            startDate.toISOString(),
-            endDate.toISOString()
-          );
-        }}
-      >
-        submit
-      </button>
+        >
+          submit
+        </button>
+      </PollFormWrapper>
       <DragDropContext onDragEnd={onDragEnd}>
         <div style={{ display: "flex" }}>
           <Droppable droppableId="chosenSongs">
@@ -140,7 +165,7 @@ export const PollForm = (props: {
                 ref={provided.innerRef}
                 style={{
                   flex: "0 0 50%",
-                  backgroundColor: "lightblue",
+                  backgroundColor: "#fff",
                 }}
               >
                 {chosenItems.map((item, index) => (
@@ -176,7 +201,7 @@ export const PollForm = (props: {
                 ref={provided.innerRef}
                 style={{
                   flex: "0 0 50%",
-                  backgroundColor: "pink",
+                  backgroundColor: "#fff",
                 }}
               >
                 {songItems.map((item, index) => (

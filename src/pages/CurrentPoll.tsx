@@ -9,6 +9,7 @@ import {
   CancelButton,
   LeftRight,
   RightLeft,
+  FormModalSelection,
 } from "../components/StyledComponents";
 <link
   href="https://fonts.googleapis.com/css?family=Montserrat|Roboto:500&display=swap"
@@ -149,12 +150,14 @@ export const CurrentPoll = ({ match }: any) => {
           </CancelButton>
           <p>Please enter your email address to submit vote.</p>
           {/* // * help Here */}
-          {voteItems.reduce((accumulator: string, value: IVoteItem) => {
-            if (value._id === voteSong) {
-              return `${value.artist} - ${value.songName}`;
-            }
-            return accumulator;
-          }, "")}
+          <FormModalSelection>
+            {voteItems.reduce((accumulator: string, value: IVoteItem) => {
+              if (value._id === voteSong) {
+                return `${value.artist} - ${value.songName}`;
+              }
+              return accumulator;
+            }, "")}
+          </FormModalSelection>
 
           <EmailInput
             placeholder="Email"
