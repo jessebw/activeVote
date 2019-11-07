@@ -100,10 +100,9 @@ class HttpService {
       },
     }).then(function(response) {
       if (response.status !== 200) {
-        console.log(
+        throw new Error(
           "Looks like there was a problem. Status Code: " + response.status
         );
-        return;
       }
       return response.json().then(data => {
         console.log(data);
