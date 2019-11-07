@@ -65,7 +65,6 @@ export const Login = () => {
   const authenticateUser = () => {
     userService.authenticateUser(email, password).then(
       data => {
-        console.log("dataLogin", data);
         dispatch({ type: "setAuth", payload: data });
       },
       error => {
