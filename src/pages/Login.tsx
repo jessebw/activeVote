@@ -3,6 +3,7 @@ import userService from "../services/userService";
 import { useStateValue } from "../state/stateContext";
 import { Redirect } from "react-router-dom";
 import styled from "styled-components";
+import { theme } from "../styles/theme";
 
 <link
   href="https://fonts.googleapis.com/css?family=Modak&display=swap"
@@ -44,26 +45,42 @@ const Input = styled.input`
   }
 `;
 
+const ErrorMsg = styled.p`
+  color: ${theme.color.error};
+  text-align: center;
+`;
+
 const LoginBtn = styled.button``;
 
 export const Login = () => {
   const [globalState, dispatch] = useStateValue();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [loginError, setLoginError] = useState<boolean>(false);
 
   if (globalState.auth) {
     return <Redirect to="/dashboard" />;
   }
 
   const authenticateUser = () => {
-    userService.authenticateUser(email, password).then(data => {
-      console.log("dataLogin", data);
-      dispatch({ type: "setAuth", payload: data });
-    });
+    userService.authenticateUser(email, password).then(
+      data => {
+        console.log("dataLogin", data);
+        dispatch({ type: "setAuth", payload: data });
+      },
+      error => {
+        setLoginError(true);
+      }
+    );
   };
 
   return (
     <LoginWrapper>
+      {loginError && (
+        <ErrorMsg>
+          Username or Password Error <br /> please try again
+        </ErrorMsg>
+      )}
       <Input
         placeholder="email"
         type="email"
