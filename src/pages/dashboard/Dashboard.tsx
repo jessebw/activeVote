@@ -21,6 +21,7 @@ const DashWrapper = styled.div`
   .view-panel {
     flex: 1 1 auto;
     border-left: 5px solid #dbdbdb;
+    overflow-y: auto;
   }
 `;
 
