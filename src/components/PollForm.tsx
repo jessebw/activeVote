@@ -52,9 +52,8 @@ const ListItem = (props: { song: ISong }) => (
   </StyledListItem>
 );
 
-const DroppableList = ( props: {listId: string; listMap: ISong[];}
-) => (
-    <Droppable droppableId={props.listId}>
+const DroppableList = (props: { listId: string; listMap: ISong[] }) => (
+  <Droppable droppableId={props.listId}>
     {(provided, snapshot) => (
       <div
         ref={provided.innerRef}
@@ -64,11 +63,7 @@ const DroppableList = ( props: {listId: string; listMap: ISong[];}
         }}
       >
         {props.listMap.map((item, index) => (
-          <Draggable
-            key={item._id}
-            draggableId={item._id}
-            index={index}
-          >
+          <Draggable key={item._id} draggableId={item._id} index={index}>
             {(provided, snapshot) => (
               <div
                 ref={provided.innerRef}
@@ -84,7 +79,7 @@ const DroppableList = ( props: {listId: string; listMap: ISong[];}
       </div>
     )}
   </Droppable>
-)
+);
 
 const InputComponent = styled.label`
   /* display: block; */
@@ -105,6 +100,7 @@ export const PollForm = (props: {
   startDate: Date;
   endDate: Date;
   songIds: string[];
+  savingPoll?: boolean;
   updateCallBack: (
     pollName: string,
     ChosenItems: string[],
@@ -214,19 +210,13 @@ export const PollForm = (props: {
             );
           }}
         >
-          submit
+          {props.savingPoll ? "saving..." : "submit"}
         </button>
       </PollFormWrapper>
       <DragDropContext onDragEnd={onDragEnd}>
         <div style={{ display: "flex" }}>
-        <DroppableList
-        listId ="chosenSongs"
-        listMap = {chosenItems}
-        />
-        <DroppableList
-        listId ="songPool"
-        listMap = {songItems}
-        />
+          <DroppableList listId="chosenSongs" listMap={chosenItems} />
+          <DroppableList listId="songPool" listMap={songItems} />
         </div>
       </DragDropContext>
     </PollPageWrapper>

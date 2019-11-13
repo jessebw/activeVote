@@ -5,10 +5,12 @@ import { Redirect } from "react-router-dom";
 import styled from "styled-components";
 import { theme } from "../styles/theme";
 
-<link
+{
+  /* <link
   href="https://fonts.googleapis.com/css?family=Modak&display=swap"
   rel="stylesheet"
-/>;
+/>; */
+}
 
 const LoginWrapper = styled.div`
   max-width: 300px;
