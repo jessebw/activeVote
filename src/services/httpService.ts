@@ -132,7 +132,7 @@ class HttpService {
     });
   }
 
-  //   delete(){};
+  delete(url: string) {}
 }
 
 export default HttpService.getInstance();

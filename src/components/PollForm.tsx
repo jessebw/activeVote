@@ -16,15 +16,75 @@ const PollFormWrapper = styled.div`
   margin: 2em;
   button {
     border-radius: 5px;
-    background-color: #3f7b96;
+    background-color: #5dade2;
     color: #fff;
-    width: 15em;
+    width: 7em;
     line-height: 2em;
     :focus {
       outline: 0;
     }
   }
 `;
+
+const PollPageWrapper = styled.div``;
+
+const StyledListItem = styled.div`
+  background-color: #eaeffd;
+  margin: 5px;
+  display: flex;
+  > div {
+    padding: 5px;
+    flex: 1 1 auto;
+  }
+  > img {
+    height: 50px;
+    width: 50px;
+    flex: 0 0 auto;
+  }
+`;
+
+const ListItem = (props: { song: ISong }) => (
+  <StyledListItem>
+    <div>
+      {props.song.artist} - {props.song.songName} - {props.song.album}
+    </div>
+    <img src={`http://activevoteserver.deverall.co.nz/${props.song.image}`} />
+  </StyledListItem>
+);
+
+const DroppableList = ( props: {listId: string; listMap: ISong[];}
+) => (
+    <Droppable droppableId={props.listId}>
+    {(provided, snapshot) => (
+      <div
+        ref={provided.innerRef}
+        style={{
+          flex: "0 0 50%",
+          backgroundColor: "#fff",
+        }}
+      >
+        {props.listMap.map((item, index) => (
+          <Draggable
+            key={item._id}
+            draggableId={item._id}
+            index={index}
+          >
+            {(provided, snapshot) => (
+              <div
+                ref={provided.innerRef}
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+              >
+                <ListItem song={item} />
+              </div>
+            )}
+          </Draggable>
+        ))}
+        {provided.placeholder}
+      </div>
+    )}
+  </Droppable>
+)
 
 const InputComponent = styled.label`
   /* display: block; */
@@ -110,7 +170,7 @@ export const PollForm = (props: {
   };
 
   return (
-    <div>
+    <PollPageWrapper>
       <PollFormWrapper>
         <InputComponent>
           Poll Name:
@@ -159,80 +219,16 @@ export const PollForm = (props: {
       </PollFormWrapper>
       <DragDropContext onDragEnd={onDragEnd}>
         <div style={{ display: "flex" }}>
-          <Droppable droppableId="chosenSongs">
-            {(provided, snapshot) => (
-              <div
-                ref={provided.innerRef}
-                style={{
-                  flex: "0 0 50%",
-                  backgroundColor: "#fff",
-                }}
-              >
-                {chosenItems.map((item, index) => (
-                  <Draggable
-                    key={item._id}
-                    draggableId={item._id}
-                    index={index}
-                  >
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        {item.artist}
-                        {item.songName}
-                        {item.album}
-                        <img
-                          src={`http://activevoteserver.deverall.co.nz/${item.image}`}
-                          style={{ width: "300px", height: "300px" }}
-                        />
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-          <Droppable droppableId="songPool">
-            {(provided, snapshot) => (
-              <div
-                ref={provided.innerRef}
-                style={{
-                  flex: "0 0 50%",
-                  backgroundColor: "#fff",
-                }}
-              >
-                {songItems.map((item, index) => (
-                  <Draggable
-                    key={item._id}
-                    draggableId={item._id}
-                    index={index}
-                  >
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        {item.artist}
-                        {item.songName}
-                        {item.album}
-                        <img
-                          src={`http://activevoteserver.deverall.co.nz/${item.image}`}
-                          style={{ width: "300px", height: "300px" }}
-                        />
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
+        <DroppableList
+        listId ="chosenSongs"
+        listMap = {chosenItems}
+        />
+        <DroppableList
+        listId ="songPool"
+        listMap = {songItems}
+        />
         </div>
       </DragDropContext>
-    </div>
+    </PollPageWrapper>
   );
 };

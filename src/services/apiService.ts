@@ -40,6 +40,12 @@ class APIService {
     return httpService.get("http://activevoteserver.deverall.co.nz/song");
   }
 
+  deleteSong(songId: string) {
+    return httpService.delete(
+      `http://activevoteserver.deverall.co.nz/delete/${songId}`
+    );
+  }
+
   postSubmitVote(email: string, songId: string, pollId: string) {
     return httpService.post("http://activevoteserver.deverall.co.nz/vote", {
       email: email,

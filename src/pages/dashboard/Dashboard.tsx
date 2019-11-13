@@ -9,7 +9,6 @@ import { Users } from "./Users";
 import { EditPoll } from "./EditPoll";
 import { SideMenu } from "./SideMenu";
 import styled from "styled-components";
-import { useStateValue } from "../../state/stateContext";
 
 const DashWrapper = styled.div`
   display: flex;
@@ -34,12 +33,8 @@ const UserStatus = styled.div`
 `;
 
 export const Dashboard = () => {
-  const [globalState, dispatch] = useStateValue();
   return (
     <DashWrapper>
-      <UserStatus>
-        Status: <b>{globalState.auth ? "currently" : "not"}</b> logged in.
-      </UserStatus>
       <SideMenu />
       <div className="view-panel">
         <Route path={`/dashboard/polls`} component={Polls} />

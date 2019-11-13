@@ -20,28 +20,49 @@ const LoginWrapper = styled.div`
     width: 100%;
     line-height: 2em;
     border: 1px solid #fff;
-    border-radius: 4px;
+    border-radius: 25px;
+    background-color: #eaeffd;
     /* * Help here inserting google fonts * */
 
     /* font-family: "Modak", cursive; */
     /* text-transform: uppercase; */
     cursor: pointer;
+    :focus {
+      outline: 0;
+    }
+  }
+  > h2 {
+    text-align: center;
+    font-size: 1.8em;
+  }
+  > p {
+    text-align: center;
+    font-size: 0.8em;
+    color: ${theme.color.error};
   }
 `;
 
 const Input = styled.input`
   width: 100%;
   padding: 12px;
-  border: 1px solid #fff;
-  border-radius: 4px;
+  /* border: 1px solid #fff; */
+  /* border-radius: 4px; */
   box-sizing: border-box;
   margin-top: 6px;
   margin-bottom: 16px;
   resize: vertical;
-  background-color: #f0feff;
+  /* border-top: none;
+  border-left: none;
+  border-right: none; */
+  /* background-color: #e6e7ee; */
+  background-color: #fff;
+  border: none;
+  border-bottom: 1px dashed #000;
+
   text-align: center;
   :focus {
     outline: 0;
+    background-color: #fff;
   }
 `;
 
@@ -75,11 +96,13 @@ export const Login = () => {
 
   return (
     <LoginWrapper>
+      <h2>Login</h2>
       {loginError && (
         <ErrorMsg>
           Username or Password Error <br /> please try again
         </ErrorMsg>
       )}
+
       <Input
         placeholder="email"
         type="email"
@@ -99,8 +122,9 @@ export const Login = () => {
           authenticateUser();
         }}
       >
-        enter
+        Login
       </button>
+      <p>Forgot Username / Password</p>
     </LoginWrapper>
   );
 };

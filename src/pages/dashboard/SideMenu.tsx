@@ -6,6 +6,7 @@ import styled from "styled-components";
 const MenuComponent = styled.div`
   display: inline-block;
   background-color: #fff;
+  flex: 0 0 auto;
   nav {
   }
   a {
@@ -72,6 +73,9 @@ export const SideMenu = () => {
       >
         logout
       </LogoutButton>
+      <UserStatus>
+        Status: <b>{globalState.auth ? "currently" : "not"}</b> logged in.
+      </UserStatus>
     </MenuComponent>
   );
 };
