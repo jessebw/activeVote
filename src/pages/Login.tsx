@@ -97,7 +97,13 @@ export const Login = () => {
   };
 
   return (
-    <LoginWrapper>
+    <LoginWrapper
+      onKeyDown={e => {
+        if (e.keyCode === 13) {
+          authenticateUser();
+        }
+      }}
+    >
       <h2>Login</h2>
       {loginError && (
         <ErrorMsg>
