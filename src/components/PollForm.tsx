@@ -114,6 +114,15 @@ export const PollForm = (props: {
   const [songItems, setSongItems] = useState<ISong[]>([]);
   const [chosenItems, setChosenItems] = useState<ISong[]>([]);
 
+  const submitForm = () => {
+    props.updateCallBack(
+      pollName,
+      chosenItems.map((value: ISong) => value._id),
+      startDate.toISOString(),
+      endDate.toISOString()
+    );
+  };
+
   useEffect(() => {
     apiService.getAllSongs().then((songs: ISong[]) => {
       setSongItems(songs);
@@ -166,7 +175,13 @@ export const PollForm = (props: {
   };
 
   return (
-    <PollPageWrapper>
+    <PollPageWrapper
+      onKeyDown={e => {
+        if (e.keyCode === 13) {
+          submitForm();
+        }
+      }}
+    >
       <PollFormWrapper>
         <InputComponent>
           Poll Name:
@@ -202,12 +217,7 @@ export const PollForm = (props: {
         </InputComponent>
         <button
           onClick={() => {
-            props.updateCallBack(
-              pollName,
-              chosenItems.map((value: ISong) => value._id),
-              startDate.toISOString(),
-              endDate.toISOString()
-            );
+            submitForm();
           }}
         >
           {props.savingPoll ? "saving..." : "submit"}
