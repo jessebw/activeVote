@@ -5,13 +5,6 @@ import { Redirect } from "react-router-dom";
 import styled from "styled-components";
 import { theme } from "../styles/theme";
 
-{
-  /* <link
-  href="https://fonts.googleapis.com/css?family=Modak&display=swap"
-  rel="stylesheet"
-/>; */
-}
-
 const LoginWrapper = styled.div`
   max-width: 300px;
   top: 50%;
@@ -24,10 +17,6 @@ const LoginWrapper = styled.div`
     border: 1px solid #fff;
     border-radius: 25px;
     background-color: #eaeffd;
-    /* * Help here inserting google fonts * */
-
-    /* font-family: "Modak", cursive; */
-    /* text-transform: uppercase; */
     cursor: pointer;
     :focus {
       outline: 0;
@@ -47,16 +36,10 @@ const LoginWrapper = styled.div`
 const Input = styled.input`
   width: 100%;
   padding: 12px;
-  /* border: 1px solid #fff; */
-  /* border-radius: 4px; */
   box-sizing: border-box;
   margin-top: 6px;
   margin-bottom: 16px;
   resize: vertical;
-  /* border-top: none;
-  border-left: none;
-  border-right: none; */
-  /* background-color: #e6e7ee; */
   background-color: #fff;
   border: none;
   border-bottom: 1px dashed #000;
