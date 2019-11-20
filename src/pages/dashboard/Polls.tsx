@@ -2,56 +2,23 @@ import React, { useEffect, useState, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
 import apiService from "../../services/apiService";
 import { IPoll } from "../../interfaces";
+import styled from "styled-components";
 import { FormModal, EventButton } from "../../components/StyledComponents";
+
+const SelectPollList = styled.div`
+  display: grid;
+`;
 
 export const Polls = () => {
   const [pollItems, setPollItems] = useState<IPoll[]>([]);
   const [PollFormOpen, setPollFormOpen] = useState<boolean>(false);
 
-  const CreatePoll = (props: { onCreate: Function }) => {
-    const [pollName, setPollName] = useState<string>("");
-
-    return (
-      <div>
-        <FormModal>
-          <div>
-            <p>Enter Poll Name</p>
-
-            <input
-              type="string"
-              onChange={(event: any) => {
-                setPollName(event.target.value);
-                props.onCreate();
-              }}
-            />
-
-            <button
-              onClick={(e: any) => {
-                console.log("Submit Clicked");
-                //   apiService
-                //     .postSubmitVote(email, voteSong as string, currentPoll!._id)
-                //     .then(data => {
-                //       console.log("second log", data);
-                //       alert("thanks for Voting");
-                //       setVoteFormOpen(false);
-                //     });
-                setPollFormOpen(false);
-              }}
-            >
-              Vote
-            </button>
-            <button
-              onClick={(e: any) => {
-                setPollFormOpen(false);
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        </FormModal>
-      </div>
-    );
-  };
+  // convert time to UTC
+  // const dateFormatted = () => {
+  //   const pollDate = poll.createdDateTime;
+  //   const newDate = new Date(pollDate).toUTCtime();
+  //   return newDate;
+  // };
 
   useEffect(() => {
     apiService.getAllPolls().then((polls: IPoll[]) => {
@@ -62,33 +29,33 @@ export const Polls = () => {
   return (
     <div>
       <div>
-        <h3>Select Poll</h3>
+        <div>
+          <h3>Select Poll</h3>
+          <EventButton
+            // className="createVoteBtntn"
+            onClick={(e: MouseEvent) => {
+              //   console.log("show form");
+              return;
+              setPollFormOpen(true);
+            }}
+          >
+            Create New Poll
+          </EventButton>
+        </div>
         {pollItems.map((poll: IPoll) => {
           return (
-            <div key={poll._id}>
-              <p>{poll.name}</p>
-              <p>{poll.createdDateTime}</p>
+            <SelectPollList key={poll._id}>
+              {/* {console.log("DATE:" + dateFormatted())} */}
+              <p>{`${poll.name} - ${poll.createdDateTime}`}</p>
               <nav>
                 <Link to={"/dashboard/editpoll/" + poll._id}>
                   <button>edit</button>
                 </Link>
               </nav>
-            </div>
+            </SelectPollList>
           );
         })}
       </div>
-      <div>{/* <button>Create new poll</button> */}</div>
-      {CreatePoll}
-      <EventButton
-        // className="createVoteBtntn"
-        onClick={(e: MouseEvent) => {
-          //   console.log("show form");
-          return;
-          setPollFormOpen(true);
-        }}
-      >
-        Create New Poll
-      </EventButton>
     </div>
   );
 };
