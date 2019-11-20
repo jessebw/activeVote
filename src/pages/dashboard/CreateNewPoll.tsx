@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { PollForm } from "../../components/PollForm";
 import apiService from "../../services/apiService";
 import { Redirect } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const CreateNewPoll = () => {
-  // const [successfulSave, setSuccessfulSave] = useState<boolean>(false);
   const [pollId, setPollId] = useState<string>();
   const [savingPoll, setSavingPoll] = useState<boolean>(false);
 
@@ -25,15 +25,14 @@ export const CreateNewPoll = () => {
           data => {
             setSavingPoll(false);
             setPollId(data._id);
-            // setSuccessfulSave(true);
+            toast.success(`${pollName} poll list Saved`);
           },
           error => {
-            alert("didnt work");
+            toast.error(`${pollName} could not be Saved`);
             setSavingPoll(false);
           }
         );
       }}
     />
   );
-  // return <div></div>;
 };

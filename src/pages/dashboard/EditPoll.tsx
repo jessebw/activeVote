@@ -3,13 +3,12 @@ import { useParams } from "react-router-dom";
 import { PollForm } from "../../components/PollForm";
 import apiService from "../../services/apiService";
 import { IPoll } from "../../interfaces";
+import { toast } from "react-toastify";
 
 export const EditPoll = () => {
   let { id } = useParams();
-
+  const [savingPoll, setSavingPoll] = useState<boolean>(false);
   const [poll, setPoll] = useState<IPoll>();
-  // const [startDate, setStartDate] = useState();
-  // const [endDate, setEndDate] = useState();
 
   useEffect(() => {
     if (id) {
@@ -27,34 +26,29 @@ export const EditPoll = () => {
           startDate={new Date(poll.startDateTime)}
           endDate={new Date(poll.endDateTime)}
           songIds={poll.songIds}
+          savingPoll={savingPoll}
           updateCallBack={(
             pollName: string,
             chosenItems: string[],
             startDate: string,
             endDate: string
           ) => {
-            apiService.editPoll(
-              pollName,
-              chosenItems,
-              startDate,
-              endDate,
-              poll._id
-            );
+            setSavingPoll(true);
+            apiService
+              .editPoll(pollName, chosenItems, startDate, endDate, poll._id)
+              .then(
+                () => {
+                  setSavingPoll(false);
+                  toast.success(`${pollName} poll list Edited`);
+                },
+                error => {
+                  toast.error(`${pollName} could not be Edited`);
+                  setSavingPoll(false);
+                }
+              );
           }}
         />
       )}
     </div>
   );
 };
-
-// function Child() {
-//   // We can use the `useParams` hook here to access
-//   // the dynamic pieces of the URL.
-//   let { id } = useParams();
-
-//   return (
-//     <div>
-//       <h3>ID: {id}</h3>
-//     </div>
-//   );
-// }
