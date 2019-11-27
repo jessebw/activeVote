@@ -51,17 +51,15 @@ const AppContent = () => {
   }, [sessionStorage.getItem("auth")]);
 
   return (
-    <div>
-      <Router>
-        <Switch>
-          <Route exact path={"/"} component={CurrentPoll} />
-          {/* <Route exact path={"/poll/:pollId"} component={MainList} /> */}
-          <PrivateRoute path={"/dashboard"} component={Dashboard} />
+    <Router>
+      <Switch>
+        <Route exact path={"/"} component={CurrentPoll} />
+        {/* <Route exact path={"/poll/:pollId"} component={MainList} /> */}
+        <PrivateRoute path={"/dashboard"} component={Dashboard} />
 
-          <Route exact path={"/login"} component={Login} />
-        </Switch>
-      </Router>
-    </div>
+        <Route exact path={"/login"} component={Login} />
+      </Switch>
+    </Router>
   );
 };
 

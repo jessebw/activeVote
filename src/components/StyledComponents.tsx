@@ -28,6 +28,12 @@ export const FormModal = styled.div`
   }
 `;
 
+export const FullPage = styled.div`
+  width:100%;
+  height:100%;
+  overflow:auto;
+`
+
 export const FormModalSelection = styled.div`
   letter-spacing: 3px;
   font-size: 1.2em;

@@ -10,6 +10,7 @@ import {
   LeftRight,
   RightLeft,
   FormModalSelection,
+  FullPage,
 } from "../components/StyledComponents";
 <link
   href="https://fonts.googleapis.com/css?family=Montserrat|Roboto:500&display=swap"
@@ -115,12 +116,11 @@ const VoteItemWrapper = (props: {
   );
 };
 
-export const CurrentPoll = ({ match }: any) => {
+export const CurrentPoll = () => {
   const [voteItems, setVoteItems] = useState<IVoteItem[]>([]);
   const [voteFormOpen, setVoteFormOpen] = useState<boolean>(false);
   const [voteSong, setVoteSong] = useState<string>();
   const [currentPoll, setCurrentPoll] = useState<IPoll>();
-  const id = match.params.pollId;
 
   useEffect(() => {
     apiService
@@ -191,48 +191,48 @@ export const CurrentPoll = ({ match }: any) => {
   };
 
   return (
-    <React.Fragment>
+    <FullPage>
       {voteFormOpen && <VoteForm />}
-      <GridWrapper>
-        <Title>
-          <h1>{currentPoll && currentPoll.name}</h1>
-        </Title>
-        {!voteItems || voteItems.length === 0 ? (
-          <NoCurrentPolls />
-        ) : (
-          voteItems.map((voteItem: IVoteItem, i: number) => {
+      {!voteItems || voteItems.length === 0 ? (
+        <NoCurrentPolls />
+      ) : (
+        <GridWrapper>
+          <Title>
+            <h1>{currentPoll && currentPoll.name}</h1>
+          </Title>
+          {voteItems.map((voteItem: IVoteItem, i: number) => {
             return (
               <VoteItemWrapper key={i} data={voteItem} onVote={buttonClicked} />
             );
-          })
-        )}
-      </GridWrapper>
-    </React.Fragment>
+          })}
+        </GridWrapper>
+      )}
+    </FullPage>
   );
 };
 
 const NoPollError = styled.div`
-  z-index: 1;
   /* width: 100%;
   height: 100%; */
   color: white;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   background-color: orange;
-  > div {
-    width: 50%;
-    height: 50%;
-  }
 `;
 
 const NoCurrentPolls = () => {
   return (
-    <NoPollError>
-      <div>
+    <div
+      data-testId="noCurrentPoll"
+      style={{
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <NoPollError>
         <p>No Current Polls</p>
         <p>placeholder - logo here</p>
-      </div>
-    </NoPollError>
+      </NoPollError>
+    </div>
   );
 };
