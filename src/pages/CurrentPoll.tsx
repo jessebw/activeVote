@@ -211,6 +211,28 @@ export const CurrentPoll = ({ match }: any) => {
   );
 };
 
+const NoPollError = styled.div`
+  z-index: 1;
+  /* width: 100%;
+  height: 100%; */
+  color: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: orange;
+  > div {
+    width: 50%;
+    height: 50%;
+  }
+`;
+
 const NoCurrentPolls = () => {
-  return <div>No Current Polls</div>;
+  return (
+    <NoPollError>
+      <div>
+        <p>No Current Polls</p>
+        <p>placeholder - logo here</p>
+      </div>
+    </NoPollError>
+  );
 };
