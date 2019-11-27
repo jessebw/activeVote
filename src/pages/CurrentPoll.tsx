@@ -191,6 +191,7 @@ export const CurrentPoll = () => {
   };
 
   return (
+    // introduce a loading state which triggers full page when passed
     <FullPage>
       {voteFormOpen && <VoteForm />}
       {!voteItems || voteItems.length === 0 ? (
@@ -221,7 +222,7 @@ const NoPollError = styled.div`
 const NoCurrentPolls = () => {
   return (
     <div
-      data-testId="noCurrentPoll"
+      data-testid="noCurrentPoll"
       style={{
         height: "100%",
         display: "flex",
