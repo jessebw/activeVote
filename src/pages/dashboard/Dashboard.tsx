@@ -15,7 +15,6 @@ import "react-toastify/dist/ReactToastify.css";
 const DashWrapper = styled.div`
   display: flex;
   height: 100vh;
-  /* clear: left; */
   > div:first-child {
     flex: 0 0 auto;
   }
@@ -24,14 +23,6 @@ const DashWrapper = styled.div`
     border-left: 5px solid #dbdbdb;
     overflow-y: auto;
   }
-`;
-
-const UserStatus = styled.div`
-  position: absolute;
-  bottom: 0;
-  /* right: 0; */
-  margin: 10px;
-  left: 0;
 `;
 
 export const Dashboard = () => {

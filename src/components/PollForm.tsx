@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+// import "react-datepicker/dist/react-datepicker.css";
 import apiService from "../services/apiService";
 import { ISong } from "../interfaces";
 import {
@@ -11,37 +11,12 @@ import {
   ResponderProvided,
   DropResult,
 } from "react-beautiful-dnd";
-
-const PollFormWrapper = styled.div`
-  margin: 2em;
-  button {
-    border-radius: 5px;
-    background-color: #5dade2;
-    color: #fff;
-    width: 7em;
-    line-height: 2em;
-    :focus {
-      outline: 0;
-    }
-  }
-`;
-
-const PollPageWrapper = styled.div``;
-
-const StyledListItem = styled.div`
-  background-color: #eaeffd;
-  margin: 5px;
-  display: flex;
-  > div {
-    padding: 5px;
-    flex: 1 1 auto;
-  }
-  > img {
-    height: 50px;
-    width: 50px;
-    flex: 0 0 auto;
-  }
-`;
+import {
+  PollFormWrapper,
+  PollPageWrapper,
+  StyledListItem,
+  InputComponent,
+} from "./StyledComponents";
 
 const ListItem = (props: { song: ISong }) => (
   <StyledListItem>
@@ -81,27 +56,13 @@ const DroppableList = (props: { listId: string; listMap: ISong[] }) => (
   </Droppable>
 );
 
-const InputComponent = styled.label`
-  /* display: block; */
-  line-height: 2em;
-  margin-right: 2em;
-  input {
-    border: none;
-    border-bottom: 1px dashed #000;
-    text-align: center;
-    :focus {
-      outline: 0;
-    }
-  }
-`;
-
 export const PollForm = (props: {
   pollName: string;
   startDate: Date;
   endDate: Date;
   songIds: string[];
   savingPoll?: boolean;
-  updateCallBack: (
+  updateCallBack?: (
     pollName: string,
     ChosenItems: string[],
     startDate: string,
@@ -115,17 +76,22 @@ export const PollForm = (props: {
   const [chosenItems, setChosenItems] = useState<ISong[]>([]);
 
   const submitForm = () => {
-    props.updateCallBack(
-      pollName,
-      chosenItems.map((value: ISong) => value._id),
-      startDate.toISOString(),
-      endDate.toISOString()
-    );
+    props.updateCallBack &&
+      props.updateCallBack(
+        pollName,
+        chosenItems.map((value: ISong) => value._id),
+        startDate.toISOString(),
+        endDate.toISOString()
+      );
   };
 
   useEffect(() => {
     apiService.getAllSongs().then((songs: ISong[]) => {
-      setSongItems(songs);
+      setSongItems(
+        songs.filter((song: ISong) => {
+          return props.songIds.indexOf(song._id) < 0;
+        })
+      );
       setChosenItems(
         songs.filter((song: ISong) => {
           return props.songIds.indexOf(song._id) >= 0;
@@ -141,8 +107,6 @@ export const PollForm = (props: {
       return;
     }
 
-    console.log("it worked");
-
     if (source.droppableId === destination.droppableId) {
       console.log("reOrder", source.droppableId);
       const list =
@@ -151,8 +115,6 @@ export const PollForm = (props: {
         source.droppableId === "songPool" ? setSongItems : setChosenItems;
       const removed = list.splice(source.index, 1);
       list.splice(destination.index, 0, ...removed);
-      console.log(source);
-      console.log(destination);
       callBack(list);
     } else {
       const fromList =
@@ -225,8 +187,12 @@ export const PollForm = (props: {
       </PollFormWrapper>
       <DragDropContext onDragEnd={onDragEnd}>
         <div style={{ display: "flex" }}>
-          <DroppableList listId="chosenSongs" listMap={chosenItems} />
-          <DroppableList listId="songPool" listMap={songItems} />
+          <div data-testid="chosenSongs">
+            <DroppableList listId="chosenSongs" listMap={chosenItems} />
+          </div>
+          <div data-testid="songPool">
+            <DroppableList listId="songPool" listMap={songItems} />
+          </div>
         </div>
       </DragDropContext>
     </PollPageWrapper>

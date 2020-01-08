@@ -2,15 +2,12 @@ import styled from "styled-components";
 
 export const FormModal = styled.div`
   > * {
-    /* border: 0px solid #fff; */
     border-radius: 4px;
     position: fixed;
     top: 50%;
     left: 50%;
     background: rgba(255, 255, 255, 0.5);
     padding: 8px;
-    /* border: black 1px solid; */
-    /* border-radius: 12px; */
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
     transform: translate(-50%, -50%);
     z-index: 2;
@@ -29,11 +26,10 @@ export const FormModal = styled.div`
 `;
 
 export const FullPage = styled.div`
-  width:100%;
-  height:100%;
-  overflow:auto;
-`
-
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+`;
 export const FormModalSelection = styled.div`
   letter-spacing: 3px;
   font-size: 1.2em;
@@ -54,7 +50,6 @@ export const EmailInput = styled.input`
 export const SubmitButton = styled.button`
   color: blue;
   width: 100%;
-  /* border: 1px solid #fff; */
   border-radius: 4px;
   line-height: 2em;
   color: #fff;
@@ -65,7 +60,6 @@ export const SubmitButton = styled.button`
 `;
 
 export const CancelButton = styled.div`
-  /* border: 1px solid #fff; */
   width: 25px;
   height: 25px;
   position: absolute;
@@ -86,6 +80,7 @@ export const LeftRight = styled.div`
   border-radius: 2px;
   transform: rotate(45deg);
 `;
+
 export const RightLeft = styled.div`
   height: 4px;
   width: 20px;
@@ -94,4 +89,55 @@ export const RightLeft = styled.div`
   background-color: #ff4b17;
   border-radius: 2px;
   transform: rotate(-45deg);
+`;
+
+export const UserStatus = styled.div`
+  position: absolute;
+  bottom: 0;
+  margin: 10px;
+  left: 0;
+`;
+
+export const PollFormWrapper = styled.div`
+  margin: 2em;
+  button {
+    border-radius: 5px;
+    background-color: #5dade2;
+    color: #fff;
+    width: 7em;
+    line-height: 2em;
+    :focus {
+      outline: 0;
+    }
+  }
+`;
+
+export const PollPageWrapper = styled.div``;
+
+export const StyledListItem = styled.div`
+  background-color: #eaeffd;
+  margin: 5px;
+  display: flex;
+  > div {
+    padding: 5px;
+    flex: 1 1 auto;
+  }
+  > img {
+    height: 50px;
+    width: 50px;
+    flex: 0 0 auto;
+  }
+`;
+
+export const InputComponent = styled.label`
+  line-height: 2em;
+  margin-right: 2em;
+  input {
+    border: none;
+    border-bottom: 1px dashed #000;
+    text-align: center;
+    :focus {
+      outline: 0;
+    }
+  }
 `;

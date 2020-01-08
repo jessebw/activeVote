@@ -27,7 +27,3 @@ export const Songs = () => {
     </div>
   );
 };
-
-// export const Songs = () => {
-//   return <p>Wees</p>;
-// };

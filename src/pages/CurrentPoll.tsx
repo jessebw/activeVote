@@ -10,7 +10,7 @@ import {
   LeftRight,
   RightLeft,
   FormModalSelection,
-  FullPage,
+  FullPage
 } from "../components/StyledComponents";
 <link
   href="https://fonts.googleapis.com/css?family=Montserrat|Roboto:500&display=swap"
@@ -213,10 +213,12 @@ export const CurrentPoll = () => {
 };
 
 const NoPollError = styled.div`
-  /* width: 100%;
-  height: 100%; */
+  width: 300px;
+  height: 200px;
   color: white;
-  background-color: orange;
+  background-image: url("../img/RadioActive886Logo.jpg");
+  background-size: cover;
+  background-color: rgb(28, 23, 26);
 `;
 
 const NoCurrentPolls = () => {
@@ -228,12 +230,10 @@ const NoCurrentPolls = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        backgroundColor: "rgb(28,23,26)"
       }}
     >
-      <NoPollError>
-        <p>No Current Polls</p>
-        <p>placeholder - logo here</p>
-      </NoPollError>
+      <NoPollError>{/* your logo here */}</NoPollError>
     </div>
   );
 };

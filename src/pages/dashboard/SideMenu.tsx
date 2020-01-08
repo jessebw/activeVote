@@ -2,6 +2,7 @@ import React from "react";
 import { useStateValue } from "../../state/stateContext";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { UserStatus } from "../../components/StyledComponents";
 
 const MenuComponent = styled.div`
   display: inline-block;
@@ -21,27 +22,12 @@ const MenuComponent = styled.div`
   }
 `;
 
-// const LogoutButton = styled.div`
-//   width: 100%;
-//   cursor: pointer;
-//   padding: 10px;
-// `;
-
-const UserStatus = styled.div`
-  position: absolute;
-  bottom: 0;
-`;
-
 const NavMenu = styled.nav`
   margin: 50% 50px 0 50px;
 `;
 
 const LogoutButton = styled.div`
-  /* width: 100%; */
   cursor: pointer;
-  /* padding: 10px; */
-  /* float: left; */
-  /* height: 20px; */
   height: 50px;
   font-family: "Montserrat", sans-serif;
   color: #000;
