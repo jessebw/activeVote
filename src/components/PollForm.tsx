@@ -39,7 +39,11 @@ const DroppableList = (props: { listId: string; listMap: ISong[] }) => (
         }}
       >
         {props.listMap.map((item, index) => (
-          <Draggable key={item._id} draggableId={item._id} index={index}>
+          <Draggable
+            key={item._id}
+            draggableId={item._id as string}
+            index={index}
+          >
             {(provided, snapshot) => (
               <div
                 ref={provided.innerRef}
@@ -80,7 +84,7 @@ export const PollForm = (props: {
     props.updateCallBack &&
       props.updateCallBack(
         pollName,
-        chosenItems.map((value: ISong) => value._id),
+        chosenItems.map((value: ISong) => value._id as string),
         startDate.toISOString(),
         endDate.toISOString()
       );
@@ -90,12 +94,12 @@ export const PollForm = (props: {
     apiService.getAllSongs().then((songs: ISong[]) => {
       setSongItems(
         songs.filter((song: ISong) => {
-          return props.songIds.indexOf(song._id) < 0;
+          return props.songIds.indexOf(song._id as string) < 0;
         })
       );
       setChosenItems(
         songs.filter((song: ISong) => {
-          return props.songIds.indexOf(song._id) >= 0;
+          return props.songIds.indexOf(song._id as string) >= 0;
         })
       );
     });

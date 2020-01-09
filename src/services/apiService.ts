@@ -1,73 +1,77 @@
-import httpService from "./httpService";
-// import { string } from "prop-types";
+import httpService from './httpService'
+import { ISong, INewSong } from '../interfaces'
 
 class APIService {
-  static getInstance() {
+  static getInstance () {
     if (!APIService.instance) {
-      APIService.instance = new APIService();
+      APIService.instance = new APIService()
     }
 
-    return APIService.instance;
+    return APIService.instance
   }
 
-  dummyURL = "http://activevoteserver.deverall.co.nz/";
+  dummyURL = 'http://activevoteserver.deverall.co.nz/'
 
-  private static instance: APIService;
+  private static instance: APIService
 
-  private constructor() {
+  private constructor () {
     // default for all requests
   }
 
-  getAllVotes() {
-    return httpService.get(this.dummyURL + "vote");
+  getAllVotes () {
+    return httpService.get(this.dummyURL + 'vote')
   }
 
-  getCurrentPoll() {
+  getCurrentPoll () {
     return httpService.get(
-      "http://activevoteserver.deverall.co.nz/currentpoll/"
-    );
+      'http://activevoteserver.deverall.co.nz/currentpoll/'
+    )
   }
 
-  getAllPolls() {
-    return httpService.get("http://activevoteserver.deverall.co.nz/poll/");
+  getAllPolls () {
+    return httpService.get('http://activevoteserver.deverall.co.nz/poll/')
   }
 
-  getPollById(id: string) {
-    return httpService.get("http://activevoteserver.deverall.co.nz/poll/" + id);
+  getPollById (id: string) {
+    return httpService.get('http://activevoteserver.deverall.co.nz/poll/' + id)
   }
 
-  getAllSongs() {
-    return httpService.get("http://activevoteserver.deverall.co.nz/song");
+  getAllSongs () {
+    return httpService.get('http://activevoteserver.deverall.co.nz/song')
   }
 
-  deleteSong(songId: string) {
+  deleteSong (songId: string) {
     return httpService.delete(
       `http://activevoteserver.deverall.co.nz/delete/${songId}`
-    );
+    )
   }
 
-  postSubmitVote(email: string, songId: string, pollId: string) {
-    return httpService.post("http://activevoteserver.deverall.co.nz/vote", {
+  addNewSong (song: INewSong) {
+    return httpService.post('http://activevoteserver.deverall.co.nz/song', song)
+  }
+
+  postSubmitVote (email: string, songId: string, pollId: string) {
+    return httpService.post('http://activevoteserver.deverall.co.nz/vote', {
       email: email,
       songId: songId,
-      pollId: pollId,
-    });
+      pollId: pollId
+    })
   }
-  addNewPoll(
+  addNewPoll (
     name: string,
     songIds: string[],
     startDateTime: string,
     endDateTime: string
   ) {
-    return httpService.post("http://activevoteserver.deverall.co.nz/poll", {
+    return httpService.post('http://activevoteserver.deverall.co.nz/poll', {
       name: name,
       songIds: songIds,
       startDateTime: startDateTime,
-      endDateTime: endDateTime,
-    });
+      endDateTime: endDateTime
+    })
   }
 
-  editPoll(
+  editPoll (
     name: string,
     songIds: string[],
     startDateTime: string,
@@ -80,10 +84,10 @@ class APIService {
         name: name,
         songIds: songIds,
         startDateTime: startDateTime,
-        endDateTime: endDateTime,
+        endDateTime: endDateTime
       }
-    );
+    )
   }
 }
 
-export default APIService.getInstance();
+export default APIService.getInstance()
