@@ -9,13 +9,13 @@ import {
   Droppable,
   Draggable,
   ResponderProvided,
-  DropResult,
+  DropResult
 } from "react-beautiful-dnd";
 import {
   PollFormWrapper,
   PollPageWrapper,
   StyledListItem,
-  InputComponent,
+  InputComponent
 } from "./StyledComponents";
 
 const ListItem = (props: { song: ISong }) => (
@@ -33,8 +33,8 @@ const DroppableList = (props: { listId: string; listMap: ISong[] }) => (
       <div
         ref={provided.innerRef}
         style={{
-          flex: "0 0 50%",
           backgroundColor: "#fff",
+          height: "100%"
         }}
       >
         {props.listMap.map((item, index) => (
@@ -187,10 +187,10 @@ export const PollForm = (props: {
       </PollFormWrapper>
       <DragDropContext onDragEnd={onDragEnd}>
         <div style={{ display: "flex" }}>
-          <div data-testid="chosenSongs">
+          <div data-testid="chosenSongs" style={{ flex: "0 0 50%" }}>
             <DroppableList listId="chosenSongs" listMap={chosenItems} />
           </div>
-          <div data-testid="songPool">
+          <div data-testid="songPool" style={{ flex: "0 0 50%" }}>
             <DroppableList listId="songPool" listMap={songItems} />
           </div>
         </div>
