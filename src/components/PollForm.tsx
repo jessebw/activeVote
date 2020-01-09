@@ -33,7 +33,8 @@ const DroppableList = (props: { listId: string; listMap: ISong[] }) => (
       <div
         ref={provided.innerRef}
         style={{
-          backgroundColor: "#fff",
+          // backgroundColor: "#fff",
+          // backgroundColor: "#F2F2F2",
           height: "100%"
         }}
       >
@@ -187,10 +188,16 @@ export const PollForm = (props: {
       </PollFormWrapper>
       <DragDropContext onDragEnd={onDragEnd}>
         <div style={{ display: "flex" }}>
-          <div data-testid="chosenSongs" style={{ flex: "0 0 50%" }}>
+          <div
+            data-testid="chosenSongs"
+            style={{ flex: "0 0 50%", backgroundColor: "#F2F2F2" }}
+          >
+            <h3>Poll Pool</h3>
+            <span>Drag into this area to create a poll</span>
             <DroppableList listId="chosenSongs" listMap={chosenItems} />
           </div>
           <div data-testid="songPool" style={{ flex: "0 0 50%" }}>
+            <h3>Track Pool</h3>
             <DroppableList listId="songPool" listMap={songItems} />
           </div>
         </div>
