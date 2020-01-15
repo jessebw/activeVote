@@ -13,6 +13,8 @@
     // Sets how to compile jsx code
     "jsx": "react",
     // Import non-ES modules as default imports.
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    // Where to find type definitions.
+    "typeRoots": ["./node_modules/@types"]
   }
 }

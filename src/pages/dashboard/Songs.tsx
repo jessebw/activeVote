@@ -85,9 +85,11 @@ export const Songs = () => {
         return (
           <div key={song._id}>
             <hr />
-            <p>{song.artist}</p>
-            <p>{song.songName}</p>
-            <p>{song.album}</p>
+            <p>
+              {song.artist} - {song.songName} - {song.album}
+            </p>
+            {/* <p>{song.songName}</p>
+            <p>{song.album}</p> */}
           </div>
         );
       })}

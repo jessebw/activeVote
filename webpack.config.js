@@ -35,7 +35,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|jpg|gif)$/i,
+        test: /\.(png|jpg|gif|svg|ttf)$/i,
         use: [
           {
             loader: "url-loader",
@@ -45,6 +45,17 @@ module.exports = {
           }
         ]
       }
+      // {
+      //   test: /\.ttf$/,
+      //   use: [
+      //     {
+      //       loader: "ttf-loader",
+      //       options: {
+      //         name: "./font/[hash].[ext]"
+      //       }
+      //     }
+      //   ]
+      // }
     ]
   },
   resolve: {

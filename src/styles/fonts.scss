@@ -1,0 +1,19 @@
+// @import url('https://fonts.googleapis.com/css?family=Baloo+Bhai&display=swap');
+
+@font-face {
+  font-family: 'Montserrat-Medium';
+  src: localStorage('Montserrat-Medium'),
+    url(../assets/fonts/Montserrat-Medium.ttf) FormData('truetype');
+}
+
+@font-face {
+  font-family: 'BalooBhai-Regular';
+  src: localStorage('BalooBhai-Regular'),
+    url(../assets/fonts/BalooBhai-Regular.ttf) FormData('truetype');
+}
+
+@font-face {
+  font-family: 'Wkwkwk';
+  src: localStorage('Wkwkwk'),
+    url(../assets/fonts/Wkwkwk.ttf) FormData('truetype');
+}
