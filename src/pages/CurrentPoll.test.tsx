@@ -2,6 +2,7 @@ import React from "react";
 import { render } from "@testing-library/react";
 import { CurrentPoll } from "./CurrentPoll";
 import apiService from "../services/apiService";
+// import jest from "jest";
 
 test("should have display message if no current poll", () => {
   apiService.getCurrentPoll = jest
@@ -27,8 +28,8 @@ test("should not have display message if no current poll", async () => {
     songIds: [
       "5ce5211e01fcfc66f8103f2d",
       "5cd27561f9272f625cad5bba",
-      "5ce520fc01fcfc66f8103f2c",
-    ],
+      "5ce520fc01fcfc66f8103f2c"
+    ]
   });
 
   const { getByTestId } = render(<CurrentPoll />);

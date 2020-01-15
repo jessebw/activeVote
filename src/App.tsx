@@ -4,7 +4,7 @@ import {
   HashRouter as Router,
   Route,
   Switch,
-  Redirect,
+  Redirect
 } from "react-router-dom";
 import { CurrentPoll } from "./pages/CurrentPoll";
 import { Dashboard } from "./pages/dashboard/Dashboard";
@@ -44,7 +44,7 @@ const AppContent = () => {
     } else {
       const changeState: TStateAction = {
         type: "setAuth",
-        payload: sessionState,
+        payload: sessionState
       };
       dispatch(changeState);
     }

@@ -11,7 +11,6 @@
   "author": "jessebw",
   "license": "ISC",
   "dependencies": {
-    "@types/react-datepicker": "^2.9.2",
     "base64-inline-loader": "^1.1.1",
     "fetch-intercept": "^2.3.1",
     "jwt-decode": "^2.2.0",
@@ -26,12 +25,16 @@
     "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
+    "@types/react-datepicker": "^2.9.2",
+    "ts-jest": "^24.3.0",
+    "ttf-loader": "^1.0.2",
+    "file-loader": "^5.0.2",
     "@babel/core": "^7.7.2",
     "@babel/preset-env": "^7.7.1",
     "@babel/preset-react": "^7.7.0",
     "@babel/preset-typescript": "^7.7.2",
     "@testing-library/react": "^9.3.2",
-    "@types/jest": "^24.0.23",
+    "@types/jest": "^24.0.25",
     "@types/jwt-decode": "^2.2.1",
     "@types/react": "^16.8.14",
     "@types/react-beautiful-dnd": "^11.0.3",

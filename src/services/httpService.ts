@@ -13,7 +13,7 @@ fetchIntercept.register({
     if (auth) {
       config.headers = {
         ...config.headers,
-        Authorization: "Bearer " + auth.token,
+        Authorization: "Bearer " + auth.token
       };
       console.log("token", auth.token);
     }
@@ -33,7 +33,7 @@ fetchIntercept.register({
   responseError: function(error) {
     // Handle an fetch error
     return Promise.reject(error);
-  },
+  }
 });
 
 class HttpService {
@@ -66,7 +66,7 @@ class HttpService {
           return HttpService.getInstance()
             .post("http://activevoteserver.deverall.co.nz/refreshtoken", {
               email: decoded.email,
-              refreshToken: auth.refreshToken,
+              refreshToken: auth.refreshToken
             })
             .then(data => {
               sessionStorage.setItem("auth", JSON.stringify(data));
@@ -96,8 +96,8 @@ class HttpService {
       body: JSON.stringify(bodyData),
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json"
+      }
     }).then(function(response) {
       if (response.status !== 200) {
         throw new Error(
@@ -116,8 +116,8 @@ class HttpService {
       body: JSON.stringify(bodyData),
       method: "PUT",
       headers: {
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json"
+      }
     }).then(function(response) {
       if (response.status !== 200) {
         console.log(
@@ -132,7 +132,21 @@ class HttpService {
     });
   }
 
-  delete(url: string) {}
+  delete(url: string) {
+    return fetch(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(function(response) {
+      if (response.status !== 200) {
+        throw new Error(
+          "Looks like there was a problem. Status Code: " + response.status
+        );
+      }
+      return "Successfully Deleted all of your data";
+    });
+  }
 }
 
 export default HttpService.getInstance();

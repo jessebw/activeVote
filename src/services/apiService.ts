@@ -1,5 +1,5 @@
 import httpService from "./httpService";
-// import { string } from "prop-types";
+import { ISong, INewSong } from "../interfaces";
 
 class APIService {
   static getInstance() {
@@ -40,9 +40,16 @@ class APIService {
     return httpService.get("http://activevoteserver.deverall.co.nz/song");
   }
 
-  deleteSong(songId: string) {
+  deleteSong(songId: string): any {
     return httpService.delete(
-      `http://activevoteserver.deverall.co.nz/delete/${songId}`
+      `http://activevoteserver.deverall.co.nz/song/${songId}`
+    );
+  }
+
+  addNewSong(song: INewSong) {
+    return httpService.post(
+      "http://activevoteserver.deverall.co.nz/song",
+      song
     );
   }
 
@@ -50,7 +57,7 @@ class APIService {
     return httpService.post("http://activevoteserver.deverall.co.nz/vote", {
       email: email,
       songId: songId,
-      pollId: pollId,
+      pollId: pollId
     });
   }
   addNewPoll(
@@ -63,7 +70,7 @@ class APIService {
       name: name,
       songIds: songIds,
       startDateTime: startDateTime,
-      endDateTime: endDateTime,
+      endDateTime: endDateTime
     });
   }
 
@@ -80,7 +87,7 @@ class APIService {
         name: name,
         songIds: songIds,
         startDateTime: startDateTime,
-        endDateTime: endDateTime,
+        endDateTime: endDateTime
       }
     );
   }

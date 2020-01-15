@@ -12,15 +12,12 @@ import {
   FormModalSelection,
   FullPage
 } from "../components/StyledComponents";
-<link
-  href="https://fonts.googleapis.com/css?family=Montserrat|Roboto:500&display=swap"
-  rel="stylesheet"
-/>;
 
 const GridWrapper = styled.div`
   background-color: #0c0c0c;
+  /* background-color: orange; */
   width: 100vw;
-  height: 100%;
+  /* height: 100%; */
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   align-items: center;
@@ -57,9 +54,11 @@ const VoteItem = styled.div<{ imagePath: string }>`
     opacity: 0;
     height: 100%;
     width: 0%;
-    background: RGBA(127, 127, 213, 0.5);
-    background: -webkit-linear-gradient(to left, #7f7fd5, #86a8e7, #91eae4);
-    background: linear-gradient(to left, #7f7fd5, #86a8e7, #91eae4);
+    /* background: RGBA(127, 127, 213, 0.9); */
+    /* background: RGBA(93, 173, 226, 0.9); */
+    background: RGBA(242, 242, 242, 1);
+    /* background: -webkit-linear-gradient(to left, #7f7fd5, #86a8e7, #91eae4); */
+    /* background: linear-gradient(to left, #7f7fd5, #86a8e7, #91eae4); */
   }
   &:hover {
     .vote-btn {
@@ -74,7 +73,6 @@ const VoteItem = styled.div<{ imagePath: string }>`
 `;
 
 const VoteItemOne = styled.div`
-  font-family: "Roboto", sans-serif;
   font-size: 1.2em;
 `;
 
@@ -82,7 +80,9 @@ const VoteButton = styled.div<{ onClick: any }>``;
 
 // ${var} is inter[polition for string literals (inserting js into strings)
 const Title = styled.div`
-  font-family: "Montserrat", sans-serif;
+  /* font-family: "BalooBhai-Regular"; */
+  font-family: "Montserrat-Light";
+
   color: white;
   text-align: center;
   display: flex;
