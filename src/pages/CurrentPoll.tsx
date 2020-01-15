@@ -12,10 +12,6 @@ import {
   FormModalSelection,
   FullPage
 } from "../components/StyledComponents";
-<link
-  href="https://fonts.googleapis.com/css?family=Montserrat|Roboto:500&display=swap"
-  rel="stylesheet"
-/>;
 
 const GridWrapper = styled.div`
   background-color: #0c0c0c;
@@ -84,7 +80,8 @@ const VoteButton = styled.div<{ onClick: any }>``;
 
 // ${var} is inter[polition for string literals (inserting js into strings)
 const Title = styled.div`
-  /* font-family: "Montserrat-Regular", sans-serif; */
+  /* font-family: "BalooBhai-Regular"; */
+  font-family: "Montserrat-Light";
 
   color: white;
   text-align: center;
