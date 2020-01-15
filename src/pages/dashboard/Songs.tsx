@@ -88,6 +88,16 @@ export const Songs = () => {
             <p>
               {song.artist} - {song.songName} - {song.album}
             </p>
+            <button
+              onClick={() => {
+                apiService.deleteSong(song._id).then(() => {
+                  console.log("getSongs");
+                  getSongs();
+                });
+              }}
+            >
+              X
+            </button>
             {/* <p>{song.songName}</p>
             <p>{song.album}</p> */}
           </div>
