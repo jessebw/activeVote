@@ -38,7 +38,6 @@ export const Polls = () => {
                 <Link to={"/dashboard/editpoll/" + poll._id}>
                   <button>edit</button>
                 </Link>
-                {/* make onClick function */}
                 <button
                   onClick={(e: any) => {
                     apiService.deletePoll(poll._id).then(
@@ -55,9 +54,6 @@ export const Polls = () => {
                 </button>
               </nav>
             </SelectPollList>
-            // onClick={(e: any) => {
-            //   setFormDropDownOpen(false);
-            // }}
           );
         })}
       </div>
