@@ -74,6 +74,12 @@ class APIService {
     });
   }
 
+  deletePoll(pollId: string) {
+    return httpService.delete(
+      `http://activevoteserver.deverall.co.nz/poll/${pollId}`
+    );
+  }
+
   editPoll(
     name: string,
     songIds: string[],

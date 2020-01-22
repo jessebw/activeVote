@@ -22,6 +22,7 @@ export const EditPoll = () => {
     <div>
       {poll && (
         <PollForm
+          pollId={poll._id}
           pollName={poll.name}
           startDate={new Date(poll.startDateTime)}
           endDate={new Date(poll.endDateTime)}
