@@ -43,7 +43,7 @@ const FormInput = styled.input`
   }
 `;
 
-const SongsFormModal = styled.div`
+const SongsFormDropDown = styled.div`
   padding: 0;
 `;
 
@@ -83,9 +83,9 @@ const SongsView = styled.div`
 
 export const Songs = () => {
   const [songItems, setSongItems] = useState<ISong[]>([]);
-  const [formModalOpen, setFormModalOpen] = useState<boolean>(false);
+  const [formDropDownOpen, setFormDropDownOpen] = useState<boolean>(false);
 
-  const AddNewSongModal = (props: { finishCallBack: () => void }) => {
+  const AddNewSongDropDown = (props: { finishCallBack: () => void }) => {
     const [formData, setFormData] = useState<INewSong>({
       artist: "",
       songName: "",
@@ -94,7 +94,7 @@ export const Songs = () => {
     });
 
     return (
-      <SongsFormModal>
+      <SongsFormDropDown>
         <div>
           <FormInput
             type="text"
@@ -135,13 +135,13 @@ export const Songs = () => {
           <SongCancelButton
             className="songCancelButton"
             onClick={(e: any) => {
-              setFormModalOpen(false);
+              setFormDropDownOpen(false);
             }}
           >
             Cancel
           </SongCancelButton>
         </div>
-      </SongsFormModal>
+      </SongsFormDropDown>
     );
   };
 
@@ -159,15 +159,15 @@ export const Songs = () => {
       <h3>Select Song</h3>
       <button
         onClick={(e: any) => {
-          setFormModalOpen(true);
+          setFormDropDownOpen(true);
         }}
       >
         Add new song
       </button>
-      {formModalOpen === true && (
-        <AddNewSongModal
+      {formDropDownOpen === true && (
+        <AddNewSongDropDown
           finishCallBack={() => {
-            setFormModalOpen(false);
+            setFormDropDownOpen(false);
             getSongs();
           }}
         />
