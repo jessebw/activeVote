@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import apiService from "../../services/apiService";
 import { IPoll } from "../../interfaces";
 import styled from "styled-components";
+import { toast } from "react-toastify";
+import { Redirect } from "react-router-dom";
 
 const SelectPollList = styled.div`
   display: grid;
@@ -11,10 +13,14 @@ const SelectPollList = styled.div`
 export const Polls = () => {
   const [pollItems, setPollItems] = useState<IPoll[]>([]);
 
-  useEffect(() => {
+  const updatePolls = () => {
     apiService.getAllPolls().then((polls: IPoll[]) => {
       setPollItems(polls);
     });
+  };
+
+  useEffect(() => {
+    updatePolls();
   }, []);
 
   return (
@@ -32,8 +38,26 @@ export const Polls = () => {
                 <Link to={"/dashboard/editpoll/" + poll._id}>
                   <button>edit</button>
                 </Link>
+                {/* make onClick function */}
+                <button
+                  onClick={(e: any) => {
+                    apiService.deletePoll(poll._id).then(
+                      () => {
+                        updatePolls();
+                      },
+                      () => {
+                        toast.error(`Error: ${poll.name} could not be deleted`);
+                      }
+                    );
+                  }}
+                >
+                  delete
+                </button>
               </nav>
             </SelectPollList>
+            // onClick={(e: any) => {
+            //   setFormDropDownOpen(false);
+            // }}
           );
         })}
       </div>
