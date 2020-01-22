@@ -136,8 +136,6 @@ export const PollForm = (props: {
         destination.droppableId === "songPool" ? setSongItems : setChosenItems;
       callBackFrom(fromList);
       callBackTo(toList);
-
-      console.log("move");
     }
   };
 

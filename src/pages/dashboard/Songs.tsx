@@ -1,58 +1,150 @@
 import React, { useEffect, useState } from "react";
 import apiService from "../../services/apiService";
 import { ISong, INewSong } from "../../interfaces";
-import { FormModal } from "../../components/StyledComponents";
+// import { FormModal } from "../../components/StyledComponents";
+import styled from "styled-components";
 
-const AddNewSongModal = (props: { finishCallBack: () => void }) => {
-  const [formData, setFormData] = useState<INewSong>({
-    artist: "",
-    songName: "",
-    album: "",
-    image: ""
-  });
+const DeleteSong = styled.span`
+  cursor: pointer;
+  /* top: 0;
+  right: 0; */
+  /* padding: 12px 16px; */
+  /* transform: translate(0%, -50%); */
+  margin: 0px 10px;
+  float: right;
+  .delete-song {
+  }
+  &:hover {
+    color: red;
+  }
+`;
 
-  return (
-    <FormModal>
-      <div>
-        <input
-          type="text"
-          placeholder="Artist"
-          onChange={(event: any) => {
-            setFormData({ ...formData, artist: event.target.value });
-          }}
-        />
-        <input
-          type="text"
-          placeholder="Title"
-          onChange={(event: any) => {
-            setFormData({ ...formData, songName: event.target.value });
-          }}
-        />
-        <input
-          type="text"
-          placeholder="Album"
-          onChange={(event: any) => {
-            setFormData({ ...formData, album: event.target.value });
-          }}
-        />
-        <button
-          onClick={() => {
-            console.log(formData);
-            apiService.addNewSong(formData).then(() => {
-              props.finishCallBack();
-            });
-          }}
-        >
-          submit
-        </button>
-      </div>
-    </FormModal>
-  );
-};
+const FormInput = styled.input`
+  width: 100%;
+  transition: 0.3s all;
+  background-color: rgba(255, 255, 255, 1);
+  padding: 12px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+  background-color: #fff;
+  border: none;
+  border-bottom: 1px solid #000;
+  text-align: left;
+  &:hover {
+    /* color: #fff; */
+    background-color: rgba(238, 238, 238, 1);
+    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.05);
+  }
+  &:focus {
+    outline: 0;
+    background-color: #fff;
+  }
+`;
+
+const SongsFormModal = styled.div`
+  padding: 0;
+`;
+
+const SongCancelButton = styled.button`
+  /* margin-left: 5px;
+  padding: 5px; */
+  width: 50%;
+  background-color: transparent;
+
+  &:hover {
+    color: #fff;
+    background-color: #cb4335;
+  }
+`;
+
+const SongSubmitButton = styled.button`
+  /* margin-left: 5px;
+  margin-right: 5px;
+  padding: 5px; */
+  width: 50%;
+  background-color: rgba(93, 173, 226, 1);
+  color: #fff;
+  &:hover {
+    color: #fff;
+    background-color: rgba(33, 97, 140, 1);
+  }
+  .songSubmitButton {
+  }
+`;
+
+const SongInfo = styled.span``;
+
+const SongsView = styled.div`
+  width: 60%;
+  margin: 0 auto;
+`;
 
 export const Songs = () => {
   const [songItems, setSongItems] = useState<ISong[]>([]);
   const [formModalOpen, setFormModalOpen] = useState<boolean>(false);
+
+  const AddNewSongModal = (props: { finishCallBack: () => void }) => {
+    const [formData, setFormData] = useState<INewSong>({
+      artist: "",
+      songName: "",
+      album: "",
+      image: ""
+    });
+
+    return (
+      <SongsFormModal>
+        <div>
+          <FormInput
+            type="text"
+            placeholder="Artist"
+            required
+            onChange={(event: any) => {
+              setFormData({ ...formData, artist: event.target.value });
+            }}
+          />
+          <FormInput
+            type="text"
+            placeholder="Title"
+            onChange={(event: any) => {
+              setFormData({ ...formData, songName: event.target.value });
+            }}
+          />
+          <FormInput
+            type="text"
+            placeholder="Album"
+            onChange={(event: any) => {
+              setFormData({ ...formData, album: event.target.value });
+            }}
+          />
+          <FormInput type="text" placeholder="image placeholder" />
+
+          <SongSubmitButton
+            className="songSubmitButton"
+            onClick={() => {
+              // console.log(formData);
+              apiService.addNewSong(formData).then(() => {
+                props.finishCallBack();
+              });
+            }}
+          >
+            Submit
+          </SongSubmitButton>
+          {/* <span>/</span> */}
+          <SongCancelButton
+            className="songCancelButton"
+            onClick={(e: any) => {
+              setFormModalOpen(false);
+            }}
+          >
+            Cancel
+          </SongCancelButton>
+        </div>
+      </SongsFormModal>
+    );
+  };
+
   const getSongs = () => {
     apiService.getAllSongs().then((songs: ISong[]) => {
       setSongItems(songs);
@@ -63,14 +155,14 @@ export const Songs = () => {
   }, []);
 
   return (
-    <div>
+    <SongsView>
       <h3>Select Song</h3>
       <button
         onClick={(e: any) => {
           setFormModalOpen(true);
         }}
       >
-        add new song
+        Add new song
       </button>
       {formModalOpen === true && (
         <AddNewSongModal
@@ -83,26 +175,24 @@ export const Songs = () => {
 
       {songItems.map((song: ISong) => {
         return (
-          <div key={song._id}>
+          <SongInfo key={song._id}>
             <hr />
-            <p>
-              {song.artist} - {song.songName} - {song.album}
-            </p>
-            <button
+            {song.artist} - {song.songName} - {song.album}
+            <DeleteSong
+              className="delete-song"
               onClick={() => {
                 apiService.deleteSong(song._id).then(() => {
-                  console.log("getSongs");
                   getSongs();
                 });
               }}
             >
-              X
-            </button>
+              x
+            </DeleteSong>
             {/* <p>{song.songName}</p>
             <p>{song.album}</p> */}
-          </div>
+          </SongInfo>
         );
       })}
-    </div>
+    </SongsView>
   );
 };
