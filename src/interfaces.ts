@@ -57,3 +57,8 @@ export interface INewSong {
   artist: string
   image: string
 }
+
+export interface INewUser {
+  email: string
+  password: string
+}
