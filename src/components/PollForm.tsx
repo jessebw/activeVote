@@ -17,6 +17,8 @@ import {
   StyledListItem,
   InputComponent
 } from "./StyledComponents";
+import { Redirect } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ListItem = (props: { song: ISong }) => (
   <StyledListItem>
@@ -33,8 +35,6 @@ const DroppableList = (props: { listId: string; listMap: ISong[] }) => (
       <div
         ref={provided.innerRef}
         style={{
-          // backgroundColor: "#fff",
-          // backgroundColor: "#F2F2F2",
           height: "100%"
         }}
       >
@@ -67,6 +67,7 @@ export const PollForm = (props: {
   endDate: Date;
   songIds: string[];
   savingPoll?: boolean;
+  pollId?: string;
   updateCallBack?: (
     pollName: string,
     ChosenItems: string[],
@@ -79,6 +80,7 @@ export const PollForm = (props: {
   const [endDate, setEndDate] = useState<Date>(props.endDate);
   const [songItems, setSongItems] = useState<ISong[]>([]);
   const [chosenItems, setChosenItems] = useState<ISong[]>([]);
+  const [deletePoll, setDeletePoll] = useState<boolean>(false);
 
   const submitForm = () => {
     props.updateCallBack &&
@@ -139,6 +141,10 @@ export const PollForm = (props: {
     }
   };
 
+  if (deletePoll === true) {
+    return <Redirect to="/dashboard/polls" />;
+  }
+
   return (
     <PollPageWrapper
       onKeyDown={e => {
@@ -187,6 +193,24 @@ export const PollForm = (props: {
         >
           {props.savingPoll ? "saving..." : "submit"}
         </button>
+
+        {props.pollId && (
+          <button
+            onClick={() => {
+              props.pollId &&
+                apiService.deletePoll(props.pollId).then(
+                  () => {
+                    setDeletePoll(true);
+                  },
+                  () => {
+                    toast.error(`Error: ${pollName} could not be deleted`);
+                  }
+                );
+            }}
+          >
+            delete
+          </button>
+        )}
       </PollFormWrapper>
       <DragDropContext onDragEnd={onDragEnd}>
         <div style={{ display: "flex" }}>

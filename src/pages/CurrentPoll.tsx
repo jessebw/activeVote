@@ -12,6 +12,7 @@ import {
   FormModalSelection,
   FullPage
 } from "../components/StyledComponents";
+import logoBlack from "../assets/images/activeLogoBlack.png";
 
 const GridWrapper = styled.div`
   background-color: #0c0c0c;
@@ -216,7 +217,7 @@ const NoPollError = styled.div`
   width: 300px;
   height: 200px;
   color: white;
-  background-image: url("../img/RadioActive886Logo.jpg");
+  background-image: url(${logoBlack});
   background-size: cover;
   background-color: rgb(28, 23, 26);
 `;
