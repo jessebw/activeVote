@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, ChangeEvent } from "react";
 import apiService from "../../services/apiService";
 import { ISong, INewSong } from "../../interfaces";
 // import { FormModal } from "../../components/StyledComponents";
@@ -90,8 +90,13 @@ export const Songs = () => {
       artist: "",
       songName: "",
       album: "",
-      image: ""
+      image: undefined
     });
+
+    const changeImageFile = (e: any) => {
+      const image = e.target.files[0];
+      setFormData({ ...formData, image });
+    };
 
     return (
       <SongsFormDropDown>
@@ -118,14 +123,20 @@ export const Songs = () => {
               setFormData({ ...formData, album: event.target.value });
             }}
           />
-          <FormInput type="text" placeholder="image placeholder" />
+          <input type="file" onChange={changeImageFile} />
 
           <SongSubmitButton
             className="songSubmitButton"
             onClick={() => {
-              // console.log(formData);
-              apiService.addNewSong(formData).then(() => {
-                props.finishCallBack();
+              console.log("HITTING API", formData);
+              const _data = new FormData();
+              _data.append("image", formData.image as Blob);
+              apiService.uploadImage(_data as any).then((resp: any) => {
+                apiService
+                  .addNewSong({ ...formData, image: resp[0].path })
+                  .then(() => {
+                    props.finishCallBack();
+                  });
               });
             }}
           >

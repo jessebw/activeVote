@@ -103,6 +103,13 @@ class APIService {
       newUser
     );
   }
+
+  uploadImage(blob: Blob) {
+    return httpService.postFormData(
+      `http://activevoteserver.deverall.co.nz/album-art-upload`,
+      blob
+    );
+  }
 }
 
 export default APIService.getInstance();
