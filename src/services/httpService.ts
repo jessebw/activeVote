@@ -23,7 +23,7 @@ fetchIntercept.register({
   },
 
   response: function (response) {
-    // Modify the reponse object
+    // Modify the reponse objectteam
     // console.log("response", response);
     return response
   },
