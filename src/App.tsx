@@ -54,9 +54,7 @@ const AppContent = () => {
     <Router>
       <Switch>
         <Route exact path={"/"} component={CurrentPoll} />
-        {/* <Route exact path={"/poll/:pollId"} component={MainList} /> */}
         <PrivateRoute path={"/dashboard"} component={Dashboard} />
-
         <Route exact path={"/login"} component={Login} />
       </Switch>
     </Router>
