@@ -4,9 +4,12 @@ export const FormModal = styled.div`
   > * {
     border-radius: 4px;
     position: fixed;
+    width: 80%;
+    height: 50%;
     top: 50%;
     left: 50%;
-    background: rgba(255, 255, 255, 0.5);
+    /* background: rgba(255, 255, 255, 0.5); */
+    background: #fff;
     padding: 8px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
     transform: translate(-50%, -50%);
@@ -17,7 +20,7 @@ export const FormModal = styled.div`
     content: "";
     position: fixed;
     z-index: 1;
-    background: rgba(0, 0, 0, 0.7);
+    /* background: rgba(0, 0, 0, 0.7); */
     top: 0;
     right: 0;
     bottom: 0;
@@ -34,11 +37,13 @@ export const FormModalSelection = styled.div`
   letter-spacing: 3px;
   font-size: 1.2em;
   font-weight: bold;
+  margin-bottom: 3em;
 `;
 
 export const EmailInput = styled.input`
-  width: 100%;
+  width: 80%;
   border: 0 solid #000;
+  border-bottom: 1px dotted #000;
   border-radius: 4px;
   text-align: center;
   line-height: 2em;
@@ -48,12 +53,16 @@ export const EmailInput = styled.input`
 `;
 
 export const SubmitButton = styled.button`
-  color: blue;
+  /* color: blue; */
   width: 100%;
+  border: 0 solid #000;
   border-radius: 4px;
   line-height: 2em;
-  color: #fff;
-  background-color: #3f7b96;
+  font-size: 20px;
+
+  color: #000;
+  /* background-color: #3f7b96; */
+  background-color: #fff;
   :focus {
     outline: 0;
   }
