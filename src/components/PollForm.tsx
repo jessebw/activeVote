@@ -19,15 +19,20 @@ import {
 } from "./StyledComponents";
 import { Redirect } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useGlobalState } from "../state/stateContext";
 
-const ListItem = (props: { song: ISong }) => (
-  <StyledListItem>
-    <div>
-      {props.song.artist} - {props.song.songName} - {props.song.album}
-    </div>
-    <img src={`http://activevoteserver.deverall.co.nz/${props.song.image}`} />
-  </StyledListItem>
-);
+const ListItem = (props: { song: ISong }) => {
+  const [globalState, dispatch] = useGlobalState();
+
+  return (
+    <StyledListItem>
+      <div>
+        {props.song.artist} - {props.song.songName} - {props.song.album}
+      </div>
+      <img src={`${globalState.config!.serverURL}/${props.song.image}`} />
+    </StyledListItem>
+  );
+};
 
 const DroppableList = (props: { listId: string; listMap: ISong[] }) => (
   <Droppable droppableId={props.listId}>

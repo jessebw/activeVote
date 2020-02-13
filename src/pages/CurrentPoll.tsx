@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from "react";
+import React, { useState, useEffect, ChangeEvent, Component } from "react";
 import styled from "styled-components";
 import { IVoteItem, IPoll } from "../interfaces";
 import apiService from "../services/apiService";
@@ -13,6 +13,7 @@ import {
   FullPage
 } from "../components/StyledComponents";
 import logoBlack from "../assets/images/activeLogoBlack.png";
+import { useGlobalState } from "../state/stateContext";
 
 const GridWrapper = styled.div`
   background-color: #0c0c0c;
@@ -30,7 +31,7 @@ const GridWrapper = styled.div`
 const VoteItem = styled.div<{ imagePath: string }>`
   color: #000;
   font-size: 100%;
-  background-image: url(http://activevoteserver.deverall.co.nz/${props => props.imagePath});
+  background-image: url(${props => props.imagePath});
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -96,8 +97,11 @@ const VoteItemWrapper = (props: {
   data: IVoteItem;
   onVote: Function;
 }) => {
+  const [globalState, dispatch] = useGlobalState();
   return (
-    <VoteItem imagePath={props.data.image as string}>
+    <VoteItem
+      imagePath={globalState.config!.serverURL + "/" + props.data.image}
+    >
       <div className="vote-info">
         <VoteButton
           className="vote-btn"

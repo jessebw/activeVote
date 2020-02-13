@@ -11,6 +11,8 @@ export const reducer = (
   switch (action.type) {
     case "setAuth":
       return { ...prevState, auth: action.payload };
+    case "setConfig":
+      return { ...prevState, config: action.payload };
     default:
       return prevState;
   }

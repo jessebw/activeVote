@@ -3,6 +3,7 @@ import apiService from "../../services/apiService";
 import { ISong, INewSong } from "../../interfaces";
 // import { FormModal } from "../../components/StyledComponents";
 import styled from "styled-components";
+import { useGlobalState } from "../../state/stateContext";
 
 const DeleteSong = styled.span`
   cursor: pointer;
@@ -84,6 +85,7 @@ const SongsView = styled.div`
 export const Songs = () => {
   const [songItems, setSongItems] = useState<ISong[]>([]);
   const [formDropDownOpen, setFormDropDownOpen] = useState<boolean>(false);
+  const [globalState, dispatch] = useGlobalState();
 
   const AddNewSongDropDown = (props: { finishCallBack: () => void }) => {
     const [formData, setFormData] = useState<INewSong>({
@@ -165,6 +167,19 @@ export const Songs = () => {
     getSongs();
   }, []);
 
+  const ImageURL = (song: ISong) => {
+    return song.image;
+  };
+
+  const SongImage = styled.div<{ imagePath: string }>`
+    height: 50px;
+    width: 50px;
+    background-image: url(${props => props.imagePath});
+    /* background-color: orange; */
+    background-repeat: none;
+    background-size: cover;
+  `;
+
   return (
     <SongsView>
       <h3>Select Song</h3>
@@ -189,6 +204,9 @@ export const Songs = () => {
           <SongInfo key={song._id}>
             <hr />
             {song.artist} - {song.songName} - {song.album}
+            <SongImage
+              imagePath={`${globalState.config!.serverURL}/${song.image}`}
+            ></SongImage>
             <DeleteSong
               className="delete-song"
               onClick={() => {

@@ -1,6 +1,7 @@
 import React, { createContext, useReducer, useContext, Dispatch } from "react";
 import { IGlobalState, IReducer, TStateAction } from "../interfaces";
 import { initialState } from "./globalState";
+
 export const StateContext = createContext<
   [IGlobalState, Dispatch<TStateAction>]
 >([initialState, () => {}]);
@@ -17,5 +18,6 @@ export const StateProvider: React.FunctionComponent<{
     </StateContext.Provider>
   );
 };
-export const useStateValue = () =>
+
+export const useGlobalState = () =>
   useContext<[IGlobalState, Dispatch<TStateAction>]>(StateContext);

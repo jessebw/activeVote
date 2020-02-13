@@ -1,5 +1,5 @@
 import React from "react";
-import { useStateValue } from "../../state/stateContext";
+import { useGlobalState } from "../../state/stateContext";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { UserStatus } from "../../components/StyledComponents";
@@ -39,7 +39,7 @@ const LogoutButton = styled.div`
 `;
 
 export const SideMenu = () => {
-  const [globalState, dispatch] = useStateValue();
+  const [globalState, dispatch] = useGlobalState();
 
   return (
     <MenuComponent>

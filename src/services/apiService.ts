@@ -1,115 +1,102 @@
-import httpService from "./httpService";
-import { ISong, INewSong, INewUser } from "../interfaces";
+import httpService from './httpService'
+import { INewSong, INewUser, IConfig } from '../interfaces'
 
 class APIService {
-  static getInstance() {
+  private config?: IConfig
+  static getInstance () {
     if (!APIService.instance) {
-      APIService.instance = new APIService();
+      APIService.instance = new APIService()
     }
-
-    return APIService.instance;
+    return APIService.instance
   }
 
-  dummyURL = "http://activevoteserver.deverall.co.nz/";
+  setConfig (config: IConfig) {
+    this.config = config
+  }
 
-  private static instance: APIService;
+  private static instance: APIService
 
-  private constructor() {
+  private constructor () {
     // default for all requests
   }
 
-  getAllVotes() {
-    return httpService.get(this.dummyURL + "vote");
+  getAllVotes () {
+    return httpService.get(this.config!.serverURL + 'vote')
   }
 
-  getCurrentPoll() {
-    return httpService.get(
-      "http://activevoteserver.deverall.co.nz/currentpoll/"
-    );
+  getCurrentPoll () {
+    return httpService.get(this.config!.serverURL + '/currentpoll/')
   }
 
-  getAllPolls() {
-    return httpService.get("http://activevoteserver.deverall.co.nz/poll/");
+  getAllPolls () {
+    return httpService.get(this.config!.serverURL + '/poll/')
   }
 
-  getPollById(id: string) {
-    return httpService.get("http://activevoteserver.deverall.co.nz/poll/" + id);
+  getPollById (id: string) {
+    return httpService.get(this.config!.serverURL + '/poll/' + id)
   }
 
-  getAllSongs() {
-    return httpService.get("http://activevoteserver.deverall.co.nz/song");
+  getAllSongs () {
+    return httpService.get(this.config!.serverURL + '/song')
   }
 
-  deleteSong(songId: string): any {
-    return httpService.delete(
-      `http://activevoteserver.deverall.co.nz/song/${songId}`
-    );
+  deleteSong (songId: string): any {
+    return httpService.delete(this.config!.serverURL + '/' + songId)
   }
 
-  addNewSong(song: INewSong) {
-    return httpService.post(
-      "http://activevoteserver.deverall.co.nz/song",
-      song
-    );
+  addNewSong (song: INewSong) {
+    return httpService.post(this.config!.serverURL + '/song', song)
   }
 
-  postSubmitVote(email: string, songId: string, pollId: string) {
-    return httpService.post("http://activevoteserver.deverall.co.nz/vote", {
+  postSubmitVote (email: string, songId: string, pollId: string) {
+    return httpService.post(this.config!.serverURL + '/vote', {
       email: email,
       songId: songId,
       pollId: pollId
-    });
+    })
   }
-  addNewPoll(
+  addNewPoll (
     name: string,
     songIds: string[],
     startDateTime: string,
     endDateTime: string
   ) {
-    return httpService.post("http://activevoteserver.deverall.co.nz/poll", {
+    return httpService.post(this.config!.serverURL + '/poll', {
       name: name,
       songIds: songIds,
       startDateTime: startDateTime,
       endDateTime: endDateTime
-    });
+    })
   }
 
-  deletePoll(pollId: string) {
-    return httpService.delete(
-      `http://activevoteserver.deverall.co.nz/poll/${pollId}`
-    );
+  deletePoll (pollId: string) {
+    return httpService.delete(`${this.config!.serverURL}/poll/${pollId}`)
   }
 
-  editPoll(
+  editPoll (
     name: string,
     songIds: string[],
     startDateTime: string,
     endDateTime: string,
     pollId: string
   ) {
-    return httpService.put(
-      `http://activevoteserver.deverall.co.nz/poll/${pollId}`,
-      {
-        name: name,
-        songIds: songIds,
-        startDateTime: startDateTime,
-        endDateTime: endDateTime
-      }
-    );
+    return httpService.put(`${this.config!.serverURL}/poll/${pollId}`, {
+      name: name,
+      songIds: songIds,
+      startDateTime: startDateTime,
+      endDateTime: endDateTime
+    })
   }
-  addNewUser(newUser: INewUser) {
-    return httpService.post(
-      `http://activevoteserver.deverall.co.nz/user`,
-      newUser
-    );
+  addNewUser (newUser: INewUser) {
+    return httpService.post(`${this.config!.serverURL}/user`, newUser)
   }
 
-  uploadImage(blob: Blob) {
+  uploadImage (blob: Blob) {
     return httpService.postFormData(
-      `http://activevoteserver.deverall.co.nz/album-art-upload`,
+      `${this.config!.serverURL}/album-art-upload`,
       blob
-    );
+    )
   }
 }
 
-export default APIService.getInstance();
+export default APIService.getInstance()

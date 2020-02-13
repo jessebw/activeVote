@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import userService from "../services/userService";
-import { useStateValue } from "../state/stateContext";
+import { useGlobalState } from "../state/stateContext";
 import { Redirect } from "react-router-dom";
 import styled from "styled-components";
 import { theme } from "../styles/theme";
@@ -59,7 +59,7 @@ const ErrorMsg = styled.p`
 const LoginBtn = styled.button``;
 
 export const Login = () => {
-  const [globalState, dispatch] = useStateValue();
+  const [globalState, dispatch] = useGlobalState();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loginError, setLoginError] = useState<boolean>(false);

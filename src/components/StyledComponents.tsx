@@ -37,34 +37,39 @@ export const FormModalSelection = styled.div`
   letter-spacing: 3px;
   font-size: 1.2em;
   font-weight: bold;
-  margin-bottom: 3em;
+  margin-bottom: 2em;
 `;
 
 export const EmailInput = styled.input`
-  width: 80%;
+  width: 60%;
   border: 0 solid #000;
-  border-bottom: 1px dotted #000;
+  border-bottom: 1px dashed #000;
   border-radius: 4px;
   text-align: center;
   line-height: 2em;
+  font-size: 1.5em;
   :focus {
     outline: 0;
   }
 `;
 
-export const SubmitButton = styled.button`
+export const SubmitButton = styled.div`
   /* color: blue; */
   width: 100%;
   border: 0 solid #000;
   border-radius: 4px;
   line-height: 2em;
-  font-size: 20px;
-
+  font-size: 50px;
   color: #000;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
   /* background-color: #3f7b96; */
   background-color: #fff;
   :focus {
     outline: 0;
+  }
+  :hover {
+    color: red;
   }
 `;
 
@@ -72,8 +77,8 @@ export const CancelButton = styled.div`
   width: 25px;
   height: 25px;
   position: absolute;
-  top: -23px;
-  right: -23px;
+  top: 23px;
+  right: 23px;
   margin: auto;
   cursor: pointer;
 `;

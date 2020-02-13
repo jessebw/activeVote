@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import {
   HashRouter as Router,
@@ -11,13 +11,15 @@ import { Dashboard } from "./pages/dashboard/Dashboard";
 import { Login } from "./pages/Login";
 import userService from "./services/userService";
 import { GlobalState } from "./state/globalState";
-import { useStateValue } from "./state/stateContext";
+import { useGlobalState } from "./state/stateContext";
 import { TStateAction, IVote } from "./interfaces";
+import apiService from "./services/apiService";
+import httpService from "./services/httpService";
 
 // const isTheGuyLoggedIn: boolean = false;
 
 const PrivateRoute: any = ({ component: Component, ...rest }: any) => {
-  const [globalState, dispatch] = useStateValue();
+  const [globalState, dispatch] = useGlobalState();
 
   return (
     <Route
@@ -37,7 +39,7 @@ const PrivateRoute: any = ({ component: Component, ...rest }: any) => {
 // local storage = keeps data accross sessions opening and closing
 
 const AppContent = () => {
-  const [globalState, dispatch] = useStateValue();
+  const [globalState, dispatch] = useGlobalState();
   useEffect(() => {
     const sessionState = userService.readSessionState();
     if (dispatch == null) {
@@ -62,9 +64,25 @@ const AppContent = () => {
 };
 
 export const App = () => {
-  return (
-    <GlobalState>
-      <AppContent />
-    </GlobalState>
-  );
+  const [globalState, dispatch] = useGlobalState();
+  const [appReady, setAppReady] = useState<boolean>(false);
+
+  useEffect(() => {
+    fetch("/app.config.json")
+      .then(response => {
+        return response.json();
+      })
+      .then(config => {
+        dispatch({
+          type: "setConfig",
+          payload: config
+        });
+        apiService.setConfig(config);
+        userService.setConfig(config);
+        httpService.setConfig(config);
+        setAppReady(true);
+      });
+  }, []);
+
+  return <GlobalState>{appReady && <AppContent />}</GlobalState>;
 };
