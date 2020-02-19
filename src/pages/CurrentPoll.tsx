@@ -14,6 +14,7 @@ import {
 } from "../components/StyledComponents";
 import logoBlack from "../assets/images/activeLogoBlack.png";
 import { useGlobalState } from "../state/stateContext";
+import configService from "../services/configService";
 
 const GridWrapper = styled.div`
   background-color: #0c0c0c;
@@ -70,6 +71,7 @@ const VoteItem = styled.div<{ imagePath: string }>`
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
     }
   }
 `;
@@ -142,6 +144,27 @@ export const CurrentPoll = () => {
   const VoteForm = () => {
     const [email, setEmail] = useState<string>("");
     // * help here *
+
+    const [globalState, dispatch] = useGlobalState();
+
+    const ModalImage = styled.div<{ imagePath: string }>`
+      width: 100px;
+      height: 100px;
+      background-image: url(${props => props.imagePath});
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+    `;
+
+    const ImagePath = () => {
+      return voteItems.reduce((accumulator: string, value: IVoteItem) => {
+        if (value._id === voteSong) {
+          return `${value.image}`;
+        }
+        return accumulator;
+      }, "");
+    };
+
     return (
       <FormModal>
         <div>
@@ -153,8 +176,16 @@ export const CurrentPoll = () => {
             <LeftRight />
             <RightLeft />
           </CancelButton>
+          {/* <modalImage
+            imagePath={configService.getConfig()!.serverURL + "/" + ImagePath()}
+          /> */}
+
+          <ModalImage
+            imagePath={configService.getConfig()!.serverURL + "/" + ImagePath()}
+          ></ModalImage>
+
           <p>Please enter your email address to submit vote.</p>
-          {/* // * help Here */}
+
           <FormModalSelection>
             {voteItems.reduce((accumulator: string, value: IVoteItem) => {
               if (value._id === voteSong) {

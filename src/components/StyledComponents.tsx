@@ -5,7 +5,7 @@ export const FormModal = styled.div`
     border-radius: 4px;
     position: fixed;
     width: 80%;
-    height: 50%;
+    height: 80%;
     top: 50%;
     left: 50%;
     /* background: rgba(255, 255, 255, 0.5); */
@@ -70,6 +70,7 @@ export const SubmitButton = styled.div`
   }
   :hover {
     color: red;
+    cursor: pointer;
   }
 `;
 
