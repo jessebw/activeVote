@@ -8,6 +8,7 @@ export const reducer = (
   prevState: IGlobalState,
   action: TStateAction
 ): IGlobalState => {
+  console.log(action);
   switch (action.type) {
     case "setAuth":
       return { ...prevState, auth: action.payload };

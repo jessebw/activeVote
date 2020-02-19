@@ -1,17 +1,13 @@
 import httpService from './httpService'
-import { INewSong, INewUser, IConfig } from '../interfaces'
+import { INewSong, INewUser } from '../interfaces'
+import configService from './configService'
 
 class APIService {
-  private config?: IConfig
   static getInstance () {
     if (!APIService.instance) {
       APIService.instance = new APIService()
     }
     return APIService.instance
-  }
-
-  setConfig (config: IConfig) {
-    this.config = config
   }
 
   private static instance: APIService
@@ -21,35 +17,42 @@ class APIService {
   }
 
   getAllVotes () {
-    return httpService.get(this.config!.serverURL + 'vote')
+    return httpService.get(configService.getConfig()!.serverURL + 'vote')
   }
 
   getCurrentPoll () {
-    return httpService.get(this.config!.serverURL + '/currentpoll/')
+    return httpService.get(
+      configService.getConfig()!.serverURL + '/currentpoll/'
+    )
   }
 
   getAllPolls () {
-    return httpService.get(this.config!.serverURL + '/poll/')
+    return httpService.get(configService.getConfig()!.serverURL + '/poll/')
   }
 
   getPollById (id: string) {
-    return httpService.get(this.config!.serverURL + '/poll/' + id)
+    return httpService.get(configService.getConfig()!.serverURL + '/poll/' + id)
   }
 
   getAllSongs () {
-    return httpService.get(this.config!.serverURL + '/song')
+    return httpService.get(configService.getConfig()!.serverURL + '/song')
   }
 
   deleteSong (songId: string): any {
-    return httpService.delete(this.config!.serverURL + '/' + songId)
+    return httpService.delete(
+      configService.getConfig()!.serverURL + '/' + songId
+    )
   }
 
   addNewSong (song: INewSong) {
-    return httpService.post(this.config!.serverURL + '/song', song)
+    return httpService.post(
+      configService.getConfig()!.serverURL + '/song',
+      song
+    )
   }
 
   postSubmitVote (email: string, songId: string, pollId: string) {
-    return httpService.post(this.config!.serverURL + '/vote', {
+    return httpService.post(configService.getConfig()!.serverURL + '/vote', {
       email: email,
       songId: songId,
       pollId: pollId
@@ -61,7 +64,7 @@ class APIService {
     startDateTime: string,
     endDateTime: string
   ) {
-    return httpService.post(this.config!.serverURL + '/poll', {
+    return httpService.post(configService.getConfig()!.serverURL + '/poll', {
       name: name,
       songIds: songIds,
       startDateTime: startDateTime,
@@ -70,7 +73,9 @@ class APIService {
   }
 
   deletePoll (pollId: string) {
-    return httpService.delete(`${this.config!.serverURL}/poll/${pollId}`)
+    return httpService.delete(
+      `${configService.getConfig()!.serverURL}/poll/${pollId}`
+    )
   }
 
   editPoll (
@@ -80,20 +85,26 @@ class APIService {
     endDateTime: string,
     pollId: string
   ) {
-    return httpService.put(`${this.config!.serverURL}/poll/${pollId}`, {
-      name: name,
-      songIds: songIds,
-      startDateTime: startDateTime,
-      endDateTime: endDateTime
-    })
+    return httpService.put(
+      `${configService.getConfig()!.serverURL}/poll/${pollId}`,
+      {
+        name: name,
+        songIds: songIds,
+        startDateTime: startDateTime,
+        endDateTime: endDateTime
+      }
+    )
   }
   addNewUser (newUser: INewUser) {
-    return httpService.post(`${this.config!.serverURL}/user`, newUser)
+    return httpService.post(
+      `${configService.getConfig()!.serverURL}/user`,
+      newUser
+    )
   }
 
   uploadImage (blob: Blob) {
     return httpService.postFormData(
-      `${this.config!.serverURL}/album-art-upload`,
+      `${configService.getConfig()!.serverURL}/album-art-upload`,
       blob
     )
   }

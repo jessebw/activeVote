@@ -1,7 +1,7 @@
 import fetchIntercept from 'fetch-intercept'
 import userService from './userService'
 import jwtDecode from 'jwt-decode'
-import { IConfig } from '../interfaces'
+import configService from './configService'
 
 fetchIntercept.register({
   request: function (url, config = {}) {
@@ -35,17 +35,12 @@ fetchIntercept.register({
 })
 
 class HttpService {
-  private config?: IConfig
   static getInstance () {
     if (!HttpService.instance) {
       HttpService.instance = new HttpService()
     }
     // console.log('httpService Instance Given')
     return HttpService.instance
-  }
-
-  setConfig (config: IConfig) {
-    this.config = config
   }
 
   private static instance: HttpService
@@ -68,7 +63,7 @@ class HttpService {
           console.log('decoded token', decoded)
 
           return HttpService.getInstance()
-            .post(`${_this.config!.serverURL}/refreshtoken`, {
+            .post(`${configService.getConfig()!.serverURL}/refreshtoken`, {
               email: decoded.email,
               refreshToken: auth.refreshToken
             })

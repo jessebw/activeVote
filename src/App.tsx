@@ -15,6 +15,7 @@ import { useGlobalState } from "./state/stateContext";
 import { TStateAction, IVote } from "./interfaces";
 import apiService from "./services/apiService";
 import httpService from "./services/httpService";
+import configService from "./services/configService";
 
 // const isTheGuyLoggedIn: boolean = false;
 
@@ -40,6 +41,8 @@ const PrivateRoute: any = ({ component: Component, ...rest }: any) => {
 
 const AppContent = () => {
   const [globalState, dispatch] = useGlobalState();
+  const [appReady, setAppReady] = useState<boolean>(false);
+
   useEffect(() => {
     const sessionState = userService.readSessionState();
     if (dispatch == null) {
@@ -52,37 +55,40 @@ const AppContent = () => {
     }
   }, [sessionStorage.getItem("auth")]);
 
-  return (
-    <Router>
-      <Switch>
-        <Route exact path={"/"} component={CurrentPoll} />
-        <PrivateRoute path={"/dashboard"} component={Dashboard} />
-        <Route exact path={"/login"} component={Login} />
-      </Switch>
-    </Router>
-  );
-};
-
-export const App = () => {
-  const [globalState, dispatch] = useGlobalState();
-  const [appReady, setAppReady] = useState<boolean>(false);
-
   useEffect(() => {
     fetch("/app.config.json")
       .then(response => {
         return response.json();
       })
       .then(config => {
-        dispatch({
+        const configState: TStateAction = {
           type: "setConfig",
           payload: config
-        });
-        apiService.setConfig(config);
-        userService.setConfig(config);
-        httpService.setConfig(config);
-        setAppReady(true);
+        };
+        dispatch(configState);
+        configService.setConfig(config);
       });
   }, []);
 
-  return <GlobalState>{appReady && <AppContent />}</GlobalState>;
+  if (globalState.config && globalState.config.serverURL) {
+    return (
+      <Router>
+        <Switch>
+          <Route exact path={"/"} component={CurrentPoll} />
+          <PrivateRoute path={"/dashboard"} component={Dashboard} />
+          <Route exact path={"/login"} component={Login} />
+        </Switch>
+      </Router>
+    );
+  } else {
+    return <React.Fragment></React.Fragment>;
+  }
+};
+
+export const App = () => {
+  return (
+    <GlobalState>
+      <AppContent />
+    </GlobalState>
+  );
 };

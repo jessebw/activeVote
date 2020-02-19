@@ -1,5 +1,6 @@
 import httpService from './httpService'
-import { IAuth, IConfig } from '../interfaces'
+import { IAuth } from '../interfaces'
+import configService from './configService'
 
 class UserService {
   static getInstance () {
@@ -17,12 +18,6 @@ class UserService {
     this.readSessionState()
   }
 
-  private config?: IConfig
-
-  setConfig (config: IConfig) {
-    this.config = config
-  }
-
   readSessionState () {
     this.auth = JSON.parse(sessionStorage.getItem('auth') as string)
     return this.auth
@@ -30,7 +25,7 @@ class UserService {
 
   authenticateUser (email: string, password: string) {
     return httpService
-      .post(`${this.config!.serverURL}/authenticate`, {
+      .post(`${configService.getConfig()!.serverURL}/authenticate`, {
         email: email,
         password: password
       })
