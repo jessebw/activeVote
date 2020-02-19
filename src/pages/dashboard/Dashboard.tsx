@@ -3,7 +3,6 @@ import { Route } from "react-router-dom";
 import { Polls } from "./Polls";
 import { Stats } from "./Stats";
 import { Songs } from "./Songs";
-import { Votes } from "./Votes";
 import { CreateNewPoll } from "./CreateNewPoll";
 import { Users } from "./Users";
 import { EditPoll } from "./EditPoll";
@@ -36,7 +35,6 @@ export const Dashboard = () => {
         <Route path={`/dashboard/users`} component={Users} />
         <Route path={`/dashboard/create-new-poll`} component={CreateNewPoll} />
         <Route path={`/dashboard/songs`} component={Songs} />
-        <Route path={`/dashboard/votes`} component={Votes} />
         <Route path={`/dashboard/editpoll/:id`} component={EditPoll} />
       </div>
     </DashWrapper>

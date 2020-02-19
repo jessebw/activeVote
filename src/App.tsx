@@ -13,8 +13,6 @@ import userService from "./services/userService";
 import { GlobalState } from "./state/globalState";
 import { useGlobalState } from "./state/stateContext";
 import { TStateAction, IVote } from "./interfaces";
-import apiService from "./services/apiService";
-import httpService from "./services/httpService";
 import configService from "./services/configService";
 
 // const isTheGuyLoggedIn: boolean = false;
