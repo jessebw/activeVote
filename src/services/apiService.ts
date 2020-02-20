@@ -1,84 +1,86 @@
-import httpService from './httpService'
-import { INewSong, INewUser } from '../interfaces'
-import configService from './configService'
+import httpService from "./httpService";
+import { INewSong, INewUser, IPollResults } from "../interfaces";
+import configService from "./configService";
 
 class APIService {
-  static getInstance () {
+  static getInstance() {
     if (!APIService.instance) {
-      APIService.instance = new APIService()
+      APIService.instance = new APIService();
     }
-    return APIService.instance
+    return APIService.instance;
   }
 
-  private static instance: APIService
+  private static instance: APIService;
 
-  private constructor () {
+  private constructor() {
     // default for all requests
   }
 
-  getAllVotes () {
-    return httpService.get(configService.getConfig()!.serverURL + 'vote')
+  getAllVotes() {
+    return httpService.get(configService.getConfig()!.serverURL + "vote");
   }
 
-  getCurrentPoll () {
+  getCurrentPoll() {
     return httpService.get(
-      configService.getConfig()!.serverURL + '/currentpoll/'
-    )
+      configService.getConfig()!.serverURL + "/currentpoll/"
+    );
   }
 
-  getAllPolls () {
-    return httpService.get(configService.getConfig()!.serverURL + '/poll/')
+  getAllPolls() {
+    return httpService.get(configService.getConfig()!.serverURL + "/poll/");
   }
 
-  getPollById (id: string) {
-    return httpService.get(configService.getConfig()!.serverURL + '/poll/' + id)
+  getPollById(id: string) {
+    return httpService.get(
+      configService.getConfig()!.serverURL + "/poll/" + id
+    );
   }
 
-  getAllSongs () {
-    return httpService.get(configService.getConfig()!.serverURL + '/song')
+  getAllSongs() {
+    return httpService.get(configService.getConfig()!.serverURL + "/song");
   }
 
-  deleteSong (songId: string): any {
+  deleteSong(songId: string): any {
     return httpService.delete(
-      configService.getConfig()!.serverURL + '/' + songId
-    )
+      configService.getConfig()!.serverURL + "/" + songId
+    );
   }
 
-  addNewSong (song: INewSong) {
+  addNewSong(song: INewSong) {
     return httpService.post(
-      configService.getConfig()!.serverURL + '/song',
+      configService.getConfig()!.serverURL + "/song",
       song
-    )
+    );
   }
 
-  postSubmitVote (email: string, songId: string, pollId: string) {
-    return httpService.post(configService.getConfig()!.serverURL + '/vote', {
+  postSubmitVote(email: string, songId: string, pollId: string) {
+    return httpService.post(configService.getConfig()!.serverURL + "/vote", {
       email: email,
       songId: songId,
       pollId: pollId
-    })
+    });
   }
-  addNewPoll (
+  addNewPoll(
     name: string,
     songIds: string[],
     startDateTime: string,
     endDateTime: string
   ) {
-    return httpService.post(configService.getConfig()!.serverURL + '/poll', {
+    return httpService.post(configService.getConfig()!.serverURL + "/poll", {
       name: name,
       songIds: songIds,
       startDateTime: startDateTime,
       endDateTime: endDateTime
-    })
+    });
   }
 
-  deletePoll (pollId: string) {
+  deletePoll(pollId: string) {
     return httpService.delete(
       `${configService.getConfig()!.serverURL}/poll/${pollId}`
-    )
+    );
   }
 
-  editPoll (
+  editPoll(
     name: string,
     songIds: string[],
     startDateTime: string,
@@ -93,21 +95,29 @@ class APIService {
         startDateTime: startDateTime,
         endDateTime: endDateTime
       }
-    )
+    );
   }
-  addNewUser (newUser: INewUser) {
+  addNewUser(newUser: INewUser) {
     return httpService.post(
       `${configService.getConfig()!.serverURL}/user`,
       newUser
-    )
+    );
   }
 
-  uploadImage (blob: Blob) {
+  uploadImage(blob: Blob) {
     return httpService.postFormData(
       `${configService.getConfig()!.serverURL}/album-art-upload`,
       blob
-    )
+    );
+  }
+
+  pollResults(pollId: IPollResults) {
+    return httpService.get(
+      `${configService.getConfig()!.serverURL}/poll/${pollId}/results`
+    );
   }
 }
 
-export default APIService.getInstance()
+export default APIService.getInstance();
+
+// return httpService.get(configService.getConfig()!.serverURL + "/song");

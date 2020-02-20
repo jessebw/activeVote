@@ -1,7 +1,7 @@
 import React, { useEffect, useState, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
 import apiService from "../../services/apiService";
-import { IPoll } from "../../interfaces";
+import { IPoll, IPollResults } from "../../interfaces";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import { Redirect } from "react-router-dom";
@@ -12,6 +12,10 @@ const SelectPollList = styled.div`
 
 export const Polls = () => {
   const [pollItems, setPollItems] = useState<IPoll[]>([]);
+  const [pollResults, setPollResults] = useState<IPollResults>({ pollId: "" });
+  const [pollResultsViewOpen, setPollResultsViewOpen] = useState<boolean>(
+    false
+  );
 
   const updatePolls = () => {
     apiService.getAllPolls().then((polls: IPoll[]) => {
@@ -22,6 +26,22 @@ export const Polls = () => {
   useEffect(() => {
     updatePolls();
   }, []);
+
+  const pollResultsView = () => {
+    const PollView = styled.div``;
+    return (
+      <PollView>
+        <p>poll results view</p>
+        <button
+          onClick={(e: any) => {
+            setPollResultsViewOpen(false);
+          }}
+        >
+          close
+        </button>
+      </PollView>
+    );
+  };
 
   return (
     <div>
@@ -38,6 +58,15 @@ export const Polls = () => {
                 <Link to={"/dashboard/editpoll/" + poll._id}>
                   <button>edit</button>
                 </Link>
+                <button>Votes</button>
+                <button
+                  onClick={(e: any) => {
+                    console.log(poll._id);
+                    setPollResultsViewOpen(!pollResultsViewOpen);
+                  }}
+                >
+                  Results
+                </button>
                 <button
                   onClick={(e: any) => {
                     apiService.deletePoll(poll._id).then(
@@ -53,10 +82,12 @@ export const Polls = () => {
                   delete
                 </button>
               </nav>
+              {/* {pollResultsView()} */}
             </SelectPollList>
           );
         })}
       </div>
+      {pollResultsViewOpen === true && pollResultsView()}
     </div>
   );
 };
