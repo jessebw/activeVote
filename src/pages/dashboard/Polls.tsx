@@ -1,7 +1,7 @@
 import React, { useEffect, useState, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
 import apiService from "../../services/apiService";
-import { IPoll, IPollResults } from "../../interfaces";
+import { IPoll, IPollResult } from "../../interfaces";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import { Redirect } from "react-router-dom";
@@ -12,7 +12,7 @@ const SelectPollList = styled.div`
 
 export const Polls = () => {
   const [pollItems, setPollItems] = useState<IPoll[]>([]);
-  const [pollResults, setPollResults] = useState<IPollResults>({ pollId: "" });
+  const [pollResults, setPollResults] = useState<any>({ pollId: "" });
   const [pollResultsViewOpen, setPollResultsViewOpen] = useState<boolean>(
     false
   );
@@ -27,7 +27,7 @@ export const Polls = () => {
     updatePolls();
   }, []);
 
-  const pollResultsView = (pollResults: IPollResults) => {
+  const pollResultsView = (pollResults: IPollResult) => {
     const PollView = styled.div``;
     return (
       <PollView>

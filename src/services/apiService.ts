@@ -1,5 +1,5 @@
 import httpService from "./httpService";
-import { INewSong, INewUser, IPollResults } from "../interfaces";
+import { INewSong, INewUser } from "../interfaces";
 import configService from "./configService";
 
 class APIService {
@@ -111,7 +111,7 @@ class APIService {
     );
   }
 
-  pollResults(pollId: IPollResults) {
+  pollResults(pollId: string) {
     return httpService.get(
       `${configService.getConfig()!.serverURL}/poll/${pollId}/results`
     );
