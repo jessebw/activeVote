@@ -1,7 +1,6 @@
 import React from "react";
 import { Route } from "react-router-dom";
 import { Polls } from "./Polls";
-import { Stats } from "./Stats";
 import { Songs } from "./Songs";
 import { CreateNewPoll } from "./CreateNewPoll";
 import { Users } from "./Users";
@@ -31,7 +30,6 @@ export const Dashboard = () => {
       <ToastContainer />
       <div className="view-panel">
         <Route path={`/dashboard/polls`} component={Polls} />
-        <Route path={`/dashboard/stats`} component={Stats} />
         <Route path={`/dashboard/users`} component={Users} />
         <Route path={`/dashboard/create-new-poll`} component={CreateNewPoll} />
         <Route path={`/dashboard/songs`} component={Songs} />
