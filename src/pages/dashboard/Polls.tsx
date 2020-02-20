@@ -27,11 +27,12 @@ export const Polls = () => {
     updatePolls();
   }, []);
 
-  const pollResultsView = () => {
+  const pollResultsView = (pollResults: IPollResults) => {
     const PollView = styled.div``;
     return (
       <PollView>
         <p>poll results view</p>
+        {pollResults.pollId}
         <button
           onClick={(e: any) => {
             setPollResultsViewOpen(false);
@@ -61,7 +62,9 @@ export const Polls = () => {
                 <button>Votes</button>
                 <button
                   onClick={(e: any) => {
-                    console.log(poll._id);
+                    console.log("A", poll._id);
+                    // need to set the pollResult to the pollId for the API service
+                    // setPollResults(pollResults.pollId)
                     setPollResultsViewOpen(!pollResultsViewOpen);
                   }}
                 >
@@ -87,7 +90,8 @@ export const Polls = () => {
           );
         })}
       </div>
-      {pollResultsViewOpen === true && pollResultsView()}
+      {console.log("B", pollResults.pollId)}
+      {pollResultsViewOpen === true && pollResultsView(pollResults)}
     </div>
   );
 };
