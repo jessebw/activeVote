@@ -47,7 +47,6 @@ export const SideMenu = () => {
         <Link to="/dashboard/create-new-poll">Create New Poll</Link>
         <Link to="/dashboard/polls">Polls</Link>
         <Link to="/dashboard/songs">Songs</Link>
-        <Link to="/dashboard/stats">Stats</Link>
         <Link to="/dashboard/users">Users</Link>
       </NavMenu>
       <LogoutButton
