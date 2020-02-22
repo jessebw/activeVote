@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import apiService from "../../services/apiService";
 import { IPollResult, IPoll } from "../../interfaces";
 import styled from "styled-components";
+import moment from "moment";
 
 import {
   BarChart,
@@ -19,12 +20,14 @@ const WrapperDiv = styled.div`
   height: 100%;
   width: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 `;
 
 export const PollResults = () => {
   const [results, setResults] = useState<IPollResult[]>();
+  const [poll, setPoll] = useState<IPoll>();
   const [chartSize, setChartSize] = useState<{ width: number; height: number }>(
     { width: 0, height: 0 }
   );
@@ -55,6 +58,7 @@ export const PollResults = () => {
   useEffect(() => {
     apiService.pollResults(pollId as string).then((results: any) => {
       return apiService.getPollById(pollId as string).then((poll: IPoll) => {
+        setPoll(poll);
         const resultSet = Object.keys(results).map(
           (key: any): IPollResult => {
             const song = poll.songs.find(song => song._id === key);
@@ -72,6 +76,11 @@ export const PollResults = () => {
   }, []);
   return (
     <WrapperDiv ref={ref}>
+      <h1>{poll && poll.name}</h1>
+      <p>
+        Ends:{" "}
+        {poll && moment(poll.endDateTime).format("MMMM Do YYYY, h:mm:ss a")}
+      </p>
       <BarChart
         width={chartSize.width}
         height={chartSize.height}
