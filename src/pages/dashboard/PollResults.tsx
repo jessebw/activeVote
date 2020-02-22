@@ -2,6 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import apiService from "../../services/apiService";
 import { IPollResult, IPoll } from "../../interfaces";
+
+import {
+  BarChart,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Bar,
+  Legend,
+  Tooltip
+} from "recharts";
+
 export const PollResults = () => {
   const [results, setResults] = useState<IPollResult[]>();
   const { pollId } = useParams();
@@ -25,15 +36,24 @@ export const PollResults = () => {
   }, []);
   return (
     <div>
-      {results &&
-        results.map(result => {
-          return (
-            <div key={result.songId}>
-              <h1>{result.songName}</h1>
-              <h3>{result.votes}</h3>
-            </div>
-          );
-        })}
+      <BarChart
+        width={500}
+        height={300}
+        data={results}
+        margin={{
+          top: 5,
+          right: 30,
+          left: 20,
+          bottom: 5
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="songName" />
+        <YAxis dataKey="votes" />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="votes" fill="#8884d8" />
+      </BarChart>
     </div>
   );
 };

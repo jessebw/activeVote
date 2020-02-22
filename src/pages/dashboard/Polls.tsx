@@ -12,7 +12,7 @@ const SelectPollList = styled.div`
 
 export const Polls = () => {
   const [pollItems, setPollItems] = useState<IPoll[]>([]);
-  const [pollResults, setPollResults] = useState<any>({ pollId: "" });
+  const [showResultsFor, setShowResultsFor] = useState<string>();
   const [pollResultsViewOpen, setPollResultsViewOpen] = useState<boolean>(
     false
   );
@@ -27,22 +27,9 @@ export const Polls = () => {
     updatePolls();
   }, []);
 
-  const pollResultsView = (pollResults: IPollResult) => {
-    const PollView = styled.div``;
-    return (
-      <PollView>
-        <p>poll results view</p>
-        {pollResults.pollId}
-        <button
-          onClick={(e: any) => {
-            setPollResultsViewOpen(false);
-          }}
-        >
-          close
-        </button>
-      </PollView>
-    );
-  };
+  if (showResultsFor) {
+    return <Redirect to="/dashboard/results/{showResultsFor}"></Redirect>;
+  }
 
   return (
     <div>
@@ -53,7 +40,6 @@ export const Polls = () => {
         {pollItems.map((poll: IPoll) => {
           return (
             <SelectPollList key={poll._id}>
-              {/* {console.log("DATE:" + dateFormatted())} */}
               <p>{`${poll.name} - ${poll.createdDateTime}`}</p>
               <nav>
                 <Link to={"/dashboard/editpoll/" + poll._id}>
@@ -62,10 +48,7 @@ export const Polls = () => {
                 <button>Votes</button>
                 <button
                   onClick={(e: any) => {
-                    console.log("A", poll._id);
-                    // need to set the pollResult to the pollId for the API service
-                    // setPollResults(pollResults.pollId)
-                    setPollResultsViewOpen(!pollResultsViewOpen);
+                    setShowResultsFor(poll._id);
                   }}
                 >
                   Results
@@ -85,13 +68,10 @@ export const Polls = () => {
                   delete
                 </button>
               </nav>
-              {/* {pollResultsView()} */}
             </SelectPollList>
           );
         })}
       </div>
-      {console.log("B", pollResults.pollId)}
-      {pollResultsViewOpen === true && pollResultsView(pollResults)}
     </div>
   );
 };
