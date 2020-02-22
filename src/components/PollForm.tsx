@@ -120,7 +120,6 @@ export const PollForm = (props: {
     }
 
     if (source.droppableId === destination.droppableId) {
-      console.log("reOrder", source.droppableId);
       const list =
         source.droppableId === "songPool" ? [...songItems] : [...chosenItems];
       const callBack =

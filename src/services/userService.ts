@@ -1,29 +1,29 @@
-import httpService from './httpService'
-import { IAuth } from '../interfaces'
-import configService from './configService'
+import httpService from "./httpService";
+import { IAuth } from "../interfaces";
+import configService from "./configService";
 
 class UserService {
-  static getInstance () {
+  static getInstance() {
     if (!UserService.instance) {
-      UserService.instance = new UserService()
+      UserService.instance = new UserService();
     }
 
-    return UserService.instance
+    return UserService.instance;
   }
 
-  private static instance: UserService
-  public auth?: IAuth
+  private static instance: UserService;
+  public auth?: IAuth;
 
-  private constructor () {
-    this.readSessionState()
+  private constructor() {
+    this.readSessionState();
   }
 
-  readSessionState () {
-    this.auth = JSON.parse(sessionStorage.getItem('auth') as string)
-    return this.auth
+  readSessionState() {
+    this.auth = JSON.parse(sessionStorage.getItem("auth") as string);
+    return this.auth;
   }
 
-  authenticateUser (email: string, password: string) {
+  authenticateUser(email: string, password: string) {
     return httpService
       .post(`${configService.getConfig()!.serverURL}/authenticate`, {
         email: email,
@@ -31,12 +31,11 @@ class UserService {
       })
 
       .then(defineAuth => {
-        this.auth = defineAuth
-        sessionStorage.setItem('auth', JSON.stringify(defineAuth))
-        // console.log("token", this.auth && this.auth.token);
-        return defineAuth
-      })
+        this.auth = defineAuth;
+        sessionStorage.setItem("auth", JSON.stringify(defineAuth));
+        return defineAuth;
+      });
   }
 }
 
-export default UserService.getInstance()
+export default UserService.getInstance();

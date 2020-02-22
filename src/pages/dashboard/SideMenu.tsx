@@ -1,6 +1,6 @@
 import React from "react";
 import { useGlobalState } from "../../state/stateContext";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { UserStatus } from "../../components/StyledComponents";
 
@@ -24,6 +24,10 @@ const MenuComponent = styled.div`
 
 const NavMenu = styled.nav`
   margin: 50% 50px 0 50px;
+  .active {
+    font-weight: bold;
+    color: dodgerblue;
+  }
 `;
 
 const LogoutButton = styled.div`
@@ -44,10 +48,12 @@ export const SideMenu = () => {
   return (
     <MenuComponent>
       <NavMenu>
-        <Link to="/dashboard/create-new-poll">Create New Poll</Link>
-        <Link to="/dashboard/polls">Polls</Link>
-        <Link to="/dashboard/songs">Songs</Link>
-        <Link to="/dashboard/users">Users</Link>
+        <NavLink activeClassName="active" to="/dashboard/create-new-poll">
+          Create New Poll
+        </NavLink>
+        <NavLink to="/dashboard/polls">Polls</NavLink>
+        <NavLink to="/dashboard/songs">Songs</NavLink>
+        <NavLink to="/dashboard/users">Users</NavLink>
       </NavMenu>
       <LogoutButton
         onClick={(e: any) => {

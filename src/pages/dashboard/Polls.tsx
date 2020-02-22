@@ -32,7 +32,6 @@ export const Polls = () => {
         {pollItems.map((poll: IPoll) => {
           return (
             <SelectPollList key={poll._id}>
-              {/* {console.log("DATE:" + dateFormatted())} */}
               <p>{`${poll.name} - ${poll.createdDateTime}`}</p>
               <nav>
                 <Link to={"/dashboard/editpoll/" + poll._id}>
