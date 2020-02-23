@@ -8,6 +8,7 @@ import { EditPoll } from "./EditPoll";
 import { SideMenu } from "./SideMenu";
 import styled from "styled-components";
 import { ToastContainer } from "react-toastify";
+import { PollResults } from "./PollResults";
 import "react-toastify/dist/ReactToastify.css";
 
 const DashWrapper = styled.div`
@@ -34,6 +35,7 @@ export const Dashboard = () => {
         <Route path={`/dashboard/create-new-poll`} component={CreateNewPoll} />
         <Route path={`/dashboard/songs`} component={Songs} />
         <Route path={`/dashboard/editpoll/:id`} component={EditPoll} />
+        <Route path={`/dashboard/results/:pollId`} component={PollResults} />
       </div>
     </DashWrapper>
   );

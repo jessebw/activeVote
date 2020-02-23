@@ -103,20 +103,15 @@ class APIService {
       newUser
     );
   }
-  deleteUser(email: string) {
-    return httpService.delete(`${configService.getConfig()!.serverURL}/user`, {
-      email: email
-    });
-  }
-  getAllUsers() {
-    return httpService.get(`${configService.getConfig()!.serverURL}/user`);
-  }
+
   uploadImage(blob: Blob) {
     return httpService.postFormData(
       `${configService.getConfig()!.serverURL}/album-art-upload`,
       blob
     );
+
   }
 }
 
 export default APIService.getInstance();
+

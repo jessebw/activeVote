@@ -1,7 +1,7 @@
 import React, { useEffect, useState, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
 import apiService from "../../services/apiService";
-import { IPoll } from "../../interfaces";
+import { IPoll, IPollResult } from "../../interfaces";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import { Redirect } from "react-router-dom";
@@ -12,6 +12,7 @@ const SelectPollList = styled.div`
 
 export const Polls = () => {
   const [pollItems, setPollItems] = useState<IPoll[]>([]);
+  const [resultsPoll, setResultsPoll] = useState<IPoll>();
 
   const updatePolls = () => {
     apiService.getAllPolls().then((polls: IPoll[]) => {
@@ -22,6 +23,10 @@ export const Polls = () => {
   useEffect(() => {
     updatePolls();
   }, []);
+
+  if (resultsPoll) {
+    return <Redirect to={`/dashboard/results/${resultsPoll._id}`} />;
+  }
 
   return (
     <div>
@@ -37,6 +42,14 @@ export const Polls = () => {
                 <Link to={"/dashboard/editpoll/" + poll._id}>
                   <button>edit</button>
                 </Link>
+                <button>Votes</button>
+                <button
+                  onClick={(e: any) => {
+                    setResultsPoll(poll);
+                  }}
+                >
+                  Results
+                </button>
                 <button
                   onClick={(e: any) => {
                     apiService.deletePoll(poll._id).then(

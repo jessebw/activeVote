@@ -24,6 +24,7 @@ class UserService {
   }
 
   authenticateUser(email: string, password: string) {
+
     return httpService
       .post(`${configService.getConfig()!.serverURL}/authenticate`, {
         email: email,
@@ -33,6 +34,7 @@ class UserService {
       .then(defineAuth => {
         this.auth = defineAuth;
         sessionStorage.setItem("auth", JSON.stringify(defineAuth));
+
         return defineAuth;
       });
   }
