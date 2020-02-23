@@ -108,7 +108,6 @@ const VoteItemWrapper = (props: {
         <VoteButton
           className="vote-btn"
           onClick={(e: MouseEvent) => {
-            console.log("show form");
             props.onVote(props.data._id);
           }}
         >
@@ -137,13 +136,14 @@ export const CurrentPoll = () => {
         setVoteItems(poll.songs);
       })
       .catch(err => {
+        // TODO: Add some fallback if the app has no current poll!
         console.log("error happened", err);
       });
   }, []);
 
   const VoteForm = () => {
     const [email, setEmail] = useState<string>("");
-    // * help here *
+    // * help here * ?
 
     const [globalState, dispatch] = useGlobalState();
 
@@ -204,11 +204,9 @@ export const CurrentPoll = () => {
           />
           <SubmitButton
             onClick={(e: any) => {
-              console.log("Submit Clicked");
               apiService
                 .postSubmitVote(email, voteSong as string, currentPoll!._id)
                 .then(data => {
-                  console.log("second log", data);
                   alert("thanks for Voting");
                   setVoteFormOpen(false);
                 });
