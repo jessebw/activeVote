@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SubmitButton } from "../../components/StyledComponents";
-import { INewUser } from "../../interfaces";
+import { INewUser, IUser } from "../../interfaces";
 import apiService from "../../services/apiService";
 import { toast } from "react-toastify";
 
@@ -63,6 +63,53 @@ export const Users = () => {
           </SubmitButton>
         </form>
       )}
+
+      <UsersList></UsersList>
     </div>
+  );
+};
+
+const UsersList = () => {
+  const [users, setUsers] = useState<IUser[]>([]);
+
+  useEffect(() => {
+    apiService.getAllUsers().then((users: IUser[]) => {
+      setUsers(users);
+    });
+  }, []);
+
+  const deleteUser = (user: IUser) => {
+    if (confirm(`Are you sure you want to delete ${user.email}?`)) {
+      apiService.deleteUser(user.email).then(() => {
+        apiService.getAllUsers().then((users: IUser[]) => {
+          setUsers(users);
+        });
+      });
+    }
+  };
+
+  return (
+    <table>
+      <tr>
+        <th>Email</th>
+        <th>Id</th>
+      </tr>
+      {users &&
+        users.map(user => (
+          <tr>
+            <td>{user.email}</td>
+            <td>{user._id}</td>
+            <td>
+              <button
+                onClick={() => {
+                  deleteUser(user);
+                }}
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        ))}
+    </table>
   );
 };
