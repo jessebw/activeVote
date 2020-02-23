@@ -3,11 +3,15 @@ import { SubmitButton } from "../../components/StyledComponents";
 import { INewUser, IUser } from "../../interfaces";
 import apiService from "../../services/apiService";
 import { toast } from "react-toastify";
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 
 export const Users = () => {
   const [isHidden, setIsHidden] = useState<boolean>(true);
   const [newUser, setNewUser] = useState<INewUser>({ email: "", password: "" });
   const [formVisible, setFormVisible] = useState<boolean>(false);
+  const [eyeHidden, setEyeHidden] = useState<boolean>(false);
+
+  const AddUserButton;
 
   return (
     <div>
@@ -45,7 +49,7 @@ export const Users = () => {
               setIsHidden(!isHidden);
             }}
           >
-            eye
+            <MdVisibilityOff />
           </span>
           <SubmitButton
             onClick={e => {

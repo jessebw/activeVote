@@ -77,3 +77,9 @@ export interface INewUser {
   email: string;
   password: string;
 }
+export interface IPollResult {
+  pollId: string;
+  songId: string;
+  votes: number;
+  songName: string;
+}

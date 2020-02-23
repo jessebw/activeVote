@@ -14,6 +14,7 @@ import {
   Legend,
   Tooltip
 } from "recharts";
+
 import { number } from "prop-types";
 
 const WrapperDiv = styled.div`

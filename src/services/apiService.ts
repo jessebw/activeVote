@@ -109,9 +109,22 @@ class APIService {
       `${configService.getConfig()!.serverURL}/album-art-upload`,
       blob
     );
+  }
 
+  pollResults(pollId: string) {
+    return httpService.get(
+      `${configService.getConfig()!.serverURL}/poll/${pollId}/results`
+    );
+  }
+
+  deleteUser(email: string) {
+    return httpService.delete(`${configService.getConfig()!.serverURL}/user`, {
+      email: email
+    });
+  }
+  getAllUsers() {
+    return httpService.get(`${configService.getConfig()!.serverURL}/user`);
   }
 }
 
 export default APIService.getInstance();
-
