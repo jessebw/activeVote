@@ -3,6 +3,7 @@ import userService from "./userService";
 import jwtDecode from "jwt-decode";
 import configService from "./configService";
 import { toast } from "react-toastify";
+import history from "../history";
 
 fetchIntercept.register({
   request: function(url, config = {}) {
@@ -17,17 +18,13 @@ fetchIntercept.register({
   },
 
   requestError: function(error) {
-    // Called when an error occured during another 'request' interceptor call
     return Promise.reject(error);
   },
 
   response: function(response) {
-    // Modify the reponse objectteam
-    // console.log("response", response);
     return response;
   },
   responseError: function(error) {
-    // Handle an fetch error
     return Promise.reject(error);
   }
 });
@@ -62,6 +59,7 @@ class HttpService {
         },
         error => {
           sessionStorage.removeItem("auth");
+          history.push("/login");
         }
       );
   }
@@ -159,13 +157,14 @@ class HttpService {
     });
   }
 
-  delete(url: string) {
+  delete(url: string, body?: any) {
     const _this = this;
     const options = {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
-      }
+      },
+      body: JSON.stringify(body)
     };
     return fetch(url, options).then(function(response) {
       if (response.status !== 200) {
