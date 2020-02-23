@@ -1,169 +1,187 @@
-import fetchIntercept from 'fetch-intercept'
-import userService from './userService'
-import jwtDecode from 'jwt-decode'
-import configService from './configService'
+import fetchIntercept from "fetch-intercept";
+import userService from "./userService";
+import jwtDecode from "jwt-decode";
+import configService from "./configService";
+import { toast } from "react-toastify";
+import history from "../history";
 
 fetchIntercept.register({
-  request: function (url, config = {}) {
-    const auth = userService.auth
-    // console.log("auth", auth);
-    // console.log("authConfig:", config);
+  request: function(url, config = {}) {
+    const auth = userService.auth;
     if (auth) {
       config.headers = {
         ...config.headers,
-        Authorization: 'Bearer ' + auth.token
-      }
-      // console.log('token', auth.token)
+        Authorization: "Bearer " + auth.token
+      };
     }
-    return [url, config]
+    return [url, config];
   },
 
-  requestError: function (error) {
-    // Called when an error occured during another 'request' interceptor call
-    return Promise.reject(error)
+  requestError: function(error) {
+    return Promise.reject(error);
   },
 
-  response: function (response) {
-    // Modify the reponse objectteam
-    // console.log("response", response);
-    return response
+  response: function(response) {
+    return response;
   },
-  responseError: function (error) {
-    // Handle an fetch error
-    return Promise.reject(error)
+  responseError: function(error) {
+    return Promise.reject(error);
   }
-})
+});
 
 class HttpService {
-  static getInstance () {
+  static getInstance() {
     if (!HttpService.instance) {
-      HttpService.instance = new HttpService()
+      HttpService.instance = new HttpService();
     }
     // console.log('httpService Instance Given')
-    return HttpService.instance
+    return HttpService.instance;
   }
 
-  private static instance: HttpService
+  private static instance: HttpService;
 
-  private constructor () {
+  private constructor() {
     // default for all requests
   }
 
-  get (url: string) {
-    const _this = this
-    return fetch(url).then(function (response) {
-      if (response.status !== 200) {
-        console.log(
-          'Looks like there was a problem. Status Code: ' + response.status
-        )
-
-        if (response.status === 401) {
-          const auth = JSON.parse(sessionStorage.getItem('auth') as string)
-          const decoded: any = jwtDecode(auth.token)
-          console.log('decoded token', decoded)
-
-          return HttpService.getInstance()
-            .post(`${configService.getConfig()!.serverURL}/refreshtoken`, {
-              email: decoded.email,
-              refreshToken: auth.refreshToken
-            })
-            .then(data => {
-              sessionStorage.setItem('auth', JSON.stringify(data))
-              // console.log("token", this.auth && this.auth.token);
-              userService.readSessionState()
-              return fetch(url).then(successfullResponse => {
-                return successfullResponse.json().then(data => {
-                  console.log('refreshed Token', data)
-                  return data
-                })
-              })
-            })
+  refreshToken() {
+    const auth = JSON.parse(sessionStorage.getItem("auth") as string);
+    const decoded: any = jwtDecode(auth.token);
+    return HttpService.getInstance()
+      .post(`${configService.getConfig()!.serverURL}/refreshtoken`, {
+        email: decoded.email,
+        refreshToken: auth.refreshToken
+      })
+      .then(
+        data => {
+          sessionStorage.setItem("auth", JSON.stringify(data));
+          userService.readSessionState();
+        },
+        error => {
+          sessionStorage.removeItem("auth");
+          history.push("/login");
         }
-
-        return Promise.reject()
-      }
-
-      return response.json().then(data => {
-        // console.log(data)
-        return data
-      })
-    })
+      );
   }
 
-  post (url: string, bodyData: any) {
-    return fetch(url, {
-      body: JSON.stringify(bodyData),
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(function (response) {
+  get(url: string) {
+    const _this = this;
+    return fetch(url).then(function(response) {
       if (response.status !== 200) {
-        throw new Error(
-          'Looks like there was a problem. Status Code: ' + response.status
-        )
+        if (response.status === 401) {
+          return _this.refreshToken().then(() => {
+            return fetch(url).then(successfullResponse => {
+              return successfullResponse.json().then(data => {
+                return data;
+              });
+            });
+          });
+        }
+        return Promise.reject(response);
       }
+
       return response.json().then(data => {
-        // console.log(data)
-        return data
-      })
-    })
+        return data;
+      });
+    });
   }
 
-  postFormData (url: string, bodyData: any) {
+  post(url: string, bodyData: any): Promise<any> {
+    const _this = this;
+    const options = {
+      body: JSON.stringify(bodyData),
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+    return fetch(url, options).then(function(response) {
+      if (response.status !== 200) {
+        if (response.status === 401) {
+          return _this.refreshToken().then(() => {
+            return fetch(url, options).then(successfullResponse => {
+              return successfullResponse.json().then(data => {
+                return data;
+              });
+            });
+          });
+        }
+        return Promise.reject(response);
+      }
+      return response.json().then(data => {
+        return data;
+      });
+    });
+  }
+
+  postFormData(url: string, bodyData: any) {
     return fetch(url, {
       body: bodyData,
-      method: 'POST'
-    }).then(function (response) {
+      method: "POST"
+    }).then(function(response) {
       if (response.status !== 200) {
-        throw new Error(
-          'Looks like there was a problem. Status Code: ' + response.status
-        )
+        return Promise.reject(response);
       }
 
       return response.json().then(data => {
-        console.log(data)
-        return data
-      })
-    })
+        return data;
+      });
+    });
   }
 
-  put (url: string, bodyData: any) {
-    return fetch(url, {
+  put(url: string, bodyData: any) {
+    const _this = this;
+    const options = {
       body: JSON.stringify(bodyData),
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       }
-    }).then(function (response) {
+    };
+    return fetch(url, options).then(function(response) {
       if (response.status !== 200) {
-        console.log(
-          'Looks like there was a problem. Status Code: ' + response.status
-        )
-        return
+        if (response.status === 401) {
+          return _this.refreshToken().then(() => {
+            return fetch(url, options).then(successfullResponse => {
+              return successfullResponse.json().then(data => {
+                return data;
+              });
+            });
+          });
+        }
+        return Promise.reject(response);
       }
       return response.json().then(data => {
-        // console.log(data)
-        return data
-      })
-    })
+        return data;
+      });
+    });
   }
 
-  delete (url: string) {
-    return fetch(url, {
-      method: 'DELETE',
+  delete(url: string, body?: any) {
+    const _this = this;
+    const options = {
+      method: "DELETE",
       headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(function (response) {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    };
+    return fetch(url, options).then(function(response) {
       if (response.status !== 200) {
-        throw new Error(
-          'Looks like there was a problem. Status Code: ' + response.status
-        )
+        if (response.status === 401) {
+          return _this.refreshToken().then(() => {
+            return fetch(url, options).then(successfullResponse => {
+              return successfullResponse.json().then(data => {
+                return data;
+              });
+            });
+          });
+        }
+        return Promise.reject(response);
       }
-      return 'Successfully Deleted all of your data'
-    })
+      return "Successfully Deleted all of your data";
+    });
   }
 }
 
-export default HttpService.getInstance()
+export default HttpService.getInstance();

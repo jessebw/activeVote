@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import {
-  HashRouter as Router,
-  Route,
-  Switch,
-  Redirect
-} from "react-router-dom";
+import { Router, Route, Switch, Redirect } from "react-router-dom";
 import { CurrentPoll } from "./pages/CurrentPoll";
 import { Dashboard } from "./pages/dashboard/Dashboard";
 import { Login } from "./pages/Login";
@@ -14,6 +9,7 @@ import { GlobalState } from "./state/globalState";
 import { useGlobalState } from "./state/stateContext";
 import { TStateAction, IVote } from "./interfaces";
 import configService from "./services/configService";
+import history from "./history";
 
 // const isTheGuyLoggedIn: boolean = false;
 
@@ -70,7 +66,7 @@ const AppContent = () => {
 
   if (globalState.config && globalState.config.serverURL) {
     return (
-      <Router>
+      <Router history={history}>
         <Switch>
           <Route exact path={"/"} component={CurrentPoll} />
           <PrivateRoute path={"/dashboard"} component={Dashboard} />

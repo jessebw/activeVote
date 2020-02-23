@@ -70,14 +70,10 @@ export interface INewSong {
   image?: Blob;
 }
 
+export interface IUser extends INewUser {
+  _id: string;
+}
 export interface INewUser {
   email: string;
   password: string;
-}
-
-export interface IPollResult {
-  pollId: string;
-  songId: string;
-  votes: number;
-  songName: string;
 }

@@ -109,15 +109,9 @@ class APIService {
       `${configService.getConfig()!.serverURL}/album-art-upload`,
       blob
     );
-  }
 
-  pollResults(pollId: string) {
-    return httpService.get(
-      `${configService.getConfig()!.serverURL}/poll/${pollId}/results`
-    );
   }
 }
 
 export default APIService.getInstance();
 
-// return httpService.get(configService.getConfig()!.serverURL + "/song");

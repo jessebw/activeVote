@@ -130,7 +130,6 @@ export const Songs = () => {
           <SongSubmitButton
             className="songSubmitButton"
             onClick={() => {
-              console.log("HITTING API", formData);
               const _data = new FormData();
               _data.append("image", formData.image as Blob);
               apiService.uploadImage(_data as any).then((resp: any) => {
