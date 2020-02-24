@@ -4,6 +4,7 @@ import { INewUser, IUser } from "../../interfaces";
 import apiService from "../../services/apiService";
 import { toast } from "react-toastify";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+import styled from "styled-components";
 
 export const Users = () => {
   const [isHidden, setIsHidden] = useState<boolean>(true);
@@ -11,17 +12,22 @@ export const Users = () => {
   const [formVisible, setFormVisible] = useState<boolean>(false);
   const [eyeHidden, setEyeHidden] = useState<boolean>(false);
 
-  const AddUserButton;
+  const AddUserButton = styled.div`
+    :hover {
+      cursor: pointer;
+      color: red;
+    }
+  `;
 
   return (
     <div>
-      <SubmitButton
+      <AddUserButton
         onClick={e => {
           setFormVisible(!formVisible);
         }}
       >
         Add User
-      </SubmitButton>
+      </AddUserButton>
       {formVisible && (
         <form>
           <input
@@ -47,9 +53,11 @@ export const Users = () => {
           <span
             onClick={e => {
               setIsHidden(!isHidden);
+              setEyeHidden(!eyeHidden);
             }}
           >
-            <MdVisibilityOff />
+            {eyeHidden && <MdVisibility />}
+            {!eyeHidden && <MdVisibilityOff />}
           </span>
           <SubmitButton
             onClick={e => {
