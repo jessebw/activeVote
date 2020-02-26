@@ -116,11 +116,6 @@ export const UserStatus = styled.div`
 export const PollFormWrapper = styled.div`
   margin: 2em;
   button {
-    border-radius: 5px;
-    background-color: #5dade2;
-    color: #fff;
-    width: 7em;
-    line-height: 2em;
     :focus {
       outline: 0;
     }

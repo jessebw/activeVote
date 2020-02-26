@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import DatePicker from "react-datepicker";
-// import "react-datepicker/dist/react-datepicker.css";
+import "react-datepicker/dist/react-datepicker.css";
 import apiService from "../services/apiService";
 import { ISong } from "../interfaces";
 import {
@@ -33,6 +33,23 @@ const ListItem = (props: { song: ISong }) => {
     </StyledListItem>
   );
 };
+
+const DatePickerContainer = styled.div`
+  /* background-color: blue; */
+  display: flex;
+  > &:button {
+    /* width: 1em; */
+    background-color: green;
+  }
+`;
+
+const CustomButton = styled.button`
+  border-radius: 5px;
+  background-color: #5dade2;
+  color: #fff;
+  width: 7em;
+  line-height: 2em;
+`;
 
 const DroppableList = (props: { listId: string; listMap: ISong[] }) => (
   <Droppable droppableId={props.listId}>
@@ -169,37 +186,38 @@ export const PollForm = (props: {
             }}
           />
         </InputComponent>
-
-        <InputComponent>
-          Start Date:
-          <DatePicker
-            selected={startDate}
-            dateFormat="dd/MM/yyyy"
-            onChange={(date: Date) => {
-              setStartDate(date);
-            }}
-          />
-        </InputComponent>
-        <InputComponent>
-          End Date:
-          <DatePicker
-            selected={endDate}
-            dateFormat="dd/MM/yyyy"
-            onChange={(date: Date) => {
-              setEndDate(date);
-            }}
-          />
-        </InputComponent>
-        <button
+        <DatePickerContainer>
+          <InputComponent>
+            Start Date:
+            <DatePicker
+              selected={startDate}
+              dateFormat="dd/MM/yyyy"
+              onChange={(date: Date) => {
+                setStartDate(date);
+              }}
+            />
+          </InputComponent>
+          <InputComponent>
+            End Date:
+            <DatePicker
+              selected={endDate}
+              dateFormat="dd/MM/yyyy"
+              onChange={(date: Date) => {
+                setEndDate(date);
+              }}
+            />
+          </InputComponent>
+        </DatePickerContainer>
+        <CustomButton
           onClick={() => {
             submitForm();
           }}
         >
           {props.savingPoll ? "saving..." : "submit"}
-        </button>
+        </CustomButton>
 
         {props.pollId && (
-          <button
+          <CustomButton
             onClick={() => {
               props.pollId &&
                 apiService.deletePoll(props.pollId).then(
@@ -213,7 +231,7 @@ export const PollForm = (props: {
             }}
           >
             delete
-          </button>
+          </CustomButton>
         )}
       </PollFormWrapper>
       <DragDropContext onDragEnd={onDragEnd}>
