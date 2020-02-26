@@ -53,11 +53,11 @@ export const Users = () => {
           <span
             onClick={e => {
               setIsHidden(!isHidden);
-              setEyeHidden(!eyeHidden);
+              // setEyeHidden(!eyeHidden);
             }}
           >
-            {eyeHidden && <MdVisibility />}
-            {!eyeHidden && <MdVisibilityOff />}
+            {isHidden && <MdVisibility />}
+            {!isHidden && <MdVisibilityOff />}
           </span>
           <SubmitButton
             onClick={e => {
