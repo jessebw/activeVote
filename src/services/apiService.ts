@@ -17,7 +17,7 @@ class APIService {
   }
 
   getAllVotes() {
-    return httpService.get(configService.getConfig()!.serverURL + "vote");
+    return httpService.get(configService.getConfig()!.serverURL + "/vote");
   }
 
   getCurrentPoll() {
