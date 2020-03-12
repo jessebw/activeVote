@@ -1,47 +1,48 @@
-var HtmlWebpackPlugin = require("html-webpack-plugin");
-var path = require("path");
+var HtmlWebpackPlugin = require('html-webpack-plugin')
+var path = require('path')
 
 const htmlPluginObj = {
-  template: "./src/index.html",
-  filename: "./index.html"
-};
+  template: './src/index.html',
+  filename: './index.html',
+  favicon: './src/assets/images/favicon.ico'
+}
 
 module.exports = {
-  entry: "./src/index.tsx",
+  entry: './src/index.tsx',
   output: {
-    path: path.resolve(__dirname, "./dist"),
-    filename: "build.js"
+    path: path.resolve(__dirname, './dist'),
+    filename: 'build.js'
   },
-  devtool: "inline-source-map",
-  mode: "development",
+  devtool: 'inline-source-map',
+  mode: 'development',
   devServer: {
     historyApiFallback: true
   },
   module: {
     rules: [
       // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
-      { test: /\.tsx?$/, loader: "ts-loader" },
+      { test: /\.tsx?$/, loader: 'ts-loader' },
       {
         test: /\.scss$/,
         use: [
-          "style-loader", // creates style nodes from JS strings
-          "css-loader", // translates CSS into CommonJS
-          "sass-loader" // compiles Sass to CSS, using Node Sass by default
+          'style-loader', // creates style nodes from JS strings
+          'css-loader', // translates CSS into CommonJS
+          'sass-loader' // compiles Sass to CSS, using Node Sass by default
         ]
       },
       {
         test: /\.css$/,
         use: [
-          "style-loader", // creates style nodes from JS strings
-          "css-loader", // translates CSS into CommonJS
-          "sass-loader"
+          'style-loader', // creates style nodes from JS strings
+          'css-loader', // translates CSS into CommonJS
+          'sass-loader'
         ]
       },
       {
         test: /\.(png|jpg|gif|svg|ttf)$/i,
         use: [
           {
-            loader: "url-loader",
+            loader: 'url-loader',
             options: {
               limit: 8192
             }
@@ -52,8 +53,8 @@ module.exports = {
   },
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
-    extensions: [".ts", ".tsx", ".js", ".json", ".scss", "png"]
+    extensions: ['.ts', '.tsx', '.js', '.json', '.scss', 'png']
   },
 
   plugins: [new HtmlWebpackPlugin(htmlPluginObj)]
-};
+}
