@@ -1,6 +1,6 @@
 import React, { useState, useEffect, ChangeEvent, Component } from "react";
 import styled from "styled-components";
-import { IVoteItem, IPoll } from "../interfaces";
+import { IVoteItem, IPoll, ISong } from "../interfaces";
 import apiService from "../services/apiService";
 import {
   FormModal,
@@ -94,6 +94,16 @@ const Title = styled.div`
   justify-content: center;
 `;
 
+const Rank = styled.div`
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  background-color: #000;
+  color: #fff;
+  width: 20px;
+  height: 20px;
+`;
+
 const VoteItemWrapper = (props: {
   key: number;
   data: IVoteItem;
@@ -104,6 +114,7 @@ const VoteItemWrapper = (props: {
     <VoteItem
       imagePath={globalState.config!.serverURL + "/" + props.data.image}
     >
+      <Rank>{props.data.rank}</Rank>
       <div className="vote-info">
         <VoteButton
           className="vote-btn"
@@ -133,18 +144,20 @@ export const CurrentPoll = () => {
       .getCurrentPoll()
       .then((poll: IPoll) => {
         setCurrentPoll(poll);
-        setVoteItems(poll.songs);
+        apiService.pollResults(poll._id).then(votes => {
+          setVoteItems(
+            poll.songs.sort((a: ISong, b: ISong) => votes[b._id] - votes[a._id])
+          );
+        });
       })
+
       .catch(err => {
-        // TODO: Add some fallback if the app has no current poll!
         console.log("error happened", err);
       });
   }, []);
 
   const VoteForm = () => {
     const [email, setEmail] = useState<string>("");
-    // * help here * ?
-
     const [globalState, dispatch] = useGlobalState();
 
     const ModalImage = styled.div<{ imagePath: string }>`
@@ -237,7 +250,11 @@ export const CurrentPoll = () => {
           </Title>
           {voteItems.map((voteItem: IVoteItem, i: number) => {
             return (
-              <VoteItemWrapper key={i} data={voteItem} onVote={buttonClicked} />
+              <VoteItemWrapper
+                key={i}
+                data={{ ...voteItem, rank: i + 1 }}
+                onVote={buttonClicked}
+              />
             );
           })}
         </GridWrapper>
