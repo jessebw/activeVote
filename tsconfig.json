@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     // Set the target level of compiled code. es5 means it will run on older browsers.
-    "target": "es5",
+    "target": "es2015",
     // Sets how the modules will be compiled
     "module": "esnext",
     // Search under node_modules for non-relative imports.
@@ -13,6 +13,8 @@
     // Sets how to compile jsx code
     "jsx": "react",
     // Import non-ES modules as default imports.
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    // Where to find type definitions.
+    "typeRoots": ["./node_modules/@types"]
   }
 }

@@ -1,14 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
-import { MainList } from "./components/MainList";
-// import Potato from './components/MainList';
-import "./sass/style";
 import "normalize.css";
+import { App } from "./App";
+import "./styles/style.scss";
 
-ReactDOM.render(
-  <div>
-    Active vote
-    <MainList />
-  </div>,
-  document.getElementById("app")
-);
+ReactDOM.render(<App />, document.getElementById("app"));
