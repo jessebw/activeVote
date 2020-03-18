@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+
+    tools {nodejs "node"}
+
+    options {
+		disableConcurrentBuilds()
+    }
+
+    stages {
+        stage('Install Dependiencies') { 
+            steps {
+                sh 'npm install' 
+            }
+        }
+        stage('Test') { 
+            steps {
+                sh 'echo //npm run test comming soon!'
+            }
+        }
+        stage('Build') { 
+            steps {
+                sh 'npm run build' 
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'rm -rf /var/www/active-vote/dist'
+                archiveArtifacts artifacts: 'dist/**', onlyIfSuccessful: true
+                    script {
+                        step ([$class: 'CopyArtifact',
+                        projectName: 'activeVote',
+                        target: '/var/www/active-vote',
+                        fingerprintArtifacts: true,
+                        selector: [$class: 'SpecificBuildSelector', buildNumber: '${BUILD_NUMBER}']
+                        ]);
+                }
+            }
+        }
+    }
+}
