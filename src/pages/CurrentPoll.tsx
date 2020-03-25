@@ -26,10 +26,11 @@ const GridWrapper = styled.div<{ isGridView: boolean }>`
   color: #fff;
   grid-template-columns: ${props => {
     return props.isGridView
-      ? "repeat(auto-fill, minmax(240px, 1fr));"
+      ? "repeat(auto-fit, minmax(240px, 1fr));"
       : "repeat(auto-fit, minmax(1, 1fr));";
   }};
-  align-items: center;
+
+  /* align-items: center; */
   > div {
     height: 250px;
   }
@@ -40,7 +41,10 @@ const VoteItem = styled.div<{ imagePath: string; isGridView: boolean }>`
   font-size: 100%;
   background-image: url(${props => props.imagePath});
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: ${props => {
+    return props.isGridView ? "center" : "left";
+  }};
+
   background-size: ${props => {
     return props.isGridView ? "cover" : "contain";
   }};
