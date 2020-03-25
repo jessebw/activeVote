@@ -15,27 +15,39 @@ import {
 import logoBlack from "../assets/images/activeLogoBlack.png";
 import { useGlobalState } from "../state/stateContext";
 import configService from "../services/configService";
+import { MdChangeHistory, MdViewModule } from "react-icons/md";
 
-const GridWrapper = styled.div`
+const GridWrapper = styled.div<{ isGridView: boolean }>`
   background-color: #0c0c0c;
   /* background-color: orange; */
   width: 100vw;
   /* height: 100%; */
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  align-items: center;
+  color: #fff;
+  grid-template-columns: ${props => {
+    return props.isGridView
+      ? "repeat(auto-fit, minmax(240px, 1fr));"
+      : "repeat(auto-fit, minmax(1, 1fr));";
+  }};
+
+  /* align-items: center; */
   > div {
     height: 250px;
   }
 `;
 
-const VoteItem = styled.div<{ imagePath: string }>`
+const VoteItem = styled.div<{ imagePath: string; isGridView: boolean }>`
   color: #000;
   font-size: 100%;
   background-image: url(${props => props.imagePath});
   background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  background-position: ${props => {
+    return props.isGridView ? "center" : "left";
+  }};
+
+  background-size: ${props => {
+    return props.isGridView ? "cover" : "contain";
+  }};
   margin: auto;
   text-align: center;
   width: 100%;
@@ -54,7 +66,9 @@ const VoteItem = styled.div<{ imagePath: string }>`
     position: absolute;
     transition: width 0.1s, opacity 0.4s;
     transition-timing-function: ease-out;
-    opacity: 0;
+    opacity: ${props => {
+      return props.isGridView ? "0" : "1";
+    }};
     height: 100%;
     width: 0%;
     /* background: RGBA(127, 127, 213, 0.9); */
@@ -104,14 +118,23 @@ const Rank = styled.div`
   height: 20px;
 `;
 
+const VoteItemList = styled.div`
+  height: 150px;
+  width: 60%;
+`;
+
+const SettingsMenu = styled.div``;
+
 const VoteItemWrapper = (props: {
   key: number;
   data: IVoteItem;
   onVote: Function;
+  gridView: boolean;
 }) => {
   const [globalState, dispatch] = useGlobalState();
   return (
     <VoteItem
+      isGridView={props.gridView}
       imagePath={globalState.config!.serverURL + "/" + props.data.image}
     >
       <Rank>{props.data.rank}</Rank>
@@ -138,6 +161,7 @@ export const CurrentPoll = () => {
   const [voteFormOpen, setVoteFormOpen] = useState<boolean>(false);
   const [voteSong, setVoteSong] = useState<string>();
   const [currentPoll, setCurrentPoll] = useState<IPoll>();
+  const [isGridView, setIsGridView] = useState<boolean>(true);
 
   useEffect(() => {
     apiService
@@ -210,7 +234,7 @@ export const CurrentPoll = () => {
 
           <EmailInput
             placeholder="Email"
-            type="email"
+            type={"email"}
             onChange={(event: any) => {
               setEmail(event.target.value);
             }}
@@ -244,16 +268,45 @@ export const CurrentPoll = () => {
       {!voteItems || voteItems.length === 0 ? (
         <NoCurrentPolls />
       ) : (
-        <GridWrapper>
+        <GridWrapper isGridView={isGridView}>
           <Title>
             <h1>{currentPoll && currentPoll.name}</h1>
+            <SettingsMenu
+              onClick={e => {
+                setIsGridView(!isGridView);
+              }}
+            >
+              {isGridView && <MdChangeHistory />}
+              {!isGridView && <MdViewModule />}
+            </SettingsMenu>
           </Title>
           {voteItems.map((voteItem: IVoteItem, i: number) => {
+            // insert a if statement here to either show list view or grid view
+
+            // if (!isGridView) {
+            //   return (
+            //     <VoteItemWrapperList
+            //       key={i}
+            //       data={{ ...voteItem, rank: i + 1 }}
+            //       onVote={buttonClicked}
+            //     />
+            //   );
+            // } else {
+            //   return (
+            //     <VoteItemWrapper
+            //       key={i}
+            //       data={{ ...voteItem, rank: i + 1 }}
+            //       onVote={buttonClicked}
+            //     />
+            //   );
+            // }
+
             return (
               <VoteItemWrapper
                 key={i}
                 data={{ ...voteItem, rank: i + 1 }}
                 onVote={buttonClicked}
+                gridView={isGridView}
               />
             );
           })}
