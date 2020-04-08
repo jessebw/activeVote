@@ -7,9 +7,7 @@ import { Users } from "./Users";
 import { EditPoll } from "./EditPoll";
 import { SideMenu } from "./SideMenu";
 import styled from "styled-components";
-import { ToastContainer } from "react-toastify";
 import { PollResults } from "./PollResults";
-import "react-toastify/dist/ReactToastify.css";
 
 const DashWrapper = styled.div`
   display: flex;
@@ -28,7 +26,6 @@ export const Dashboard = () => {
   return (
     <DashWrapper>
       <SideMenu />
-      <ToastContainer />
       <div className="view-panel">
         <Route path={`/dashboard/polls`} component={Polls} />
         <Route path={`/dashboard/users`} component={Users} />

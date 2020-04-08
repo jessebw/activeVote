@@ -10,6 +10,9 @@ import { useGlobalState } from "./state/stateContext";
 import { TStateAction, IVote } from "./interfaces";
 import configService from "./services/configService";
 import history from "./history";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Lesson } from "./Lesson";
 
 // const isTheGuyLoggedIn: boolean = false;
 
@@ -68,6 +71,7 @@ const AppContent = () => {
     return (
       <Router history={history}>
         <Switch>
+          <Route exact path={"/lesson"} component={Lesson} />
           <Route exact path={"/"} component={CurrentPoll} />
           <PrivateRoute path={"/dashboard"} component={Dashboard} />
           <Route exact path={"/login"} component={Login} />
@@ -82,6 +86,7 @@ const AppContent = () => {
 export const App = () => {
   return (
     <GlobalState>
+      <ToastContainer />
       <AppContent />
     </GlobalState>
   );

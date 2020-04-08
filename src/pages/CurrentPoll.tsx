@@ -16,12 +16,11 @@ import logoBlack from "../assets/images/activeLogoBlack.png";
 import { useGlobalState } from "../state/stateContext";
 import configService from "../services/configService";
 import { MdChangeHistory, MdViewModule } from "react-icons/md";
+import { toast } from "react-toastify";
 
 const GridWrapper = styled.div<{ isGridView: boolean }>`
   background-color: #0c0c0c;
-  /* background-color: orange; */
   width: 100vw;
-  /* height: 100%; */
   display: grid;
   color: #fff;
   grid-template-columns: ${props => {
@@ -29,29 +28,35 @@ const GridWrapper = styled.div<{ isGridView: boolean }>`
       ? "repeat(auto-fit, minmax(240px, 1fr));"
       : "repeat(auto-fit, minmax(1, 1fr));";
   }};
-
-  /* align-items: center; */
   > div {
-    height: 250px;
+    height: ${props => {
+      return props.isGridView ? "250px;" : "100px;";
+    }};
   }
 `;
 
 const VoteItem = styled.div<{ imagePath: string; isGridView: boolean }>`
-  color: #000;
-  font-size: 100%;
+  color: ${props => {
+    return props.isGridView ? "#000;" : "#fff;";
+  }};
+  /* font-size: 100%; */
   background-image: url(${props => props.imagePath});
   background-repeat: no-repeat;
   background-position: ${props => {
     return props.isGridView ? "center" : "left";
   }};
-
   background-size: ${props => {
     return props.isGridView ? "cover" : "contain";
   }};
   margin: auto;
-  text-align: center;
+  text-align: ${props => {
+    return props.isGridView ? "center;" : "left;";
+  }};
+  height: ${props => {
+    return props.isGridView ? "100%;" : "30px;";
+  }};
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   display: flex;
   flex-direction: column;
   position: relative;
@@ -71,15 +76,11 @@ const VoteItem = styled.div<{ imagePath: string; isGridView: boolean }>`
     }};
     height: 100%;
     width: 0%;
-    /* background: RGBA(127, 127, 213, 0.9); */
-    /* background: RGBA(93, 173, 226, 0.9); */
     background: RGBA(242, 242, 242, 1);
-    /* background: -webkit-linear-gradient(to left, #7f7fd5, #86a8e7, #91eae4); */
-    /* background: linear-gradient(to left, #7f7fd5, #86a8e7, #91eae4); */
   }
   &:hover {
     .vote-btn {
-      /* display: block; */
+      display: block;
       width: 100%;
       opacity: 0.8;
       display: flex;
@@ -91,16 +92,16 @@ const VoteItem = styled.div<{ imagePath: string; isGridView: boolean }>`
 `;
 
 const VoteItemOne = styled.div`
-  font-size: 1.2em;
+  /* font-size: 1.2em; */
 `;
 
 const VoteButton = styled.div<{ onClick: any }>``;
 
 // ${var} is inter[polition for string literals (inserting js into strings)
-const Title = styled.div`
-  /* font-family: "BalooBhai-Regular"; */
-  font-family: "Montserrat-Light";
 
+//Title Of The Poll - Top left box.
+const Title = styled.div`
+  font-family: "Montserrat-Light";
   color: white;
   text-align: center;
   display: flex;
@@ -108,20 +109,26 @@ const Title = styled.div`
   justify-content: center;
 `;
 
+// Ranked number box
 const Rank = styled.div`
   position: absolute;
   left: 0px;
   top: 0px;
-  background-color: #000;
+  background-color: rgba(0, 0, 0, 0.6);
   color: #fff;
-  width: 20px;
-  height: 20px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0px 0px 3px 0px;
 `;
 
-const VoteItemList = styled.div`
-  height: 150px;
-  width: 60%;
-`;
+// const VoteItemList = styled.div`
+//   height: 150px;
+//   width: 60%;
+// `;
 
 const SettingsMenu = styled.div``;
 
@@ -185,8 +192,8 @@ export const CurrentPoll = () => {
     const [globalState, dispatch] = useGlobalState();
 
     const ModalImage = styled.div<{ imagePath: string }>`
-      width: 100px;
-      height: 100px;
+      width: 100%;
+      height: 50%;
       background-image: url(${props => props.imagePath});
       background-repeat: no-repeat;
       background-position: center;
@@ -213,10 +220,6 @@ export const CurrentPoll = () => {
             <LeftRight />
             <RightLeft />
           </CancelButton>
-          {/* <modalImage
-            imagePath={configService.getConfig()!.serverURL + "/" + ImagePath()}
-          /> */}
-
           <ModalImage
             imagePath={configService.getConfig()!.serverURL + "/" + ImagePath()}
           ></ModalImage>
@@ -243,10 +246,18 @@ export const CurrentPoll = () => {
             onClick={(e: any) => {
               apiService
                 .postSubmitVote(email, voteSong as string, currentPoll!._id)
-                .then(data => {
-                  alert("thanks for Voting");
-                  setVoteFormOpen(false);
-                });
+                .then(
+                  data => {
+                    // toast not showing
+                    toast.success("Thanks for Voting");
+                    setVoteFormOpen(false);
+                  },
+                  error => {
+                    toast.error(
+                      "Sorry you can only vote once or this is an invalid email"
+                    );
+                  }
+                );
             }}
           >
             Vote
@@ -281,26 +292,6 @@ export const CurrentPoll = () => {
             </SettingsMenu>
           </Title>
           {voteItems.map((voteItem: IVoteItem, i: number) => {
-            // insert a if statement here to either show list view or grid view
-
-            // if (!isGridView) {
-            //   return (
-            //     <VoteItemWrapperList
-            //       key={i}
-            //       data={{ ...voteItem, rank: i + 1 }}
-            //       onVote={buttonClicked}
-            //     />
-            //   );
-            // } else {
-            //   return (
-            //     <VoteItemWrapper
-            //       key={i}
-            //       data={{ ...voteItem, rank: i + 1 }}
-            //       onVote={buttonClicked}
-            //     />
-            //   );
-            // }
-
             return (
               <VoteItemWrapper
                 key={i}
