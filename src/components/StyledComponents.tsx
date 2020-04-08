@@ -59,7 +59,7 @@ export const SubmitButton = styled.div`
   border: 0 solid #000;
   border-radius: 4px;
   line-height: 2em;
-  font-size: 50px;
+  font-size: 30px;
   color: #000;
   letter-spacing: 0.3em;
   text-transform: uppercase;
