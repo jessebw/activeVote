@@ -39,7 +39,6 @@ const VoteItem = styled.div<{ imagePath: string; isGridView: boolean }>`
   color: ${props => {
     return props.isGridView ? "#000;" : "#fff;";
   }};
-  /* font-size: 100%; */
   background-image: url(${props => props.imagePath});
   background-repeat: no-repeat;
   background-position: ${props => {
@@ -48,54 +47,70 @@ const VoteItem = styled.div<{ imagePath: string; isGridView: boolean }>`
   background-size: ${props => {
     return props.isGridView ? "cover" : "contain";
   }};
-  margin: auto;
   text-align: ${props => {
-    return props.isGridView ? "center;" : "left;";
+    return props.isGridView ? "center" : "center";
   }};
   height: ${props => {
-    return props.isGridView ? "100%;" : "30px;";
+    return props.isGridView ? "100%" : "100%";
   }};
   width: 100%;
-  /* height: 100%; */
   display: flex;
   flex-direction: column;
   position: relative;
 
   .vote-btn {
     display: flex;
-    align-items: center;
+    align-items: ${props => {
+      return props.isGridView ? "center" : "center";
+    }};
     justify-content: center;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     position: absolute;
-    transition: width 0.1s, opacity 0.4s;
-    transition-timing-function: ease-out;
+    transition-timing-function: ease-in-out;
+    transition: opacity 0.4s;
     opacity: ${props => {
       return props.isGridView ? "0" : "1";
     }};
     height: 100%;
-    width: 0%;
-    background: RGBA(242, 242, 242, 1);
+    width: ${props => {
+      return props.isGridView ? "100%" : "100%";
+    }};
+    background: ${props => {
+      return props.isGridView ? "RGBA(242, 242, 242, 1)" : "none";
+    }};
+    border-top: ${props => {
+      return props.isGridView ? "0" : "2px solid RGBA(242, 242, 242, .2)";
+    }};
   }
   &:hover {
     .vote-btn {
       display: block;
-      width: 100%;
+      /* width: 100%; */
       opacity: 0.8;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      /* align-items: center; */
+      /* justify-content: center; */
       cursor: pointer;
     }
   }
 `;
 
-const VoteItemOne = styled.div`
-  /* font-size: 1.2em; */
+const VoteItemData = styled.div`
+  > p {
+    margin: 0;
+    padding: 0;
+  }
+  > h3 {
+    margin: 0;
+    padding: 0;
+  }
 `;
 
-const VoteButton = styled.div<{ onClick: any }>``;
+const VoteButton = styled.div<{ onClick: any }>`
+  width: 100%;
+`;
 
 // ${var} is inter[polition for string literals (inserting js into strings)
 
@@ -125,11 +140,6 @@ const Rank = styled.div`
   border-radius: 0px 0px 3px 0px;
 `;
 
-// const VoteItemList = styled.div`
-//   height: 150px;
-//   width: 60%;
-// `;
-
 const SettingsMenu = styled.div``;
 
 const VoteItemWrapper = (props: {
@@ -152,14 +162,118 @@ const VoteItemWrapper = (props: {
             props.onVote(props.data._id);
           }}
         >
-          <VoteItemOne>
-            <h3>{props.data.artist}</h3>
-            <p>{props.data.songName}</p>
+          <VoteItemData>
+            <p>{props.data.artist}</p>
+            <h3>{props.data.songName}</h3>
             <p>{props.data.album}</p>
-          </VoteItemOne>
+          </VoteItemData>
         </VoteButton>
       </div>
     </VoteItem>
+  );
+};
+
+const VoteForm = (props: {
+  closeCallBack: () => void;
+  voteItem: IVoteItem;
+  currentPoll: IPoll;
+}) => {
+  const [email, setEmail] = useState<string>("");
+  const [globalState, dispatch] = useGlobalState();
+  const ModalImage = styled.div<{ imagePath: string }>`
+    width: 100%;
+    height: 50%;
+    background-image: url(${props => props.imagePath});
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  `;
+
+  return (
+    <FormModal>
+      <div>
+        <CancelButton
+          onClick={(e: any) => {
+            props.closeCallBack();
+          }}
+        >
+          <LeftRight />
+          <RightLeft />
+        </CancelButton>
+        <ModalImage
+          imagePath={
+            configService.getConfig()!.serverURL + "/" + props.voteItem.image
+          }
+        ></ModalImage>
+
+        <p>Please enter your email address to submit vote.</p>
+
+        <FormModalSelection>
+          {props.voteItem.artist} - {props.voteItem.songName}
+        </FormModalSelection>
+
+        <EmailInput
+          placeholder="Email"
+          type={"email"}
+          onChange={(event: any) => {
+            setEmail(event.target.value);
+          }}
+        />
+        <SubmitButton
+          onClick={(e: any) => {
+            const valid: boolean = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+              email
+            );
+            if (valid === false) {
+              toast.error("This is not an email address");
+              return;
+            }
+
+            apiService
+              .postSubmitVote(email, props.voteItem._id, props.currentPoll._id)
+              .then(
+                data => {
+                  // toast not showing
+                  toast.success("Thanks for Voting");
+                  props.closeCallBack();
+                },
+                error => {
+                  toast.error("Sorry you can only vote once a week");
+                }
+              );
+          }}
+        >
+          Vote
+        </SubmitButton>
+      </div>
+    </FormModal>
+  );
+};
+``;
+
+const NoPollError = styled.div`
+  width: 300px;
+  height: 200px;
+  color: white;
+  background-image: url(${logoBlack});
+  background-size: cover;
+  background-color: rgb(28, 23, 26);
+`;
+
+const NoCurrentPolls = () => {
+  return (
+    <div
+      data-testid="noCurrentPoll"
+      style={{
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "rgb(28,23,26)"
+      }}
+    >
+      <NoPollError>{/* your logo here */}</NoPollError>
+    </div>
   );
 };
 
@@ -187,95 +301,25 @@ export const CurrentPoll = () => {
       });
   }, []);
 
-  const VoteForm = () => {
-    const [email, setEmail] = useState<string>("");
-    const [globalState, dispatch] = useGlobalState();
-
-    const ModalImage = styled.div<{ imagePath: string }>`
-      width: 100%;
-      height: 50%;
-      background-image: url(${props => props.imagePath});
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: cover;
-    `;
-
-    const ImagePath = () => {
-      return voteItems.reduce((accumulator: string, value: IVoteItem) => {
-        if (value._id === voteSong) {
-          return `${value.image}`;
-        }
-        return accumulator;
-      }, "");
-    };
-
-    return (
-      <FormModal>
-        <div>
-          <CancelButton
-            onClick={(e: any) => {
-              setVoteFormOpen(false);
-            }}
-          >
-            <LeftRight />
-            <RightLeft />
-          </CancelButton>
-          <ModalImage
-            imagePath={configService.getConfig()!.serverURL + "/" + ImagePath()}
-          ></ModalImage>
-
-          <p>Please enter your email address to submit vote.</p>
-
-          <FormModalSelection>
-            {voteItems.reduce((accumulator: string, value: IVoteItem) => {
-              if (value._id === voteSong) {
-                return `${value.artist} - ${value.songName}`;
-              }
-              return accumulator;
-            }, "")}
-          </FormModalSelection>
-
-          <EmailInput
-            placeholder="Email"
-            type={"email"}
-            onChange={(event: any) => {
-              setEmail(event.target.value);
-            }}
-          />
-          <SubmitButton
-            onClick={(e: any) => {
-              apiService
-                .postSubmitVote(email, voteSong as string, currentPoll!._id)
-                .then(
-                  data => {
-                    // toast not showing
-                    toast.success("Thanks for Voting");
-                    setVoteFormOpen(false);
-                  },
-                  error => {
-                    toast.error(
-                      "Sorry you can only vote once or this is an invalid email"
-                    );
-                  }
-                );
-            }}
-          >
-            Vote
-          </SubmitButton>
-        </div>
-      </FormModal>
-    );
-  };
-
   const buttonClicked = (songID: string) => {
-    setVoteFormOpen(true);
     setVoteSong(songID);
+    setVoteFormOpen(true);
   };
 
   return (
     // introduce a loading state which triggers full page when passed
     <FullPage>
-      {voteFormOpen && <VoteForm />}
+      {voteFormOpen && (
+        <VoteForm
+          closeCallBack={() => {
+            setVoteFormOpen(false);
+          }}
+          voteItem={
+            voteItems.find(value => value._id === voteSong) as IVoteItem
+          }
+          currentPoll={currentPoll as IPoll}
+        />
+      )}
       {!voteItems || voteItems.length === 0 ? (
         <NoCurrentPolls />
       ) : (
@@ -304,31 +348,5 @@ export const CurrentPoll = () => {
         </GridWrapper>
       )}
     </FullPage>
-  );
-};
-
-const NoPollError = styled.div`
-  width: 300px;
-  height: 200px;
-  color: white;
-  background-image: url(${logoBlack});
-  background-size: cover;
-  background-color: rgb(28, 23, 26);
-`;
-
-const NoCurrentPolls = () => {
-  return (
-    <div
-      data-testid="noCurrentPoll"
-      style={{
-        height: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "rgb(28,23,26)"
-      }}
-    >
-      <NoPollError>{/* your logo here */}</NoPollError>
-    </div>
   );
 };
