@@ -35,9 +35,9 @@ export const FullPage = styled.div`
 `;
 export const FormModalSelection = styled.div`
   letter-spacing: 3px;
-  font-size: 1.2em;
+  /* font-size: 1.2em; */
   font-weight: bold;
-  margin-bottom: 2em;
+  /* margin-bottom: 2em; */
 `;
 
 export const EmailInput = styled.input`
@@ -86,6 +86,7 @@ export const CancelButton = styled.div`
 
 export const EventButton = styled.button<{ onClick: any }>``;
 
+// Vote form modal close X
 export const LeftRight = styled.div`
   height: 4px;
   width: 20px;
