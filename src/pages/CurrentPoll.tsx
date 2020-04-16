@@ -10,47 +10,48 @@ import {
   LeftRight,
   RightLeft,
   FormModalSelection,
-  FullPage
+  FullPage,
 } from "../components/StyledComponents";
 import logoBlack from "../assets/images/activeLogoBlack.png";
 import { useGlobalState } from "../state/stateContext";
 import configService from "../services/configService";
 import { MdChangeHistory, MdViewModule } from "react-icons/md";
 import { toast } from "react-toastify";
+import ReactGA from "react-ga";
 
 const GridWrapper = styled.div<{ isGridView: boolean }>`
   background-color: #0c0c0c;
   width: 100vw;
   display: grid;
   color: #fff;
-  grid-template-columns: ${props => {
+  grid-template-columns: ${(props) => {
     return props.isGridView
       ? "repeat(auto-fit, minmax(240px, 1fr));"
       : "repeat(auto-fit, minmax(1, 1fr));";
   }};
   > div {
-    height: ${props => {
+    height: ${(props) => {
       return props.isGridView ? "250px;" : "100px;";
     }};
   }
 `;
 
 const VoteItem = styled.div<{ imagePath: string; isGridView: boolean }>`
-  color: ${props => {
+  color: ${(props) => {
     return props.isGridView ? "#000;" : "#fff;";
   }};
-  background-image: url(${props => props.imagePath});
+  background-image: url(${(props) => props.imagePath});
   background-repeat: no-repeat;
-  background-position: ${props => {
+  background-position: ${(props) => {
     return props.isGridView ? "center" : "left";
   }};
-  background-size: ${props => {
+  background-size: ${(props) => {
     return props.isGridView ? "cover" : "contain";
   }};
-  text-align: ${props => {
+  text-align: ${(props) => {
     return props.isGridView ? "center" : "center";
   }};
-  height: ${props => {
+  height: ${(props) => {
     return props.isGridView ? "100%" : "100%";
   }};
   width: 100%;
@@ -60,7 +61,7 @@ const VoteItem = styled.div<{ imagePath: string; isGridView: boolean }>`
 
   .vote-btn {
     display: flex;
-    align-items: ${props => {
+    align-items: ${(props) => {
       return props.isGridView ? "center" : "center";
     }};
     justify-content: center;
@@ -70,17 +71,17 @@ const VoteItem = styled.div<{ imagePath: string; isGridView: boolean }>`
     position: absolute;
     transition-timing-function: ease-in-out;
     transition: opacity 0.4s;
-    opacity: ${props => {
+    opacity: ${(props) => {
       return props.isGridView ? "0" : "1";
     }};
     height: 100%;
-    width: ${props => {
+    width: ${(props) => {
       return props.isGridView ? "100%" : "100%";
     }};
-    background: ${props => {
+    background: ${(props) => {
       return props.isGridView ? "RGBA(242, 242, 242, 1)" : "none";
     }};
-    border-top: ${props => {
+    border-top: ${(props) => {
       return props.isGridView ? "0" : "2px solid RGBA(242, 242, 242, .2)";
     }};
   }
@@ -183,7 +184,7 @@ const VoteForm = (props: {
   const ModalImage = styled.div<{ imagePath: string }>`
     width: 100%;
     height: 50%;
-    background-image: url(${props => props.imagePath});
+    background-image: url(${(props) => props.imagePath});
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -232,12 +233,16 @@ const VoteForm = (props: {
             apiService
               .postSubmitVote(email, props.voteItem._id, props.currentPoll._id)
               .then(
-                data => {
+                (data) => {
                   // toast not showing
                   toast.success("Thanks for Voting");
                   props.closeCallBack();
+                  ReactGA.event({
+                    category: "User",
+                    action: "Voted",
+                  });
                 },
-                error => {
+                (error) => {
                   toast.error("Sorry you can only vote once a week");
                 }
               );
@@ -269,7 +274,7 @@ const NoCurrentPolls = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "rgb(28,23,26)"
+        backgroundColor: "rgb(28,23,26)",
       }}
     >
       <NoPollError>{/* your logo here */}</NoPollError>
@@ -285,18 +290,19 @@ export const CurrentPoll = () => {
   const [isGridView, setIsGridView] = useState<boolean>(true);
 
   useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
     apiService
       .getCurrentPoll()
       .then((poll: IPoll) => {
         setCurrentPoll(poll);
-        apiService.pollResults(poll._id).then(votes => {
+        apiService.pollResults(poll._id).then((votes) => {
           setVoteItems(
             poll.songs.sort((a: ISong, b: ISong) => votes[b._id] - votes[a._id])
           );
         });
       })
 
-      .catch(err => {
+      .catch((err) => {
         console.log("error happened", err);
       });
   }, []);
@@ -315,7 +321,7 @@ export const CurrentPoll = () => {
             setVoteFormOpen(false);
           }}
           voteItem={
-            voteItems.find(value => value._id === voteSong) as IVoteItem
+            voteItems.find((value) => value._id === voteSong) as IVoteItem
           }
           currentPoll={currentPoll as IPoll}
         />
@@ -327,7 +333,7 @@ export const CurrentPoll = () => {
           <Title>
             <h1>{currentPoll && currentPoll.name}</h1>
             <SettingsMenu
-              onClick={e => {
+              onClick={(e) => {
                 setIsGridView(!isGridView);
               }}
             >

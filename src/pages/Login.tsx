@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import userService from "../services/userService";
 import { useGlobalState } from "../state/stateContext";
 import { Redirect } from "react-router-dom";
 import styled from "styled-components";
 import { theme } from "../styles/theme";
+import ReactGA from "react-ga";
 
 const LoginWrapper = styled.div`
   max-width: 300px;
@@ -64,24 +65,36 @@ export const Login = () => {
   const [password, setPassword] = useState<string>("");
   const [loginError, setLoginError] = useState<boolean>(false);
 
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, []);
+
   if (globalState.auth) {
     return <Redirect to="/dashboard" />;
   }
 
   const authenticateUser = () => {
     userService.authenticateUser(email, password).then(
-      data => {
+      (data) => {
         dispatch({ type: "setAuth", payload: data });
+        ReactGA.event({
+          category: "Admin",
+          action: "Log in success",
+        });
       },
-      error => {
+      (error) => {
         setLoginError(true);
+        ReactGA.event({
+          category: "Admin",
+          action: "Log in failed",
+        });
       }
     );
   };
 
   return (
     <LoginWrapper
-      onKeyDown={e => {
+      onKeyDown={(e) => {
         if (e.keyCode === 13) {
           authenticateUser();
         }

@@ -13,8 +13,8 @@ import history from "./history";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Lesson } from "./Lesson";
-
-// const isTheGuyLoggedIn: boolean = false;
+import ReactGA from "react-ga";
+ReactGA.initialize("UA-163769226-1");
 
 const PrivateRoute: any = ({ component: Component, ...rest }: any) => {
   const [globalState, dispatch] = useGlobalState();
@@ -22,7 +22,7 @@ const PrivateRoute: any = ({ component: Component, ...rest }: any) => {
   return (
     <Route
       {...rest}
-      render={props => {
+      render={(props) => {
         return globalState.auth ? (
           <Component {...props} />
         ) : (
@@ -46,7 +46,7 @@ const AppContent = () => {
     } else {
       const changeState: TStateAction = {
         type: "setAuth",
-        payload: sessionState
+        payload: sessionState,
       };
       dispatch(changeState);
     }
@@ -54,13 +54,13 @@ const AppContent = () => {
 
   useEffect(() => {
     fetch("/app.config.json")
-      .then(response => {
+      .then((response) => {
         return response.json();
       })
-      .then(config => {
+      .then((config) => {
         const configState: TStateAction = {
           type: "setConfig",
-          payload: config
+          payload: config,
         };
         dispatch(configState);
         configService.setConfig(config);

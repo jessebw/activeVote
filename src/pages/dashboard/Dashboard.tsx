@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route } from "react-router-dom";
 import { Polls } from "./Polls";
 import { Songs } from "./Songs";
@@ -8,6 +8,7 @@ import { EditPoll } from "./EditPoll";
 import { SideMenu } from "./SideMenu";
 import styled from "styled-components";
 import { PollResults } from "./PollResults";
+import ReactGA from "react-ga";
 
 const DashWrapper = styled.div`
   display: flex;
@@ -23,6 +24,10 @@ const DashWrapper = styled.div`
 `;
 
 export const Dashboard = () => {
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  });
+
   return (
     <DashWrapper>
       <SideMenu />
