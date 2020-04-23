@@ -141,7 +141,7 @@ export const StyledListItem = styled.div`
 `;
 
 export const InputComponent = styled.label`
-  line-height: 2em;
+  /* line-height: 2em;
   margin-right: 2em;
   input {
     border: none;
@@ -150,5 +150,5 @@ export const InputComponent = styled.label`
     :focus {
       outline: 0;
     }
-  }
+  } */
 `;

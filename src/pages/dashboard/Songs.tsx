@@ -4,6 +4,7 @@ import { ISong, INewSong } from "../../interfaces";
 // import { FormModal } from "../../components/StyledComponents";
 import styled from "styled-components";
 import { useGlobalState } from "../../state/stateContext";
+import ReactGA from "react-ga";
 
 const DeleteSong = styled.span`
   cursor: pointer;
@@ -92,13 +93,17 @@ export const Songs = () => {
       artist: "",
       songName: "",
       album: "",
-      image: undefined
+      image: undefined,
     });
 
     const changeImageFile = (e: any) => {
       const image = e.target.files[0];
       setFormData({ ...formData, image });
     };
+
+    // useEffect(() => {
+    //   ReactGA.pageview(window.location.pathname + window.location.search);
+    // });
 
     return (
       <SongsFormDropDown>
@@ -130,6 +135,10 @@ export const Songs = () => {
           <SongSubmitButton
             className="songSubmitButton"
             onClick={() => {
+              ReactGA.event({
+                category: "Admin",
+                action: "Submitted a new song",
+              });
               const _data = new FormData();
               _data.append("image", formData.image as Blob);
               apiService.uploadImage(_data as any).then((resp: any) => {
@@ -147,6 +156,10 @@ export const Songs = () => {
           <SongCancelButton
             className="songCancelButton"
             onClick={(e: any) => {
+              ReactGA.event({
+                category: "Admin",
+                action: "Cancelled creating a new song",
+              });
               setFormDropDownOpen(false);
             }}
           >
@@ -173,7 +186,7 @@ export const Songs = () => {
   const SongImage = styled.div<{ imagePath: string }>`
     height: 50px;
     width: 50px;
-    background-image: url(${props => props.imagePath});
+    background-image: url(${(props) => props.imagePath});
     /* background-color: orange; */
     background-repeat: none;
     background-size: cover;

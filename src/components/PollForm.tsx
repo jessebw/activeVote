@@ -9,17 +9,24 @@ import {
   Droppable,
   Draggable,
   ResponderProvided,
-  DropResult
+  DropResult,
 } from "react-beautiful-dnd";
 import {
   PollFormWrapper,
   PollPageWrapper,
   StyledListItem,
-  InputComponent
+  InputComponent,
 } from "./StyledComponents";
 import { Redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useGlobalState } from "../state/stateContext";
+import MomentUtils from "@date-io/moment";
+import { Button, TextField } from "@material-ui/core";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+import { disabled } from "glamor";
 
 const ListItem = (props: { song: ISong }) => {
   const [globalState, dispatch] = useGlobalState();
@@ -48,6 +55,7 @@ const CustomButton = styled.button`
   background-color: #5dade2;
   color: #fff;
   width: 7em;
+  height: 100%;
   line-height: 2em;
 `;
 
@@ -57,7 +65,7 @@ const DroppableList = (props: { listId: string; listMap: ISong[] }) => (
       <div
         ref={provided.innerRef}
         style={{
-          height: "100%"
+          height: "100%",
         }}
       >
         {props.listMap.map((item, index) => (
@@ -103,6 +111,18 @@ export const PollForm = (props: {
   const [songItems, setSongItems] = useState<ISong[]>([]);
   const [chosenItems, setChosenItems] = useState<ISong[]>([]);
   const [deletePoll, setDeletePoll] = useState<boolean>(false);
+
+  // const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const handleStartDateChange = (date: any) => {
+    // setSelectedDate(date);
+    setStartDate(date);
+  };
+
+  const handleEndDateChange = (date: any) => {
+    // setSelectedDate(date);
+    setEndDate(date);
+  };
 
   const submitForm = () => {
     props.updateCallBack &&
@@ -168,84 +188,143 @@ export const PollForm = (props: {
 
   return (
     <PollPageWrapper
-      onKeyDown={e => {
+      onKeyDown={(e) => {
         if (e.keyCode === 13) {
           submitForm();
         }
       }}
     >
-      <PollFormWrapper>
-        <InputComponent>
-          Poll Name:
-          <input
-            type="text"
-            placeholder="Poll Name"
-            value={pollName}
-            onChange={(event: any) => {
-              setPollName(event.target.value);
-            }}
-          />
-        </InputComponent>
-        <DatePickerContainer>
-          <InputComponent>
-            Start Date:
-            <DatePicker
-              selected={startDate}
-              dateFormat="dd/MM/yyyy"
-              onChange={(date: Date) => {
-                setStartDate(date);
+      <PollFormWrapper style={{ display: "flex" }} className="">
+        <div style={{}}>
+          <InputComponent style={{}}>
+            <TextField
+              type="text"
+              placeholder="Poll Name"
+              value={pollName}
+              onChange={(event: any) => {
+                setPollName(event.target.value);
               }}
+              style={{ width: "100%" }}
+              id="outlined-basic"
+              label="Poll Name"
+              variant="outlined"
             />
           </InputComponent>
-          <InputComponent>
-            End Date:
-            <DatePicker
-              selected={endDate}
-              dateFormat="dd/MM/yyyy"
-              onChange={(date: Date) => {
-                setEndDate(date);
-              }}
-            />
-          </InputComponent>
-        </DatePickerContainer>
-        <CustomButton
-          onClick={() => {
-            submitForm();
-          }}
-        >
-          {props.savingPoll ? "saving..." : "submit"}
-        </CustomButton>
-
-        {props.pollId && (
-          <CustomButton
+          {/* <DatePickerContainer>
+            <InputComponent>
+              Start Date:
+              <DatePicker
+                id="outlined-basic"
+                selected={startDate}
+                dateFormat="dd/MM/yyyy"
+                onChange={(date: Date) => {
+                  setStartDate(date);
+                }}
+              />
+            </InputComponent>
+            <InputComponent>
+              End Date:
+              <DatePicker
+                selected={endDate}
+                dateFormat="dd/MM/yyyy"
+                onChange={(date: Date) => {
+                  setEndDate(date);
+                }}
+              />
+            </InputComponent>
+          </DatePickerContainer> */}
+          <div>
+            <label onClick={(e) => e.preventDefault()}>
+              <MuiPickersUtilsProvider utils={MomentUtils}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  // disabled="true"
+                  variant="inline"
+                  margin="normal"
+                  // id="date-picker-inline"
+                  id="datetime-local"
+                  label="Start Date"
+                  value={startDate}
+                  onChange={handleStartDateChange}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                />
+              </MuiPickersUtilsProvider>
+              <MuiPickersUtilsProvider utils={MomentUtils}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  // disabled="true"
+                  variant="inline"
+                  margin="normal"
+                  // id="date-picker-inline"
+                  id="datetime-local"
+                  label="End Date"
+                  value={endDate}
+                  onChange={handleEndDateChange}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                />
+              </MuiPickersUtilsProvider>
+            </label>
+          </div>
+        </div>
+        <div>
+          <Button
             onClick={() => {
-              props.pollId &&
-                apiService.deletePoll(props.pollId).then(
-                  () => {
-                    setDeletePoll(true);
-                  },
-                  () => {
-                    toast.error(`Error: ${pollName} could not be deleted`);
-                  }
-                );
+              submitForm();
+            }}
+            style={{
+              height: "100%",
+              width: "10em",
+              marginLeft: "10px",
+              border: "1px solid rgba(0, 0, 0, .3)",
             }}
           >
-            delete
-          </CustomButton>
-        )}
+            {props.savingPoll ? "saving..." : "submit"}
+          </Button>
+
+          {props.pollId && (
+            <CustomButton
+              onClick={() => {
+                props.pollId &&
+                  apiService.deletePoll(props.pollId).then(
+                    () => {
+                      setDeletePoll(true);
+                    },
+                    () => {
+                      toast.error(`Error: ${pollName} could not be deleted`);
+                    }
+                  );
+              }}
+            >
+              delete
+            </CustomButton>
+          )}
+        </div>
       </PollFormWrapper>
       <DragDropContext onDragEnd={onDragEnd}>
         <div style={{ display: "flex" }}>
-          <div
-            data-testid="chosenSongs"
-            style={{ flex: "0 0 50%", backgroundColor: "#F2F2F2" }}
-          >
-            <h3>Poll Pool</h3>
+          <div data-testid="chosenSongs" style={{ flex: "0 0 49%" }}>
             <span>Drag into this area to create a poll</span>
+            <h3 style={{ borderBottom: "2px solid #000" }}>Poll ITEMS</h3>
+
             <DroppableList listId="chosenSongs" listMap={chosenItems} />
           </div>
-          <div data-testid="songPool" style={{ flex: "0 0 50%" }}>
-            <h3>Track Pool</h3>
+          <div
+            data-testid="songPool"
+            style={{
+              flex: "0 0 49%",
+              borderLeft: "2px solid #000",
+            }}
+          >
+            <span style={{ paddingLeft: "5px" }}>
+              Drag from this area to create a poll
+            </span>
+            <h3 style={{ borderBottom: "2px solid #000", paddingLeft: "5px" }}>
+              ALL ITEMS
+            </h3>
             <DroppableList listId="songPool" listMap={songItems} />
           </div>
         </div>

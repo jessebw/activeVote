@@ -17,6 +17,7 @@ import { useGlobalState } from "../state/stateContext";
 import configService from "../services/configService";
 import { MdChangeHistory, MdViewModule } from "react-icons/md";
 import { toast } from "react-toastify";
+import { css } from "glamor";
 import ReactGA from "react-ga";
 
 const GridWrapper = styled.div<{ isGridView: boolean }>`
@@ -196,6 +197,10 @@ const VoteForm = (props: {
         <CancelButton
           onClick={(e: any) => {
             props.closeCallBack();
+            ReactGA.event({
+              category: "User",
+              action: "Vote form closed with cancel",
+            });
           }}
         >
           <LeftRight />
@@ -227,6 +232,10 @@ const VoteForm = (props: {
             );
             if (valid === false) {
               toast.error("This is not an email address");
+              ReactGA.event({
+                category: "User",
+                action: "Vote failed not a valid address",
+              });
               return;
             }
 
@@ -234,16 +243,28 @@ const VoteForm = (props: {
               .postSubmitVote(email, props.voteItem._id, props.currentPoll._id)
               .then(
                 (data) => {
-                  // toast not showing
-                  toast.success("Thanks for Voting");
+                  toast("Thanks for Voting", {
+                    className: css({
+                      background: "#000 !important",
+                      color: "#c9c9c9 !important",
+                      fontWeight: "bold",
+                    }),
+                    progressClassName: css({
+                      background: "#242222 !important",
+                    }),
+                  });
                   props.closeCallBack();
                   ReactGA.event({
                     category: "User",
-                    action: "Voted",
+                    action: "Vote success",
                   });
                 },
                 (error) => {
                   toast.error("Sorry you can only vote once a week");
+                  ReactGA.event({
+                    category: "User",
+                    action: "Vote failed - already voted",
+                  });
                 }
               );
           }}
@@ -310,6 +331,10 @@ export const CurrentPoll = () => {
   const buttonClicked = (songID: string) => {
     setVoteSong(songID);
     setVoteFormOpen(true);
+    ReactGA.event({
+      category: "User",
+      action: "Vote form open",
+    });
   };
 
   return (
@@ -334,6 +359,10 @@ export const CurrentPoll = () => {
             <h1>{currentPoll && currentPoll.name}</h1>
             <SettingsMenu
               onClick={(e) => {
+                ReactGA.event({
+                  category: "User",
+                  action: "Grid view clicked",
+                });
                 setIsGridView(!isGridView);
               }}
             >

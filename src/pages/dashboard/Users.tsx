@@ -5,6 +5,7 @@ import apiService from "../../services/apiService";
 import { toast } from "react-toastify";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import styled from "styled-components";
+import ReactGA from "react-ga";
 
 export const Users = () => {
   const [isHidden, setIsHidden] = useState<boolean>(true);
@@ -19,10 +20,14 @@ export const Users = () => {
     }
   `;
 
+  // useEffect(() => {
+  //   ReactGA.pageview(window.location.pathname + window.location.search);
+  // });
+
   return (
     <div>
       <AddUserButton
-        onClick={e => {
+        onClick={(e) => {
           setFormVisible(!formVisible);
         }}
       >
@@ -33,25 +38,25 @@ export const Users = () => {
           <input
             type="text"
             value={newUser.email}
-            onChange={e => {
+            onChange={(e) => {
               setNewUser({
                 ...newUser,
-                email: (e.target as HTMLInputElement).value
+                email: (e.target as HTMLInputElement).value,
               });
             }}
           />
           <input
             type={isHidden ? "password" : "string"}
             value={newUser.password}
-            onChange={e => {
+            onChange={(e) => {
               setNewUser({
                 ...newUser,
-                password: (e.target as HTMLInputElement).value
+                password: (e.target as HTMLInputElement).value,
               });
             }}
           ></input>
           <span
-            onClick={e => {
+            onClick={(e) => {
               setIsHidden(!isHidden);
               // setEyeHidden(!eyeHidden);
             }}
@@ -60,12 +65,20 @@ export const Users = () => {
             {!isHidden && <MdVisibilityOff />}
           </span>
           <SubmitButton
-            onClick={e => {
+            onClick={(e) => {
               apiService.addNewUser(newUser).then(
-                data => {
+                (data) => {
+                  ReactGA.event({
+                    category: "Admin",
+                    action: "Create new user success",
+                  });
                   toast.success(`New user ${data.email}`);
                 },
-                error => {
+                (error) => {
+                  ReactGA.event({
+                    category: "Admin",
+                    action: "Created new user failed",
+                  });
                   toast.error(error.message);
                 }
               );
@@ -93,6 +106,10 @@ const UsersList = () => {
   const deleteUser = (user: IUser) => {
     if (confirm(`Are you sure you want to delete ${user.email}?`)) {
       apiService.deleteUser(user.email).then(() => {
+        ReactGA.event({
+          category: "Admin",
+          action: "Deleted a user",
+        });
         apiService.getAllUsers().then((users: IUser[]) => {
           setUsers(users);
         });
@@ -107,7 +124,7 @@ const UsersList = () => {
         <th>Id</th>
       </tr>
       {users &&
-        users.map(user => (
+        users.map((user) => (
           <tr>
             <td>{user.email}</td>
             <td>{user._id}</td>

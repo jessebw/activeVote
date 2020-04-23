@@ -128,7 +128,7 @@ export const Login = () => {
       >
         Login
       </button>
-      <p>Forgot Username / Password</p>
+      {/* <p>Forgot Username / Password</p> */}
     </LoginWrapper>
   );
 };

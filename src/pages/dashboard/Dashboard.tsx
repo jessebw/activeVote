@@ -9,6 +9,8 @@ import { SideMenu } from "./SideMenu";
 import styled from "styled-components";
 import { PollResults } from "./PollResults";
 import ReactGA from "react-ga";
+import { IUser } from "../../interfaces";
+import { any } from "glamor";
 
 const DashWrapper = styled.div`
   display: flex;
@@ -18,19 +20,23 @@ const DashWrapper = styled.div`
   }
   .view-panel {
     flex: 1 1 auto;
-    border-left: 5px solid #dbdbdb;
+    /* border-left: 5px solid #dbdbdb; */
     overflow-y: auto;
   }
 `;
 
-export const Dashboard = () => {
+{
+  /* trying to pass users email up to show on the dashboard */
+}
+export const Dashboard = (props: { currentUser: IUser }) => {
   useEffect(() => {
     ReactGA.pageview(window.location.pathname + window.location.search);
   });
 
   return (
     <DashWrapper>
-      <SideMenu />
+      {/* trying to pass users email up to show on the dashboard */}
+      <SideMenu currentUser={any} />
       <div className="view-panel">
         <Route path={`/dashboard/polls`} component={Polls} />
         <Route path={`/dashboard/users`} component={Users} />

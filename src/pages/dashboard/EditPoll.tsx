@@ -4,6 +4,8 @@ import { PollForm } from "../../components/PollForm";
 import apiService from "../../services/apiService";
 import { IPoll } from "../../interfaces";
 import { toast } from "react-toastify";
+import { css } from "glamor";
+import ReactGA from "react-ga";
 
 export const EditPoll = () => {
   let { id } = useParams();
@@ -11,6 +13,7 @@ export const EditPoll = () => {
   const [poll, setPoll] = useState<IPoll>();
 
   useEffect(() => {
+    // ReactGA.pageview(window.location.pathname + window.location.search);
     if (id) {
       apiService.getPollById(id).then((poll: IPoll) => {
         setPoll(poll);
@@ -40,11 +43,25 @@ export const EditPoll = () => {
               .then(
                 () => {
                   setSavingPoll(false);
-                  toast.success(`${pollName} poll list Edited`);
+                  toast(`${pollName} Poll Edited`, {
+                    className: css({
+                      background: "#fff !important",
+                      color: "#363636 !important",
+                      fontWeight: "bold",
+                    }),
+                  });
+                  ReactGA.event({
+                    category: "Admin",
+                    action: "Edit poll in success",
+                  });
                 },
-                error => {
+                (error) => {
                   toast.error(`${pollName} could not be Edited`);
                   setSavingPoll(false);
+                  ReactGA.event({
+                    category: "Admin",
+                    action: "Edit poll in failure",
+                  });
                 }
               );
           }}

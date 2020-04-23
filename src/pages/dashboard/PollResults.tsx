@@ -4,6 +4,7 @@ import apiService from "../../services/apiService";
 import { IPollResult, IPoll } from "../../interfaces";
 import styled from "styled-components";
 import moment from "moment";
+import ReactGA from "react-ga";
 
 import {
   BarChart,
@@ -12,7 +13,7 @@ import {
   YAxis,
   Bar,
   Legend,
-  Tooltip
+  Tooltip,
 } from "recharts";
 
 import { number } from "prop-types";
@@ -40,7 +41,7 @@ export const PollResults = () => {
       const wrapperStyles = getComputedStyle(ref.current);
       setChartSize({
         width: parseInt(wrapperStyles.width as string) * 0.8,
-        height: parseInt(wrapperStyles.height as string) * 0.8
+        height: parseInt(wrapperStyles.height as string) * 0.8,
       });
     }
   };
@@ -57,17 +58,18 @@ export const PollResults = () => {
   }, []);
 
   useEffect(() => {
+    // ReactGA.pageview(window.location.pathname + window.location.search);
     apiService.pollResults(pollId as string).then((results: any) => {
       return apiService.getPollById(pollId as string).then((poll: IPoll) => {
         setPoll(poll);
         const resultSet = Object.keys(results).map(
           (key: any): IPollResult => {
-            const song = poll.songs.find(song => song._id === key);
+            const song = poll.songs.find((song) => song._id === key);
             return {
               pollId: pollId as string,
               songId: key,
               songName: song!.songName,
-              votes: results[key] as number
+              votes: results[key] as number,
             };
           }
         );
@@ -90,7 +92,7 @@ export const PollResults = () => {
           top: 5,
           right: 30,
           left: 20,
-          bottom: 5
+          bottom: 5,
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />

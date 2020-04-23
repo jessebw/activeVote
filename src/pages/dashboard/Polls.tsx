@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { toast } from "react-toastify";
 import { Redirect } from "react-router-dom";
 import moment from "moment";
+import ReactGA from "react-ga";
 
 const SelectPollList = styled.div`
   display: grid;
@@ -52,6 +53,7 @@ export const Polls = () => {
   };
 
   useEffect(() => {
+    // ReactGA.pageview(window.location.pathname + window.location.search);
     updatePolls();
     getAllVotes();
     getAllSongs();
@@ -77,14 +79,13 @@ export const Polls = () => {
             >
               <p
                 onClick={(e: any) => {
-                  console.log("pollClicked");
                   setActivePoll(poll);
                   setActivePollVotes(
                     votes
-                      .filter(vote => {
+                      .filter((vote) => {
                         return vote.pollId === poll._id;
                       })
-                      .map(vote => {
+                      .map((vote) => {
                         return {
                           ...vote,
                           songName: songs.reduce((acc, song) => {
@@ -93,7 +94,7 @@ export const Polls = () => {
                             } else {
                               return acc;
                             }
-                          }, "")
+                          }, ""),
                         };
                       })
                   );
@@ -106,11 +107,33 @@ export const Polls = () => {
               </p>
               <nav>
                 <Link to={"/dashboard/editpoll/" + poll._id}>
-                  <button>edit</button>
+                  <button
+                    onClick={(e: any) => {
+                      ReactGA.event({
+                        category: "Admin",
+                        action: "Editpoll Clicked from polls menu",
+                      });
+                    }}
+                  >
+                    edit
+                  </button>
                 </Link>
-                <button>Votes</button>
                 <button
                   onClick={(e: any) => {
+                    ReactGA.event({
+                      category: "Admin",
+                      action: "Vote Users Clicked from polls menu",
+                    });
+                  }}
+                >
+                  Votes
+                </button>
+                <button
+                  onClick={(e: any) => {
+                    ReactGA.event({
+                      category: "Admin",
+                      action: "Poll Results Clicked from polls menu",
+                    });
                     setResultsPoll(poll);
                   }}
                 >
@@ -118,11 +141,19 @@ export const Polls = () => {
                 </button>
                 <button
                   onClick={(e: any) => {
+                    ReactGA.event({
+                      category: "Admin",
+                      action: "Poll delete success",
+                    });
                     apiService.deletePoll(poll._id).then(
                       () => {
                         updatePolls();
                       },
                       () => {
+                        ReactGA.event({
+                          category: "Admin",
+                          action: "Poll delete in failure",
+                        });
                         toast.error(`Error: ${poll.name} could not be deleted`);
                       }
                     );
@@ -138,7 +169,7 @@ export const Polls = () => {
       {activePoll && (
         <PollResultsContainer>
           <h4>{activePoll.name} - Voters</h4>
-          {activePollVotes.map(vote => {
+          {activePollVotes.map((vote) => {
             return (
               <React.Fragment>
                 <p>
