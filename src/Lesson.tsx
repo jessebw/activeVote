@@ -24,7 +24,15 @@ export const Lesson = () => {
       {dinosaurs.map((dino, index) => {
         return (
           <div key={index}>
-            This Dino is {dino.extinct ? " extinct" : " not extinct"}
+            This Dino is {dino.extinct ? " extinct. " : " not extinct. "}
+            Amount of chocolate eaten: {dino.amountOfChocolateEaten}
+            <button
+              onClick={() => {
+                dino.amountOfChocolateEaten = Math.random();
+              }}
+            >
+              Feed Chocolate
+            </button>
             <button
               onClick={() => {
                 dino.bringBackToLife();

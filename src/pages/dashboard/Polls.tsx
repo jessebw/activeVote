@@ -53,7 +53,7 @@ export const Polls = () => {
   };
 
   useEffect(() => {
-    // ReactGA.pageview(window.location.pathname + window.location.search);
+    ReactGA.pageview(window.location.pathname + window.location.search);
     updatePolls();
     getAllVotes();
     getAllSongs();

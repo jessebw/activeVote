@@ -75,13 +75,14 @@ export const SubmitButton = styled.div`
 `;
 
 export const CancelButton = styled.div`
-  width: 25px;
-  height: 25px;
+  width: 26px;
+  height: 26px;
   position: absolute;
   top: 23px;
   right: 23px;
   margin: auto;
   cursor: pointer;
+  border-radius: 50%;
 `;
 
 export const EventButton = styled.button<{ onClick: any }>``;
@@ -91,8 +92,9 @@ export const LeftRight = styled.div`
   height: 4px;
   width: 20px;
   position: absolute;
-  margin-top: 10px;
-  background-color: #ff4b17;
+  margin-top: 11px;
+  margin-left: 3px;
+  background-color: black;
   border-radius: 2px;
   transform: rotate(45deg);
 `;
@@ -101,8 +103,9 @@ export const RightLeft = styled.div`
   height: 4px;
   width: 20px;
   position: absolute;
-  margin-top: 10px;
-  background-color: #ff4b17;
+  margin-top: 11px;
+  margin-left: 3px;
+  background-color: black;
   border-radius: 2px;
   transform: rotate(-45deg);
 `;

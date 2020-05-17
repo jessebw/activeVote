@@ -13,7 +13,7 @@ export const EditPoll = () => {
   const [poll, setPoll] = useState<IPoll>();
 
   useEffect(() => {
-    // ReactGA.pageview(window.location.pathname + window.location.search);
+    ReactGA.pageview(window.location.pathname + window.location.search);
     if (id) {
       apiService.getPollById(id).then((poll: IPoll) => {
         setPoll(poll);

@@ -1,10 +1,11 @@
-import React, { useEffect, useState, ChangeEvent } from "react";
+import React, { useEffect, useState, ChangeEvent, useRef } from "react";
 import apiService from "../../services/apiService";
 import { ISong, INewSong } from "../../interfaces";
 // import { FormModal } from "../../components/StyledComponents";
 import styled from "styled-components";
 import { useGlobalState } from "../../state/stateContext";
 import ReactGA from "react-ga";
+import AvatarEditor from "react-avatar-editor";
 
 const DeleteSong = styled.span`
   cursor: pointer;
@@ -83,92 +84,124 @@ const SongsView = styled.div`
   margin: 0 auto;
 `;
 
+const AddNewSongDropDown = (props: { finishCallBack: () => void }) => {
+  const [imageSliderValue, setImageSliderValue] = useState<string>("1");
+
+  const [formData, setFormData] = useState<INewSong>({
+    artist: "",
+    songName: "",
+    album: "",
+    image: undefined,
+  });
+
+  const changeImageFile = (e: any) => {
+    const image = e.target.files[0];
+    setFormData({ ...formData, image });
+  };
+
+  const imageRef = useRef();
+
+  return (
+    <SongsFormDropDown>
+      <div>
+        <FormInput
+          type="text"
+          placeholder="Artist"
+          required
+          onChange={(event: any) => {
+            setFormData({ ...formData, artist: event.target.value });
+          }}
+        />
+        <FormInput
+          type="text"
+          placeholder="Title"
+          onChange={(event: any) => {
+            setFormData({ ...formData, songName: event.target.value });
+          }}
+        />
+        <FormInput
+          type="text"
+          placeholder="Album"
+          onChange={(event: any) => {
+            setFormData({ ...formData, album: event.target.value });
+          }}
+        />
+        <input type="file" onChange={changeImageFile} />
+        {formData.image && (
+          <div>
+            <AvatarEditor
+              image={formData.image}
+              width={250}
+              height={250}
+              border={50}
+              scale={parseFloat(imageSliderValue)}
+              ref={imageRef as any}
+            />
+            <input
+              type="range"
+              step=".25"
+              min="1"
+              max="5"
+              value={imageSliderValue}
+              className="slider"
+              onChange={(e: ChangeEvent) => {
+                setImageSliderValue((e.target as HTMLInputElement).value);
+              }}
+            ></input>
+            {imageSliderValue}
+          </div>
+        )}
+
+        <SongSubmitButton
+          className="songSubmitButton"
+          onClick={() => {
+            ReactGA.event({
+              category: "Admin",
+              action: "Submitted a new song",
+            });
+
+            (imageRef!.current as any)
+              .getImageScaledToCanvas()
+              .toBlob((blob: Blob) => {
+                const imageFile = new File([blob], "newFile.jpg");
+                const _data = new FormData();
+                _data.append("image", imageFile as File);
+                apiService.uploadImage(_data as any).then((resp: any) => {
+                  apiService
+                    .addNewSong({ ...formData, image: resp[0].path })
+                    .then(() => {
+                      props.finishCallBack();
+                    });
+                });
+              });
+            // console.log((imageRef!.current as any).getImage().toDataURL());
+          }}
+        >
+          Submit
+        </SongSubmitButton>
+        {/* <span>/</span> */}
+        <SongCancelButton
+          className="songCancelButton"
+          onClick={(e: any) => {
+            ReactGA.event({
+              category: "Admin",
+              action: "Cancelled creating a new song",
+            });
+            props.finishCallBack();
+          }}
+        >
+          Cancel
+        </SongCancelButton>
+      </div>
+    </SongsFormDropDown>
+  );
+};
+
 export const Songs = () => {
   const [songItems, setSongItems] = useState<ISong[]>([]);
-  const [formDropDownOpen, setFormDropDownOpen] = useState<boolean>(false);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+
   const [globalState, dispatch] = useGlobalState();
-
-  const AddNewSongDropDown = (props: { finishCallBack: () => void }) => {
-    const [formData, setFormData] = useState<INewSong>({
-      artist: "",
-      songName: "",
-      album: "",
-      image: undefined,
-    });
-
-    const changeImageFile = (e: any) => {
-      const image = e.target.files[0];
-      setFormData({ ...formData, image });
-    };
-
-    // useEffect(() => {
-    //   ReactGA.pageview(window.location.pathname + window.location.search);
-    // });
-
-    return (
-      <SongsFormDropDown>
-        <div>
-          <FormInput
-            type="text"
-            placeholder="Artist"
-            required
-            onChange={(event: any) => {
-              setFormData({ ...formData, artist: event.target.value });
-            }}
-          />
-          <FormInput
-            type="text"
-            placeholder="Title"
-            onChange={(event: any) => {
-              setFormData({ ...formData, songName: event.target.value });
-            }}
-          />
-          <FormInput
-            type="text"
-            placeholder="Album"
-            onChange={(event: any) => {
-              setFormData({ ...formData, album: event.target.value });
-            }}
-          />
-          <input type="file" onChange={changeImageFile} />
-
-          <SongSubmitButton
-            className="songSubmitButton"
-            onClick={() => {
-              ReactGA.event({
-                category: "Admin",
-                action: "Submitted a new song",
-              });
-              const _data = new FormData();
-              _data.append("image", formData.image as Blob);
-              apiService.uploadImage(_data as any).then((resp: any) => {
-                apiService
-                  .addNewSong({ ...formData, image: resp[0].path })
-                  .then(() => {
-                    props.finishCallBack();
-                  });
-              });
-            }}
-          >
-            Submit
-          </SongSubmitButton>
-          {/* <span>/</span> */}
-          <SongCancelButton
-            className="songCancelButton"
-            onClick={(e: any) => {
-              ReactGA.event({
-                category: "Admin",
-                action: "Cancelled creating a new song",
-              });
-              setFormDropDownOpen(false);
-            }}
-          >
-            Cancel
-          </SongCancelButton>
-        </div>
-      </SongsFormDropDown>
-    );
-  };
 
   const getSongs = () => {
     apiService.getAllSongs().then((songs: ISong[]) => {
@@ -176,6 +209,7 @@ export const Songs = () => {
     });
   };
   useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
     getSongs();
   }, []);
 
@@ -197,15 +231,15 @@ export const Songs = () => {
       <h3>Select Song</h3>
       <button
         onClick={(e: any) => {
-          setFormDropDownOpen(true);
+          setIsVisible(true);
         }}
       >
         Add new song
       </button>
-      {formDropDownOpen === true && (
+      {isVisible === true && (
         <AddNewSongDropDown
           finishCallBack={() => {
-            setFormDropDownOpen(false);
+            setIsVisible(false);
             getSongs();
           }}
         />

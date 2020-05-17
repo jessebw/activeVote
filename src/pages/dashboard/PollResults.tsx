@@ -58,7 +58,7 @@ export const PollResults = () => {
   }, []);
 
   useEffect(() => {
-    // ReactGA.pageview(window.location.pathname + window.location.search);
+    ReactGA.pageview(window.location.pathname + window.location.search);
     apiService.pollResults(pollId as string).then((results: any) => {
       return apiService.getPollById(pollId as string).then((poll: IPoll) => {
         setPoll(poll);

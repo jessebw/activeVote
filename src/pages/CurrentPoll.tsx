@@ -15,7 +15,14 @@ import {
 import logoBlack from "../assets/images/activeLogoBlack.png";
 import { useGlobalState } from "../state/stateContext";
 import configService from "../services/configService";
-import { MdChangeHistory, MdViewModule } from "react-icons/md";
+import {
+  MdChangeHistory,
+  MdViewModule,
+  MdExpandMore,
+  MdExpandLess,
+  MdList,
+  MdApps,
+} from "react-icons/md";
 import { toast } from "react-toastify";
 import { css } from "glamor";
 import ReactGA from "react-ga";
@@ -44,28 +51,46 @@ const VoteItem = styled.div<{ imagePath: string; isGridView: boolean }>`
   background-image: url(${(props) => props.imagePath});
   background-repeat: no-repeat;
   background-position: ${(props) => {
-    return props.isGridView ? "center" : "left";
+    return props.isGridView ? "center" : "right";
   }};
   background-size: ${(props) => {
     return props.isGridView ? "cover" : "contain";
   }};
   text-align: ${(props) => {
-    return props.isGridView ? "center" : "center";
+    return props.isGridView ? "center" : "left";
   }};
   height: ${(props) => {
     return props.isGridView ? "100%" : "100%";
   }};
-  width: 100%;
+  width: ${(props) => {
+    return props.isGridView ? "100%" : "50%";
+  }};
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   position: relative;
+  border-top: ${(props) => {
+    return props.isGridView ? "0" : "2px solid RGBA(242, 242, 242, .1)";
+  }};
+  @media screen and (max-device-width: 1024px) {
+    width: ${(props) => {
+      return props.isGridView ? "100%" : "100%";
+    }};
+
+    /* background-color: blue; */
+  }
 
   .vote-btn {
     display: flex;
     align-items: ${(props) => {
       return props.isGridView ? "center" : "center";
     }};
-    justify-content: center;
+    justify-content: ${(props) => {
+      return props.isGridView ? "center" : "left";
+    }};
+    /* padding-left: ${(props) => {
+      return props.isGridView ? "0" : "200px";
+    }}; */
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -82,9 +107,6 @@ const VoteItem = styled.div<{ imagePath: string; isGridView: boolean }>`
     background: ${(props) => {
       return props.isGridView ? "RGBA(242, 242, 242, 1)" : "none";
     }};
-    border-top: ${(props) => {
-      return props.isGridView ? "0" : "2px solid RGBA(242, 242, 242, .2)";
-    }};
   }
   &:hover {
     .vote-btn {
@@ -97,17 +119,26 @@ const VoteItem = styled.div<{ imagePath: string; isGridView: boolean }>`
       cursor: pointer;
     }
   }
+  /* #### Tablets Portrait or Landscape #### */
 `;
 
-const VoteItemData = styled.div`
-  > p {
+const VoteItemData = styled.div<{ isGridView: boolean }>`
+  width: 50%;
+  padding-left: ${(props) => {
+    return props.isGridView ? "0" : "150px";
+  }};
+  @media screen and (max-device-width: 1024px) {
+    /* padding-left: 0; */
+  }
+  /* text-align: left; */
+  /* > p {
     margin: 0;
     padding: 0;
   }
   > h3 {
     margin: 0;
     padding: 0;
-  }
+  } */
 `;
 
 const VoteButton = styled.div<{ onClick: any }>`
@@ -126,23 +157,77 @@ const Title = styled.div`
   justify-content: center;
 `;
 
+// background-position: ${(props) => {
+//   return props.isGridView ? "center" : "right";
+// }};
+
 // Ranked number box
-const Rank = styled.div`
+const Rank = styled.div<{ isGridView: boolean }>`
   position: absolute;
-  left: 0px;
-  top: 0px;
-  background-color: rgba(0, 0, 0, 0.6);
+  left: ${(props) => {
+    return props.isGridView ? "0px" : "10px";
+  }};
+  top: ${(props) => {
+    return props.isGridView ? "0px" : "10px";
+  }};
+  background-color: ${(props) => {
+    return props.isGridView ? "rgba(0, 0, 0, 0.6)" : "none";
+  }};
   color: #fff;
-  width: 40px;
-  height: 40px;
+  width: ${(props) => {
+    return props.isGridView ? "40px" : "80px";
+  }};
+  height: ${(props) => {
+    return props.isGridView ? "40px" : "80px";
+  }};
   text-align: center;
+  font-size: ${(props) => {
+    return props.isGridView ? "1em" : "2em";
+  }};
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 0px 0px 3px 0px;
+  @media screen and (max-device-width: 1024px) {
+    width: ${(props) => {
+      return props.isGridView ? "40px" : "40px";
+    }};
+    height: ${(props) => {
+      return props.isGridView ? "40px" : "40px";
+    }};
+    top: ${(props) => {
+      return props.isGridView ? "0px" : "25px";
+    }};
+  }
 `;
 
-const SettingsMenu = styled.div``;
+const WelcomeModal = styled.div`
+  > * {
+    border-radius: 4px;
+    position: fixed;
+    width: 80%;
+    /* height: 50%; */
+    top: 50%;
+    left: 50%;
+    background: rgba(0, 0, 0, 1);
+    padding: 8px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    text-align: center;
+    border: 0 solid #000;
+  }
+  &:after {
+    content: "";
+    position: fixed;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.9);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+`;
 
 const VoteItemWrapper = (props: {
   key: number;
@@ -156,7 +241,7 @@ const VoteItemWrapper = (props: {
       isGridView={props.gridView}
       imagePath={globalState.config!.serverURL + "/" + props.data.image}
     >
-      <Rank>{props.data.rank}</Rank>
+      <Rank isGridView={props.gridView}>{props.data.rank}</Rank>
       <div className="vote-info">
         <VoteButton
           className="vote-btn"
@@ -164,10 +249,13 @@ const VoteItemWrapper = (props: {
             props.onVote(props.data._id);
           }}
         >
-          <VoteItemData>
-            <p>{props.data.artist}</p>
-            <h3>{props.data.songName}</h3>
-            <p>{props.data.album}</p>
+          <VoteItemData
+            isGridView={props.gridView}
+            // style={{ marginLeft: "150px" }}
+          >
+            <div>{props.data.artist}</div>
+            <div style={{ fontSize: "1.2em" }}>{props.data.songName}</div>
+            <div>{props.data.album}</div>
           </VoteItemData>
         </VoteButton>
       </div>
@@ -202,9 +290,10 @@ const VoteForm = (props: {
               action: "Vote form closed with cancel",
             });
           }}
+          style={{ backgroundColor: "white" }}
         >
-          <LeftRight />
           <RightLeft />
+          <LeftRight />
         </CancelButton>
         <ModalImage
           imagePath={
@@ -212,10 +301,16 @@ const VoteForm = (props: {
           }
         ></ModalImage>
 
-        <p>Please enter your email address to submit vote.</p>
+        <p style={{ color: "rgba()0,0,0, .5" }}>
+          Enter your email address to submit vote.
+        </p>
 
         <FormModalSelection>
-          {props.voteItem.artist} - {props.voteItem.songName}
+          <h3 style={{ color: "rgba(0, 0, 0, .5)" }}>
+            {props.voteItem.artist}
+          </h3>
+
+          <h2>{props.voteItem.songName}</h2>
         </FormModalSelection>
 
         <EmailInput
@@ -309,6 +404,8 @@ export const CurrentPoll = () => {
   const [voteSong, setVoteSong] = useState<string>();
   const [currentPoll, setCurrentPoll] = useState<IPoll>();
   const [isGridView, setIsGridView] = useState<boolean>(true);
+  const [topMenu, setTopMenu] = useState<boolean>(false);
+  const [welcomeModalOpen, setWelcomeModalOpen] = useState<boolean>(true);
 
   useEffect(() => {
     ReactGA.pageview(window.location.pathname + window.location.search);
@@ -328,6 +425,108 @@ export const CurrentPoll = () => {
       });
   }, []);
 
+  const welcomeModalContainer = () => {
+    return (
+      <WelcomeModal>
+        <div
+          style={{ color: "#fff" }}
+          onClick={(e) => {
+            setWelcomeModalOpen(false);
+          }}
+        >
+          <h3 style={{ letterSpacing: ".2em", color: "rgba(255,255,255, .8)" }}>
+            The RadioActive.FM
+          </h3>
+          <h3 style={{ fontSize: "3em", letterSpacing: ".2em" }}>Top 11</h3>
+          <hr style={{ color: "rgba(255,255,255, .5)", width: "50%" }} />
+          <p style={{ color: "rgba(255,255,255, .5)" }}>
+            Select the artist you would like to see win the Top 11
+          </p>
+          <p style={{ color: "rgba(255,255,255, .5)" }}>
+            Played out every Wednesday night from 7 till 9PM on Radio Active
+            88.6FM
+          </p>
+          <p style={{ fontSize: ".6em", color: "rgba(255,255,255, .5)" }}>
+            Please only vote once, we do not collect your email address for any
+            purpose other than voting.
+          </p>
+
+          <h3>Close</h3>
+        </div>
+      </WelcomeModal>
+    );
+  };
+
+  const topMenuContainer = () => {
+    return (
+      <div
+        style={{
+          width: "100%",
+          backgroundColor: "#000",
+          color: "#fff",
+        }}
+      >
+        <div
+          onClick={() => {
+            setTopMenu(!topMenu);
+          }}
+          style={{
+            position: "absolute",
+            left: "10px",
+            top: "10px",
+            fontSize: "2em",
+          }}
+        >
+          {topMenu && <MdExpandLess />}
+        </div>
+        <div
+          style={{
+            fontSize: "2em",
+            textAlign: "center",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <span
+            style={{
+              marginRight: "10px",
+              display: "flex",
+              alignItems: "center",
+            }}
+            onClick={(e) => {
+              ReactGA.event({
+                category: "User",
+                action: "List view clicked",
+              });
+              setIsGridView(false);
+            }}
+          >
+            <MdList />
+            <p>List</p>
+          </span>
+          <span
+            style={{
+              marginLeft: "10px",
+              display: "flex",
+              alignItems: "center",
+            }}
+            onClick={(e) => {
+              ReactGA.event({
+                category: "User",
+                action: "Grid view clicked",
+              });
+              setIsGridView(true);
+            }}
+          >
+            <MdApps />
+            <p>Grid</p>
+          </span>
+        </div>
+      </div>
+    );
+  };
+
   const buttonClicked = (songID: string) => {
     setVoteSong(songID);
     setVoteFormOpen(true);
@@ -340,6 +539,8 @@ export const CurrentPoll = () => {
   return (
     // introduce a loading state which triggers full page when passed
     <FullPage>
+      {!welcomeModalOpen ? "" : welcomeModalContainer()}
+      {!topMenu ? "" : topMenuContainer()}
       {voteFormOpen && (
         <VoteForm
           closeCallBack={() => {
@@ -356,19 +557,33 @@ export const CurrentPoll = () => {
       ) : (
         <GridWrapper isGridView={isGridView}>
           <Title>
-            <h1>{currentPoll && currentPoll.name}</h1>
-            <SettingsMenu
-              onClick={(e) => {
-                ReactGA.event({
-                  category: "User",
-                  action: "Grid view clicked",
-                });
-                setIsGridView(!isGridView);
+            <div
+              onClick={() => {
+                setTopMenu(!topMenu);
+              }}
+              style={{
+                position: "absolute",
+                left: "10px",
+                top: "10px",
+                fontSize: "2em",
               }}
             >
-              {isGridView && <MdChangeHistory />}
-              {!isGridView && <MdViewModule />}
-            </SettingsMenu>
+              {!topMenu && <MdExpandMore />}
+            </div>
+            <div>
+              <h2
+                style={{
+                  textAlign: "center",
+                  display: "block",
+                  color: "rgba(255, 255, 255, .2)",
+                }}
+              >
+                The RadioActive.FM
+              </h2>
+              <h1 style={{ textAlign: "center", display: "block" }}>
+                {currentPoll && currentPoll.name}
+              </h1>
+            </div>
           </Title>
           {voteItems.map((voteItem: IVoteItem, i: number) => {
             return (
