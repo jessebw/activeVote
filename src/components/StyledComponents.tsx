@@ -8,7 +8,6 @@ export const FormModal = styled.div`
     height: 80%;
     top: 50%;
     left: 50%;
-    /* background: rgba(255, 255, 255, 0.5); */
     background: #fff;
     padding: 8px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
@@ -20,7 +19,6 @@ export const FormModal = styled.div`
     content: "";
     position: fixed;
     z-index: 1;
-    /* background: rgba(0, 0, 0, 0.7); */
     top: 0;
     right: 0;
     bottom: 0;
@@ -35,9 +33,7 @@ export const FullPage = styled.div`
 `;
 export const FormModalSelection = styled.div`
   letter-spacing: 3px;
-  /* font-size: 1.2em; */
   font-weight: bold;
-  /* margin-bottom: 2em; */
 `;
 
 export const EmailInput = styled.input`
@@ -54,7 +50,6 @@ export const EmailInput = styled.input`
 `;
 
 export const SubmitButton = styled.div`
-  /* color: blue; */
   width: 100%;
   border: 0 solid #000;
   border-radius: 4px;
@@ -63,7 +58,6 @@ export const SubmitButton = styled.div`
   color: #000;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  /* background-color: #3f7b96; */
   background-color: #fff;
   :focus {
     outline: 0;
@@ -143,15 +137,4 @@ export const StyledListItem = styled.div`
   }
 `;
 
-export const InputComponent = styled.label`
-  /* line-height: 2em;
-  margin-right: 2em;
-  input {
-    border: none;
-    border-bottom: 1px dashed #000;
-    text-align: center;
-    :focus {
-      outline: 0;
-    }
-  } */
-`;
+export const InputComponent = styled.label``;

@@ -27,7 +27,6 @@ export const CreateNewPoll = () => {
           (data) => {
             setSavingPoll(false);
             setPollId(data._id);
-            // toast.success(`${pollName} poll Saved`);
             toast(`${pollName} Poll Saved`, {
               className: css({
                 background: "#fff !important",

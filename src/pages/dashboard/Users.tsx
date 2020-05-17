@@ -20,10 +20,6 @@ export const Users = () => {
     }
   `;
 
-  // useEffect(() => {
-  //   ReactGA.pageview(window.location.pathname + window.location.search);
-  // });
-
   return (
     <div>
       <AddUserButton
@@ -58,7 +54,6 @@ export const Users = () => {
           <span
             onClick={(e) => {
               setIsHidden(!isHidden);
-              // setEyeHidden(!eyeHidden);
             }}
           >
             {isHidden && <MdVisibility />}

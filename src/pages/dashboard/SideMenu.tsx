@@ -128,7 +128,6 @@ export const SideMenu = (props: { currentUser: any }) => {
       <UserStatus>
         Status:{" "}
         <b>
-          {/* trying to pass users email up to show on the dashboard */}
           {console.log(props.currentUser.email)}
           {props.currentUser.email}
           {globalState.auth ? " currently" : " not"}

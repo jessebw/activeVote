@@ -1,7 +1,6 @@
 import React, { useEffect, useState, ChangeEvent, useRef } from "react";
 import apiService from "../../services/apiService";
 import { ISong, INewSong } from "../../interfaces";
-// import { FormModal } from "../../components/StyledComponents";
 import styled from "styled-components";
 import { useGlobalState } from "../../state/stateContext";
 import ReactGA from "react-ga";
@@ -9,10 +8,6 @@ import AvatarEditor from "react-avatar-editor";
 
 const DeleteSong = styled.span`
   cursor: pointer;
-  /* top: 0;
-  right: 0; */
-  /* padding: 12px 16px; */
-  /* transform: translate(0%, -50%); */
   margin: 0px 10px;
   float: right;
   .delete-song {
@@ -36,7 +31,6 @@ const FormInput = styled.input`
   border-bottom: 1px solid #000;
   text-align: left;
   &:hover {
-    /* color: #fff; */
     background-color: rgba(238, 238, 238, 1);
     box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.05);
   }
@@ -51,8 +45,6 @@ const SongsFormDropDown = styled.div`
 `;
 
 const SongCancelButton = styled.button`
-  /* margin-left: 5px;
-  padding: 5px; */
   width: 50%;
   background-color: transparent;
 
@@ -63,9 +55,6 @@ const SongCancelButton = styled.button`
 `;
 
 const SongSubmitButton = styled.button`
-  /* margin-left: 5px;
-  margin-right: 5px;
-  padding: 5px; */
   width: 50%;
   background-color: rgba(93, 173, 226, 1);
   color: #fff;
@@ -174,12 +163,10 @@ const AddNewSongDropDown = (props: { finishCallBack: () => void }) => {
                     });
                 });
               });
-            // console.log((imageRef!.current as any).getImage().toDataURL());
           }}
         >
           Submit
         </SongSubmitButton>
-        {/* <span>/</span> */}
         <SongCancelButton
           className="songCancelButton"
           onClick={(e: any) => {
@@ -221,7 +208,6 @@ export const Songs = () => {
     height: 50px;
     width: 50px;
     background-image: url(${(props) => props.imagePath});
-    /* background-color: orange; */
     background-repeat: none;
     background-size: cover;
   `;
@@ -263,8 +249,6 @@ export const Songs = () => {
             >
               x
             </DeleteSong>
-            {/* <p>{song.songName}</p>
-            <p>{song.album}</p> */}
           </SongInfo>
         );
       })}

@@ -72,12 +72,10 @@ const VoteItem = styled.div<{ imagePath: string; isGridView: boolean }>`
   border-top: ${(props) => {
     return props.isGridView ? "0" : "2px solid RGBA(242, 242, 242, .1)";
   }};
-  @media screen and (max-device-width: 1024px) {
+  @media screen and (max-device-width: 1000px) {
     width: ${(props) => {
       return props.isGridView ? "100%" : "100%";
     }};
-
-    /* background-color: blue; */
   }
 
   .vote-btn {
@@ -88,9 +86,6 @@ const VoteItem = styled.div<{ imagePath: string; isGridView: boolean }>`
     justify-content: ${(props) => {
       return props.isGridView ? "center" : "left";
     }};
-    /* padding-left: ${(props) => {
-      return props.isGridView ? "0" : "200px";
-    }}; */
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -111,15 +106,11 @@ const VoteItem = styled.div<{ imagePath: string; isGridView: boolean }>`
   &:hover {
     .vote-btn {
       display: block;
-      /* width: 100%; */
       opacity: 0.8;
       display: flex;
-      /* align-items: center; */
-      /* justify-content: center; */
       cursor: pointer;
     }
   }
-  /* #### Tablets Portrait or Landscape #### */
 `;
 
 const VoteItemData = styled.div<{ isGridView: boolean }>`
@@ -127,25 +118,16 @@ const VoteItemData = styled.div<{ isGridView: boolean }>`
   padding-left: ${(props) => {
     return props.isGridView ? "0" : "150px";
   }};
-  @media screen and (max-device-width: 1024px) {
-    /* padding-left: 0; */
+  @media screen and (max-device-width: 1000px) {
+    padding-left: ${(props) => {
+      return props.isGridView ? "0" : "60px";
+    }};
   }
-  /* text-align: left; */
-  /* > p {
-    margin: 0;
-    padding: 0;
-  }
-  > h3 {
-    margin: 0;
-    padding: 0;
-  } */
 `;
 
 const VoteButton = styled.div<{ onClick: any }>`
   width: 100%;
 `;
-
-// ${var} is inter[polition for string literals (inserting js into strings)
 
 //Title Of The Poll - Top left box.
 const Title = styled.div`
@@ -156,10 +138,6 @@ const Title = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
-// background-position: ${(props) => {
-//   return props.isGridView ? "center" : "right";
-// }};
 
 // Ranked number box
 const Rank = styled.div<{ isGridView: boolean }>`
@@ -188,7 +166,7 @@ const Rank = styled.div<{ isGridView: boolean }>`
   align-items: center;
   justify-content: center;
   border-radius: 0px 0px 3px 0px;
-  @media screen and (max-device-width: 1024px) {
+  @media screen and (max-device-width: 1000px) {
     width: ${(props) => {
       return props.isGridView ? "40px" : "40px";
     }};
@@ -206,7 +184,6 @@ const WelcomeModal = styled.div`
     border-radius: 4px;
     position: fixed;
     width: 80%;
-    /* height: 50%; */
     top: 50%;
     left: 50%;
     background: rgba(0, 0, 0, 1);
@@ -249,10 +226,7 @@ const VoteItemWrapper = (props: {
             props.onVote(props.data._id);
           }}
         >
-          <VoteItemData
-            isGridView={props.gridView}
-            // style={{ marginLeft: "150px" }}
-          >
+          <VoteItemData isGridView={props.gridView}>
             <div>{props.data.artist}</div>
             <div style={{ fontSize: "1.2em" }}>{props.data.songName}</div>
             <div>{props.data.album}</div>

@@ -41,15 +41,6 @@ const ListItem = (props: { song: ISong }) => {
   );
 };
 
-const DatePickerContainer = styled.div`
-  /* background-color: blue; */
-  display: flex;
-  > &:button {
-    /* width: 1em; */
-    background-color: green;
-  }
-`;
-
 const CustomButton = styled.button`
   border-radius: 5px;
   background-color: #5dade2;
@@ -112,15 +103,11 @@ export const PollForm = (props: {
   const [chosenItems, setChosenItems] = useState<ISong[]>([]);
   const [deletePoll, setDeletePoll] = useState<boolean>(false);
 
-  // const [selectedDate, setSelectedDate] = useState(new Date());
-
   const handleStartDateChange = (date: any) => {
-    // setSelectedDate(date);
     setStartDate(date);
   };
 
   const handleEndDateChange = (date: any) => {
-    // setSelectedDate(date);
     setEndDate(date);
   };
 
@@ -195,8 +182,8 @@ export const PollForm = (props: {
       }}
     >
       <PollFormWrapper style={{ display: "flex" }} className="">
-        <div style={{}}>
-          <InputComponent style={{}}>
+        <div>
+          <InputComponent>
             <TextField
               type="text"
               placeholder="Poll Name"
@@ -210,29 +197,6 @@ export const PollForm = (props: {
               variant="outlined"
             />
           </InputComponent>
-          {/* <DatePickerContainer>
-            <InputComponent>
-              Start Date:
-              <DatePicker
-                id="outlined-basic"
-                selected={startDate}
-                dateFormat="dd/MM/yyyy"
-                onChange={(date: Date) => {
-                  setStartDate(date);
-                }}
-              />
-            </InputComponent>
-            <InputComponent>
-              End Date:
-              <DatePicker
-                selected={endDate}
-                dateFormat="dd/MM/yyyy"
-                onChange={(date: Date) => {
-                  setEndDate(date);
-                }}
-              />
-            </InputComponent>
-          </DatePickerContainer> */}
           <div>
             <label onClick={(e) => e.preventDefault()}>
               <MuiPickersUtilsProvider utils={MomentUtils}>

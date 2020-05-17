@@ -20,14 +20,10 @@ const DashWrapper = styled.div`
   }
   .view-panel {
     flex: 1 1 auto;
-    /* border-left: 5px solid #dbdbdb; */
     overflow-y: auto;
   }
 `;
 
-{
-  /* trying to pass users email up to show on the dashboard */
-}
 export const Dashboard = (props: { currentUser: IUser }) => {
   useEffect(() => {
     ReactGA.pageview(window.location.pathname + window.location.search);
@@ -35,7 +31,6 @@ export const Dashboard = (props: { currentUser: IUser }) => {
 
   return (
     <DashWrapper>
-      {/* trying to pass users email up to show on the dashboard */}
       <SideMenu currentUser={any} />
       <div className="view-panel">
         <Route path={`/dashboard/polls`} component={Polls} />
