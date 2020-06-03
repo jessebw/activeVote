@@ -5,17 +5,7 @@ import styled from "styled-components";
 import { useGlobalState } from "../../state/stateContext";
 import ReactGA from "react-ga";
 import AvatarEditor from "react-avatar-editor";
-
-const DeleteSong = styled.span`
-  cursor: pointer;
-  margin: 0px 10px;
-  float: right;
-  .delete-song {
-  }
-  &:hover {
-    color: red;
-  }
-`;
+import { LeftRight, RightLeft } from "../../components/StyledComponents";
 
 const FormInput = styled.input`
   width: 100%;
@@ -66,11 +56,64 @@ const SongSubmitButton = styled.button`
   }
 `;
 
-const SongInfo = styled.span``;
-
 const SongsView = styled.div`
   width: 60%;
   margin: 0 auto;
+`;
+
+const SongInfo = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  /* background-color: green; */
+  :nth-child(even) {
+    background: #d4e6f1;
+  }
+`;
+
+const DeleteSong = styled.div`
+  cursor: pointer;
+  /* margin: 0px 10px;
+  float: right;
+  .delete-song {
+  } */
+  &:hover {
+    color: red;
+  }
+`;
+
+const TrackData = styled.div`
+  width: 50%;
+`;
+
+const SongImage = styled.div<{ imagePath: string }>`
+  height: 50px;
+  width: 50px;
+  background-image: url(${(props) => props.imagePath});
+  background-repeat: none;
+  background-size: cover;
+`;
+
+const SongDeleteButton = styled.div`
+  width: 26px;
+  height: 26px;
+  /* position: absolute; */
+  /* top: 23px;
+  right: 23px; */
+  margin: auto;
+  cursor: pointer;
+  border-radius: 50%;
+  /* background-color: #d4e6f1; */
+  :nth-child(1) {
+    &:hover {
+      background-color: white;
+    }
+  }
+  :nth-child(2) {
+    &:hover {
+      background-color: #d4e6f1;
+    }
+  }
 `;
 
 const AddNewSongDropDown = (props: { finishCallBack: () => void }) => {
@@ -204,17 +247,8 @@ export const Songs = () => {
     return song.image;
   };
 
-  const SongImage = styled.div<{ imagePath: string }>`
-    height: 50px;
-    width: 50px;
-    background-image: url(${(props) => props.imagePath});
-    background-repeat: none;
-    background-size: cover;
-  `;
-
   return (
     <SongsView>
-      <h3>Select Song</h3>
       <button
         onClick={(e: any) => {
           setIsVisible(true);
@@ -234,8 +268,9 @@ export const Songs = () => {
       {songItems.map((song: ISong) => {
         return (
           <SongInfo key={song._id}>
-            <hr />
-            {song.artist} - {song.songName} - {song.album}
+            <TrackData>
+              {song.artist} - {song.songName} - {song.album}
+            </TrackData>
             <SongImage
               imagePath={`${globalState.config!.serverURL}/${song.image}`}
             ></SongImage>
@@ -249,6 +284,10 @@ export const Songs = () => {
             >
               x
             </DeleteSong>
+            <SongDeleteButton>
+              <LeftRight />
+              <RightLeft />
+            </SongDeleteButton>
           </SongInfo>
         );
       })}

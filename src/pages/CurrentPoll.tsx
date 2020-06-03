@@ -193,6 +193,7 @@ const WelcomeModal = styled.div`
     z-index: 2;
     text-align: center;
     border: 0 solid #000;
+    cursor: pointer;
   }
   &:after {
     content: "";
