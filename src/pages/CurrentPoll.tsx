@@ -34,19 +34,31 @@ const GridWrapper = styled.div<{ isGridView: boolean }>`
   color: #fff;
   grid-template-columns: ${(props) => {
     return props.isGridView
-      ? "repeat(auto-fit, minmax(240px, 1fr));"
+      ? "repeat(auto-fit, minmax(250px, 1fr));"
       : "repeat(auto-fit, minmax(1, 1fr));";
   }};
+  grid-template-rows: ${(props) => {
+    return props.isGridView
+      ? "repeat(auto-fit, 250px);"
+      : "repeat(auto-fill, minmax(1, 1fr));";
+  }};
+
   > div {
-    height: ${(props) => {
+    min-height: ${(props) => {
       return props.isGridView ? "250px;" : "100px;";
     }};
+    height: 100%;
   }
 `;
 
-const VoteItem = styled.div<{ imagePath: string; isGridView: boolean }>`
+const VoteItem = styled.div<{
+  onClick: any;
+  imagePath: string;
+  isGridView: boolean;
+}>`
+  cursor: pointer;
   color: ${(props) => {
-    return props.isGridView ? "#000;" : "#fff;";
+    return props.isGridView ? "#fff;" : "#fff;";
   }};
   background-image: url(${(props) => props.imagePath});
   background-repeat: no-repeat;
@@ -67,7 +79,6 @@ const VoteItem = styled.div<{ imagePath: string; isGridView: boolean }>`
   }};
   margin: 0 auto;
   display: flex;
-  flex-direction: column;
   position: relative;
   border-top: ${(props) => {
     return props.isGridView ? "0" : "2px solid RGBA(242, 242, 242, .1)";
@@ -80,37 +91,24 @@ const VoteItem = styled.div<{ imagePath: string; isGridView: boolean }>`
 
   .vote-btn {
     display: flex;
-    align-items: ${(props) => {
-      return props.isGridView ? "center" : "center";
-    }};
-    justify-content: ${(props) => {
-      return props.isGridView ? "center" : "left";
-    }};
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    position: absolute;
-    transition-timing-function: ease-in-out;
-    transition: opacity 0.4s;
-    opacity: ${(props) => {
-      return props.isGridView ? "0" : "1";
-    }};
-    height: 100%;
-    width: ${(props) => {
-      return props.isGridView ? "100%" : "100%";
-    }};
-    background: ${(props) => {
-      return props.isGridView ? "RGBA(242, 242, 242, 1)" : "none";
-    }};
-  }
-  &:hover {
-    .vote-btn {
-      display: block;
-      opacity: 0.8;
-      display: flex;
-      cursor: pointer;
-    }
-  }
+    align-items: center;
+    padding: 5px;
+      justify-content: ${(props) => {
+        return props.isGridView ? "center" : "left";
+      }};
+      top: ${(props) => {
+        return props.isGridView ? "auto" : "50%";
+      }};
+      align-self: ${(props) => {
+        return props.isGridView ? "flex-end" : "center";
+      }};
+      width: ${(props) => {
+        return props.isGridView ? "100%" : "100%";
+      }};
+      background: ${(props) => {
+        return props.isGridView ? "RGBA(12, 12, 12, .7)" : "none";
+      }};
+  }}
 `;
 
 const VoteItemData = styled.div<{ isGridView: boolean }>`
@@ -125,8 +123,19 @@ const VoteItemData = styled.div<{ isGridView: boolean }>`
   }
 `;
 
-const VoteButton = styled.div<{ onClick: any }>`
+const VoteButton = styled.div`
   width: 100%;
+`;
+
+const ActiveButton = styled.button`
+  border: 2px solid #fff;
+  border-radius: 4px;
+  font-weight: 700;
+  width: auto;
+  padding: 10px 20px;
+  background-color: #000;
+  color: #fff;
+  letter-spacing: 3px;
 `;
 
 //Title Of The Poll - Top left box.
@@ -218,22 +227,21 @@ const VoteItemWrapper = (props: {
     <VoteItem
       isGridView={props.gridView}
       imagePath={globalState.config!.serverURL + "/" + props.data.image}
+      onClick={(e: MouseEvent) => {
+        props.onVote(props.data._id);
+      }}
     >
       <Rank isGridView={props.gridView}>{props.data.rank}</Rank>
-      <div className="vote-info">
-        <VoteButton
-          className="vote-btn"
-          onClick={(e: MouseEvent) => {
-            props.onVote(props.data._id);
-          }}
-        >
-          <VoteItemData isGridView={props.gridView}>
-            <div>{props.data.artist}</div>
-            <div style={{ fontSize: "1.2em" }}>{props.data.songName}</div>
-            <div>{props.data.album}</div>
-          </VoteItemData>
-        </VoteButton>
-      </div>
+
+      <VoteButton className="vote-btn">
+        <VoteItemData isGridView={props.gridView}>
+          <div style={{ opacity: ".7" }}>{props.data.artist}</div>
+          <div style={{ fontSize: "1.2em", fontWeight: "bold" }}>
+            {props.data.songName}
+          </div>
+          <div style={{ opacity: ".7" }}>{props.data.album}</div>
+        </VoteItemData>
+      </VoteButton>
     </VoteItem>
   );
 };
@@ -378,7 +386,8 @@ export const CurrentPoll = () => {
   const [voteFormOpen, setVoteFormOpen] = useState<boolean>(false);
   const [voteSong, setVoteSong] = useState<string>();
   const [currentPoll, setCurrentPoll] = useState<IPoll>();
-  const [isGridView, setIsGridView] = useState<boolean>(true);
+  const mql = window.matchMedia("(max-width: 500px)");
+  const [isGridView, setIsGridView] = useState<boolean>(!mql.matches);
   const [topMenu, setTopMenu] = useState<boolean>(false);
   const [welcomeModalOpen, setWelcomeModalOpen] = useState<boolean>(true);
 
@@ -425,8 +434,9 @@ export const CurrentPoll = () => {
             Please only vote once, we do not collect your email address for any
             purpose other than voting.
           </p>
-
-          <h3>Close</h3>
+          <ActiveButton style={{ marginTop: "10px" }}>
+            Start Voting
+          </ActiveButton>
         </div>
       </WelcomeModal>
     );
