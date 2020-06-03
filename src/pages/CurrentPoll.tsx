@@ -58,7 +58,7 @@ const VoteItem = styled.div<{
 }>`
   cursor: pointer;
   color: ${(props) => {
-    return props.isGridView ? "#fff;" : "#fff;";
+    return props.isGridView ? "#fff" : "#fff";
   }};
   background-image: url(${(props) => props.imagePath});
   background-repeat: no-repeat;
@@ -88,27 +88,26 @@ const VoteItem = styled.div<{
       return props.isGridView ? "100%" : "100%";
     }};
   }
-
   .vote-btn {
     display: flex;
     align-items: center;
     padding: 5px;
-      justify-content: ${(props) => {
-        return props.isGridView ? "center" : "left";
-      }};
-      top: ${(props) => {
-        return props.isGridView ? "auto" : "50%";
-      }};
-      align-self: ${(props) => {
-        return props.isGridView ? "flex-end" : "center";
-      }};
-      width: ${(props) => {
-        return props.isGridView ? "100%" : "100%";
-      }};
-      background: ${(props) => {
-        return props.isGridView ? "RGBA(12, 12, 12, .7)" : "none";
-      }};
-  }}
+    justify-content: ${(props) => {
+      return props.isGridView ? "center" : "left";
+    }};
+    top: ${(props) => {
+      return props.isGridView ? "auto" : "50%";
+    }};
+    align-self: ${(props) => {
+      return props.isGridView ? "flex-end" : "center";
+    }};
+    width: ${(props) => {
+      return props.isGridView ? "100%" : "100%";
+    }};
+    background: ${(props) => {
+      return props.isGridView ? "RGBA(12, 12, 12, .7)" : "none";
+    }};
+  }
 `;
 
 const VoteItemData = styled.div<{ isGridView: boolean }>`
