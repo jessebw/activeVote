@@ -16,7 +16,6 @@ import { IUser } from "../../interfaces";
 
 const MenuComponent = styled.div`
   display: inline-block;
-  /* background-color: #636363; */
   flex: 0 0 auto;
   nav {
   }
@@ -24,16 +23,14 @@ const MenuComponent = styled.div`
     display: flex;
     height: 50px;
     font-family: "Montserrat", sans-serif;
-    color: #000;
-    /* text-align: left; */
-    /* align-items: center; */
-    /* justify-content: center; */
+    color: rgba(0, 0, 0, 0.6);
+    text-align: center;
     text-decoration: none;
   }
 `;
 
 const NavMenu = styled.nav`
-  margin: 50% 50px 0 50px;
+  display: block;
   .active {
     font-weight: bold;
     color: dodgerblue;
@@ -53,12 +50,9 @@ const LogoutButton = styled.div`
 `;
 
 const NavText = styled.div`
-  display: none;
+  width: 100%;
 `;
 
-{
-  /* trying to pass users email up to show on the dashboard */
-}
 export const SideMenu = (props: { currentUser: any }) => {
   const [globalState, dispatch] = useGlobalState();
 
@@ -66,12 +60,21 @@ export const SideMenu = (props: { currentUser: any }) => {
     <MenuComponent>
       <NavMenu>
         <NavLink to="/dashboard/results/:pollId">
-          {/* <BsBarChartFill style={{ width: "25px", height: "25px" }} /> */}
-          <MdShowChart style={{ width: "25px", height: "25px" }} />
-          <NavText>DASHBOARD</NavText>
+          <MdShowChart
+            style={{ width: "35px", height: "35px", color: "#000" }}
+          />
+          <NavText>STATS</NavText>
         </NavLink>
+
         <NavLink activeClassName="active" to="/dashboard/create-new-poll">
-          <BsPlus style={{ width: "25px", height: "25px" }} />
+          <BsPlus
+            style={{
+              width: "35px",
+              height: "35px",
+              color: "#000",
+              margin: "0 auto",
+            }}
+          />
           <NavText>ADD NEW POLL</NavText>
         </NavLink>
         <NavLink
@@ -84,7 +87,7 @@ export const SideMenu = (props: { currentUser: any }) => {
           }}
         >
           <BsReverseLayoutSidebarReverse
-            style={{ width: "25px", height: "25px" }}
+            style={{ width: "35px", height: "35px", color: "#000" }}
           />
           <NavText>ALL POLLS</NavText>
         </NavLink>
@@ -97,7 +100,7 @@ export const SideMenu = (props: { currentUser: any }) => {
             });
           }}
         >
-          <BsListUl style={{ width: "25px", height: "25px" }} />
+          <BsListUl style={{ width: "35px", height: "35px", color: "#000" }} />
           <NavText>POLL ITEMS</NavText>
         </NavLink>
         <NavLink
@@ -109,7 +112,7 @@ export const SideMenu = (props: { currentUser: any }) => {
             });
           }}
         >
-          <BsPeople style={{ width: "25px", height: "25px" }} />
+          <BsPeople style={{ width: "35px", height: "35px", color: "#000" }} />
           <NavText>USERS</NavText>
         </NavLink>
       </NavMenu>

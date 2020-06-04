@@ -112,7 +112,9 @@ const VoteItem = styled.div<{
 `;
 
 const VoteItemData = styled.div<{ isGridView: boolean }>`
-  width: 50%;
+  width: ${(props) => {
+    return props.isGridView ? "100%" : "50%";
+  }};
   padding-left: ${(props) => {
     return props.isGridView ? "0" : "150px";
   }};

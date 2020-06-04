@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { useGlobalState } from "../../state/stateContext";
 import ReactGA from "react-ga";
 import AvatarEditor from "react-avatar-editor";
-import { LeftRight, RightLeft } from "../../components/StyledComponents";
 
 const FormInput = styled.input`
   width: 100%;
@@ -64,21 +63,46 @@ const SongsView = styled.div`
 const SongInfo = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
   width: 100%;
   /* background-color: green; */
   :nth-child(even) {
-    background: #d4e6f1;
+    background: rgba(212, 230, 241, 0.5);
   }
 `;
 
-const DeleteSong = styled.div`
+const EditSong = styled.button`
   cursor: pointer;
-  /* margin: 0px 10px;
-  float: right;
-  .delete-song {
-  } */
+  width: 100%;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #5dade2;
+  background-color: #fff;
+  border: 2px solid #5dade2;
+  margin-bottom: 5px;
+  transition-duration: 0.4s;
+  outline: 0;
   &:hover {
-    color: red;
+    color: #fff;
+    background-color: #5dade2;
+    /* border: 2px solid #fff; */
+  }
+`;
+
+const DeleteSong = styled.button`
+  cursor: pointer;
+  width: 100%;
+  text-decoration: none;
+  border-radius: 5px;
+  color: #ff5739;
+  background-color: #fff;
+  border: 2px solid #ff5739;
+  transition-duration: 0.4s;
+  outline: 0;
+  &:hover {
+    color: #fff;
+    background-color: #ff5739;
+    /* border: 2px solid #fff; */
   }
 `;
 
@@ -92,28 +116,6 @@ const SongImage = styled.div<{ imagePath: string }>`
   background-image: url(${(props) => props.imagePath});
   background-repeat: none;
   background-size: cover;
-`;
-
-const SongDeleteButton = styled.div`
-  width: 26px;
-  height: 26px;
-  /* position: absolute; */
-  /* top: 23px;
-  right: 23px; */
-  margin: auto;
-  cursor: pointer;
-  border-radius: 50%;
-  /* background-color: #d4e6f1; */
-  :nth-child(1) {
-    &:hover {
-      background-color: white;
-    }
-  }
-  :nth-child(2) {
-    &:hover {
-      background-color: #d4e6f1;
-    }
-  }
 `;
 
 const AddNewSongDropDown = (props: { finishCallBack: () => void }) => {
@@ -163,8 +165,8 @@ const AddNewSongDropDown = (props: { finishCallBack: () => void }) => {
           <div>
             <AvatarEditor
               image={formData.image}
-              width={800}
-              height={800}
+              width={500}
+              height={500}
               border={50}
               scale={parseFloat(imageSliderValue)}
               ref={imageRef as any}
@@ -274,16 +276,19 @@ export const Songs = () => {
             <SongImage
               imagePath={`${globalState.config!.serverURL}/${song.image}`}
             ></SongImage>
-            <DeleteSong
-              className="delete-song"
-              onClick={() => {
-                apiService.deleteSong(song._id).then(() => {
-                  getSongs();
-                });
-              }}
-            >
-              x
-            </DeleteSong>
+            <div style={{ width: "30%", padding: "5px" }}>
+              <EditSong>EDIT</EditSong>
+              <DeleteSong
+                className="delete-song"
+                onClick={() => {
+                  apiService.deleteSong(song._id).then(() => {
+                    getSongs();
+                  });
+                }}
+              >
+                DELETE
+              </DeleteSong>
+            </div>
           </SongInfo>
         );
       })}
