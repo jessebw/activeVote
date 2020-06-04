@@ -58,7 +58,7 @@ const VoteItem = styled.div<{
 }>`
   cursor: pointer;
   color: ${(props) => {
-    return props.isGridView ? "#fff;" : "#fff;";
+    return props.isGridView ? "#fff" : "#fff";
   }};
   background-image: url(${(props) => props.imagePath});
   background-repeat: no-repeat;
@@ -89,7 +89,6 @@ const VoteItem = styled.div<{
       return props.isGridView ? "100%" : "100%";
     }};
   }
-
   .vote-btn {
     display: flex;
     align-items: center;
