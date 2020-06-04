@@ -34,6 +34,7 @@ export const FullPage = styled.div`
   width: 100%;
   height: 100%;
   overflow: auto;
+  background-color: #0c0c0c;
 `;
 export const FormModalSelection = styled.div`
   letter-spacing: 3px;

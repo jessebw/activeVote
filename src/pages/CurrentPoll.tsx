@@ -83,6 +83,7 @@ const VoteItem = styled.div<{
   border-top: ${(props) => {
     return props.isGridView ? "0" : "2px solid RGBA(242, 242, 242, .1)";
   }};
+
   @media screen and (max-device-width: 1000px) {
     width: ${(props) => {
       return props.isGridView ? "100%" : "100%";
@@ -93,22 +94,22 @@ const VoteItem = styled.div<{
     display: flex;
     align-items: center;
     padding: 5px;
-      justify-content: ${(props) => {
-        return props.isGridView ? "center" : "left";
-      }};
-      top: ${(props) => {
-        return props.isGridView ? "auto" : "50%";
-      }};
-      align-self: ${(props) => {
-        return props.isGridView ? "flex-end" : "center";
-      }};
-      width: ${(props) => {
-        return props.isGridView ? "100%" : "100%";
-      }};
-      background: ${(props) => {
-        return props.isGridView ? "RGBA(12, 12, 12, .7)" : "none";
-      }};
-  }}
+    justify-content: ${(props) => {
+      return props.isGridView ? "center" : "left";
+    }};
+    top: ${(props) => {
+      return props.isGridView ? "auto" : "50%";
+    }};
+    align-self: ${(props) => {
+      return props.isGridView ? "flex-end" : "center";
+    }};
+    width: ${(props) => {
+      return props.isGridView ? "100%" : "100%";
+    }};
+    background: ${(props) => {
+      return props.isGridView ? "RGBA(12, 12, 12, .7)" : "none";
+    }};
+  }
 `;
 
 const VoteItemData = styled.div<{ isGridView: boolean }>`
