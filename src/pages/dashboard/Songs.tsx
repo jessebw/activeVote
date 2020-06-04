@@ -163,8 +163,8 @@ const AddNewSongDropDown = (props: { finishCallBack: () => void }) => {
           <div>
             <AvatarEditor
               image={formData.image}
-              width={250}
-              height={250}
+              width={800}
+              height={800}
               border={50}
               scale={parseFloat(imageSliderValue)}
               ref={imageRef as any}
@@ -284,10 +284,6 @@ export const Songs = () => {
             >
               x
             </DeleteSong>
-            <SongDeleteButton>
-              <LeftRight />
-              <RightLeft />
-            </SongDeleteButton>
           </SongInfo>
         );
       })}

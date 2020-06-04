@@ -42,7 +42,7 @@ class APIService {
 
   deleteSong(songId: string): any {
     return httpService.delete(
-      configService.getConfig()!.serverURL + "/" + songId
+      configService.getConfig()!.serverURL + "/song/" + songId
     );
   }
 
@@ -57,7 +57,7 @@ class APIService {
     return httpService.post(configService.getConfig()!.serverURL + "/vote", {
       email: email,
       songId: songId,
-      pollId: pollId
+      pollId: pollId,
     });
   }
   addNewPoll(
@@ -70,7 +70,7 @@ class APIService {
       name: name,
       songIds: songIds,
       startDateTime: startDateTime,
-      endDateTime: endDateTime
+      endDateTime: endDateTime,
     });
   }
 
@@ -93,7 +93,7 @@ class APIService {
         name: name,
         songIds: songIds,
         startDateTime: startDateTime,
-        endDateTime: endDateTime
+        endDateTime: endDateTime,
       }
     );
   }
@@ -119,7 +119,7 @@ class APIService {
 
   deleteUser(email: string) {
     return httpService.delete(`${configService.getConfig()!.serverURL}/user`, {
-      email: email
+      email: email,
     });
   }
   getAllUsers() {
