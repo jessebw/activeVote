@@ -22,6 +22,7 @@ import {
   MdExpandLess,
   MdList,
   MdApps,
+  MdHelpOutline,
 } from "react-icons/md";
 import { toast } from "react-toastify";
 import { css } from "glamor";
@@ -436,7 +437,7 @@ export const CurrentPoll = () => {
             Please only vote once, we do not collect your email address for any
             purpose other than voting.
           </p>
-          <ActiveButton style={{ marginTop: "10px" }}>
+          <ActiveButton style={{ marginTop: "10px", cursor: "pointer" }}>
             Start Voting
           </ActiveButton>
         </div>
@@ -473,11 +474,13 @@ export const CurrentPoll = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            cursor: "pointer",
           }}
         >
           <span
             style={{
-              marginRight: "10px",
+              // marginRight: "10px",
+              padding: "10px",
               display: "flex",
               alignItems: "center",
             }}
@@ -494,7 +497,8 @@ export const CurrentPoll = () => {
           </span>
           <span
             style={{
-              marginLeft: "10px",
+              // marginLeft: "10px",
+              padding: "10px",
               display: "flex",
               alignItems: "center",
             }}
@@ -508,6 +512,20 @@ export const CurrentPoll = () => {
           >
             <MdApps />
             <p>Grid</p>
+          </span>
+          <span
+            style={{
+              // marginLeft: "10px",
+              padding: "10px",
+              display: "flex",
+              alignItems: "center",
+            }}
+            onClick={(e) => {
+              setWelcomeModalOpen(true);
+            }}
+          >
+            <MdHelpOutline />
+            <p>Info</p>
           </span>
         </div>
       </div>
