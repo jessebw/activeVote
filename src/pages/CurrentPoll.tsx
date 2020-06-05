@@ -16,13 +16,10 @@ import logoBlack from "../assets/images/activeLogoBlack.png";
 import { useGlobalState } from "../state/stateContext";
 import configService from "../services/configService";
 import {
-  MdChangeHistory,
-  MdViewModule,
-  MdExpandMore,
-  MdExpandLess,
-  MdList,
+  MdReorder,
   MdApps,
   MdHelpOutline,
+  MdInfoOutline,
 } from "react-icons/md";
 import { toast } from "react-toastify";
 import { css } from "glamor";
@@ -141,6 +138,27 @@ const ActiveButton = styled.button`
   letter-spacing: 3px;
 `;
 
+const InfoIcon = styled.div`
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  font-size: 1.8em;
+  color: rgba(255, 255, 255, 0.8);
+  @media screen and (max-device-width: 1000px) {
+    left: auto;
+    right: 8px;
+  }
+`;
+
+const InfoIconItem = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+  margin-top: 50px;
+  padding: 10px;
+`;
+
 //Title Of The Poll - Top left box.
 const Title = styled.div`
   font-family: "Montserrat-Light";
@@ -192,7 +210,7 @@ const Rank = styled.div<{ isGridView: boolean }>`
 `;
 
 const WelcomeModal = styled.div`
-  > * {
+  > div {
     border-radius: 4px;
     position: fixed;
     width: 80%;
@@ -391,8 +409,8 @@ export const CurrentPoll = () => {
   const [currentPoll, setCurrentPoll] = useState<IPoll>();
   const mql = window.matchMedia("(max-width: 500px)");
   const [isGridView, setIsGridView] = useState<boolean>(!mql.matches);
-  const [topMenu, setTopMenu] = useState<boolean>(false);
   const [welcomeModalOpen, setWelcomeModalOpen] = useState<boolean>(true);
+  const [infoModalOpen, setInfoModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     ReactGA.pageview(window.location.pathname + window.location.search);
@@ -412,6 +430,67 @@ export const CurrentPoll = () => {
       });
   }, []);
 
+  const infoModalContainer = () => {
+    return (
+      <WelcomeModal
+        onClick={() => {
+          setInfoModalOpen(false);
+        }}
+        style={{ color: "#fff", width: "50%" }}
+      >
+        <div>
+          <CancelButton
+            onClick={(e: any) => {
+              setInfoModalOpen(false);
+            }}
+            style={{
+              backgroundColor: "white",
+            }}
+          >
+            <RightLeft />
+            <LeftRight />
+          </CancelButton>
+
+          <InfoIconItem
+            onClick={(e) => {
+              ReactGA.event({
+                category: "User",
+                action: "List view clicked",
+              });
+              setIsGridView(false);
+              setInfoModalOpen(false);
+            }}
+          >
+            <MdReorder />
+            List
+          </InfoIconItem>
+          <InfoIconItem
+            onClick={(e) => {
+              ReactGA.event({
+                category: "User",
+                action: "Grid view clicked",
+              });
+              setIsGridView(true);
+              setInfoModalOpen(false);
+            }}
+          >
+            <MdApps />
+            Grid
+          </InfoIconItem>
+          <InfoIconItem
+            onClick={(e) => {
+              setWelcomeModalOpen(true);
+              setInfoModalOpen(false);
+            }}
+          >
+            <MdHelpOutline />
+            Info
+          </InfoIconItem>
+        </div>
+      </WelcomeModal>
+    );
+  };
+
   const welcomeModalContainer = () => {
     return (
       <WelcomeModal>
@@ -425,7 +504,7 @@ export const CurrentPoll = () => {
             The RadioActive.FM
           </h3>
           <h3 style={{ fontSize: "3em", letterSpacing: ".2em" }}>Top 11</h3>
-          <hr style={{ color: "rgba(255,255,255, .5)", width: "50%" }} />
+          {/* <hr style={{ color: "rgba(255,255,255, .5)", width: "50%" }} /> */}
           <p style={{ color: "rgba(255,255,255, .5)" }}>
             Select the artist you would like to see win the Top 11
           </p>
@@ -437,98 +516,11 @@ export const CurrentPoll = () => {
             Please only vote once, we do not collect your email address for any
             purpose other than voting.
           </p>
-          <ActiveButton style={{ marginTop: "10px", cursor: "pointer" }}>
+          <ActiveButton style={{ marginTop: "50px", cursor: "pointer" }}>
             Start Voting
           </ActiveButton>
         </div>
       </WelcomeModal>
-    );
-  };
-
-  const topMenuContainer = () => {
-    return (
-      <div
-        style={{
-          width: "100%",
-          backgroundColor: "#000",
-          color: "#fff",
-        }}
-      >
-        <div
-          onClick={() => {
-            setTopMenu(!topMenu);
-          }}
-          style={{
-            position: "absolute",
-            left: "10px",
-            top: "10px",
-            fontSize: "2em",
-          }}
-        >
-          {topMenu && <MdExpandLess />}
-        </div>
-        <div
-          style={{
-            fontSize: "2em",
-            textAlign: "center",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            cursor: "pointer",
-          }}
-        >
-          <span
-            style={{
-              // marginRight: "10px",
-              padding: "10px",
-              display: "flex",
-              alignItems: "center",
-            }}
-            onClick={(e) => {
-              ReactGA.event({
-                category: "User",
-                action: "List view clicked",
-              });
-              setIsGridView(false);
-            }}
-          >
-            <MdList />
-            <p>List</p>
-          </span>
-          <span
-            style={{
-              // marginLeft: "10px",
-              padding: "10px",
-              display: "flex",
-              alignItems: "center",
-            }}
-            onClick={(e) => {
-              ReactGA.event({
-                category: "User",
-                action: "Grid view clicked",
-              });
-              setIsGridView(true);
-            }}
-          >
-            <MdApps />
-            <p>Grid</p>
-          </span>
-          <span
-            style={{
-              // marginLeft: "10px",
-              padding: "10px",
-              display: "flex",
-              alignItems: "center",
-            }}
-            onClick={(e) => {
-              setWelcomeModalOpen(true);
-            }}
-          >
-            <MdHelpOutline />
-            <p>Info</p>
-          </span>
-        </div>
-      </div>
     );
   };
 
@@ -545,7 +537,7 @@ export const CurrentPoll = () => {
     // introduce a loading state which triggers full page when passed
     <FullPage>
       {!welcomeModalOpen ? "" : welcomeModalContainer()}
-      {!topMenu ? "" : topMenuContainer()}
+      {!infoModalOpen ? "" : infoModalContainer()}
       {voteFormOpen && (
         <VoteForm
           closeCallBack={() => {
@@ -562,19 +554,14 @@ export const CurrentPoll = () => {
       ) : (
         <GridWrapper isGridView={isGridView}>
           <Title>
-            <div
+            <InfoIcon
               onClick={() => {
-                setTopMenu(!topMenu);
-              }}
-              style={{
-                position: "absolute",
-                left: "10px",
-                top: "10px",
-                fontSize: "2em",
+                setInfoModalOpen(true);
               }}
             >
-              {!topMenu && <MdExpandMore />}
-            </div>
+              {!infoModalOpen && <MdInfoOutline />}
+              {/* {!topMenu && <MdExpandMore />} */}
+            </InfoIcon>
             <div>
               <h2
                 style={{
