@@ -512,6 +512,10 @@ export const CurrentPoll = () => {
             Played out every Wednesday night from 7 till 9PM on Radio Active
             88.6FM
           </p>
+          <p style={{ color: "rgba(255,255,255, .5)" }}>
+            Email new submissions to music@radioactive.fm. The Top 11 is brought
+            to you by Hills Hats.
+          </p>
           <p style={{ fontSize: ".6em", color: "rgba(255,255,255, .5)" }}>
             Please only vote once, we do not collect your email address for any
             purpose other than voting.
