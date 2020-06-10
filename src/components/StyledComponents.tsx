@@ -19,7 +19,7 @@ export const FormModal = styled.div`
       height: auto;
       width: 80%;
     }
-    @media (max-width: 1024px) {
+    @media (max-width: 900px) {
       width: 80%;
     }
   }
