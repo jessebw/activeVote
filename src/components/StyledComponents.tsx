@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 export const FormModal = styled.div`
-  > * {
+  > div {
     border-radius: 4px;
     position: fixed;
-    width: 80%;
+    width: 33.3%;
     height: 80%;
     top: 50%;
     left: 50%;
@@ -17,6 +17,10 @@ export const FormModal = styled.div`
     @media (max-height: 350px) {
       top: 10%;
       height: auto;
+      width: 80%;
+    }
+    @media (max-width: 1024px) {
+      width: 80%;
     }
   }
   &:after {
@@ -27,6 +31,7 @@ export const FormModal = styled.div`
     right: 0;
     bottom: 0;
     left: 0;
+    background: rgba(0, 0, 0, 0.9);
   }
 `;
 
