@@ -1,10 +1,11 @@
 import React, { useEffect, useState, ChangeEvent, useRef } from "react";
 import apiService from "../../services/apiService";
-import { ISong, INewSong } from "../../interfaces";
+import { ISong } from "../../interfaces";
 import styled from "styled-components";
 import { useGlobalState } from "../../state/stateContext";
 import ReactGA from "react-ga";
 import AvatarEditor from "react-avatar-editor";
+import { AddNewSongDropDown } from "../../components/SongForm";
 
 const FormInput = styled.input`
   width: 100%;
@@ -118,117 +119,6 @@ const SongImage = styled.div<{ imagePath: string }>`
   background-size: cover;
 `;
 
-const AddNewSongDropDown = (props: { finishCallBack: () => void }) => {
-  const [imageSliderValue, setImageSliderValue] = useState<string>("1");
-
-  const [formData, setFormData] = useState<INewSong>({
-    artist: "",
-    songName: "",
-    album: "",
-    image: undefined,
-  });
-
-  const changeImageFile = (e: any) => {
-    const image = e.target.files[0];
-    setFormData({ ...formData, image });
-  };
-
-  const imageRef = useRef();
-
-  return (
-    <SongsFormDropDown>
-      <div>
-        <FormInput
-          type="text"
-          placeholder="Artist"
-          required
-          onChange={(event: any) => {
-            setFormData({ ...formData, artist: event.target.value });
-          }}
-        />
-        <FormInput
-          type="text"
-          placeholder="Title"
-          onChange={(event: any) => {
-            setFormData({ ...formData, songName: event.target.value });
-          }}
-        />
-        <FormInput
-          type="text"
-          placeholder="Album"
-          onChange={(event: any) => {
-            setFormData({ ...formData, album: event.target.value });
-          }}
-        />
-        <input type="file" onChange={changeImageFile} />
-        {formData.image && (
-          <div>
-            <AvatarEditor
-              image={formData.image}
-              width={500}
-              height={500}
-              border={50}
-              scale={parseFloat(imageSliderValue)}
-              ref={imageRef as any}
-            />
-            <input
-              type="range"
-              step=".25"
-              min="1"
-              max="5"
-              value={imageSliderValue}
-              className="slider"
-              onChange={(e: ChangeEvent) => {
-                setImageSliderValue((e.target as HTMLInputElement).value);
-              }}
-            ></input>
-            {imageSliderValue}
-          </div>
-        )}
-
-        <SongSubmitButton
-          className="songSubmitButton"
-          onClick={() => {
-            ReactGA.event({
-              category: "Admin",
-              action: "Submitted a new song",
-            });
-
-            (imageRef!.current as any)
-              .getImageScaledToCanvas()
-              .toBlob((blob: Blob) => {
-                const imageFile = new File([blob], "newFile.jpg");
-                const _data = new FormData();
-                _data.append("image", imageFile as File);
-                apiService.uploadImage(_data as any).then((resp: any) => {
-                  apiService
-                    .addNewSong({ ...formData, image: resp[0].path })
-                    .then(() => {
-                      props.finishCallBack();
-                    });
-                });
-              });
-          }}
-        >
-          Submit
-        </SongSubmitButton>
-        <SongCancelButton
-          className="songCancelButton"
-          onClick={(e: any) => {
-            ReactGA.event({
-              category: "Admin",
-              action: "Cancelled creating a new song",
-            });
-            props.finishCallBack();
-          }}
-        >
-          Cancel
-        </SongCancelButton>
-      </div>
-    </SongsFormDropDown>
-  );
-};
-
 export const Songs = () => {
   const [songItems, setSongItems] = useState<ISong[]>([]);
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -260,9 +150,16 @@ export const Songs = () => {
       </button>
       {isVisible === true && (
         <AddNewSongDropDown
-          finishCallBack={() => {
-            setIsVisible(false);
-            getSongs();
+          finishCallBack={(formData) => {
+            ReactGA.event({
+              category: "Admin",
+              action: "Submitted a new song",
+            });
+
+            apiService.addNewSong({ ...formData }).then(() => {
+              setIsVisible(false);
+              getSongs();
+            });
           }}
         />
       )}

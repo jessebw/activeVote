@@ -102,6 +102,7 @@ export const PollForm = (props: {
   const [songItems, setSongItems] = useState<ISong[]>([]);
   const [chosenItems, setChosenItems] = useState<ISong[]>([]);
   const [deletePoll, setDeletePoll] = useState<boolean>(false);
+  const [searchFilter, setSearchFilter] = useState<string>("");
 
   const handleStartDateChange = (date: any) => {
     setStartDate(date);
@@ -124,9 +125,16 @@ export const PollForm = (props: {
   useEffect(() => {
     apiService.getAllSongs().then((songs: ISong[]) => {
       setSongItems(
-        songs.filter((song: ISong) => {
-          return props.songIds.indexOf(song._id as string) < 0;
-        })
+        songs
+          .filter((song: ISong) => {
+            return props.songIds.indexOf(song._id as string) < 0;
+          })
+          .sort((a: ISong, b: ISong) => {
+            return (a.artist + a.songName).toLowerCase() >
+              (b.artist + b.songName).toLowerCase()
+              ? 1
+              : -1;
+          })
       );
       setChosenItems(
         songs.filter((song: ISong) => {
@@ -135,6 +143,10 @@ export const PollForm = (props: {
       );
     });
   }, []);
+
+  // input field
+  // state to get value
+  // filter based on contains string
 
   const onDragEnd = (result: DropResult, provided: ResponderProvided) => {
     const { source, destination } = result;
@@ -266,6 +278,13 @@ export const PollForm = (props: {
               delete
             </CustomButton>
           )}
+          <input
+            type="search"
+            placeholder="search"
+            onChange={(event: any) => {
+              setSearchFilter(event.target.value);
+            }}
+          ></input>
         </div>
       </PollFormWrapper>
       <DragDropContext onDragEnd={onDragEnd}>
@@ -289,7 +308,16 @@ export const PollForm = (props: {
             <h3 style={{ borderBottom: "2px solid #000", paddingLeft: "5px" }}>
               ALL ITEMS
             </h3>
-            <DroppableList listId="songPool" listMap={songItems} />
+            <DroppableList
+              listId="songPool"
+              listMap={songItems.filter((songItem: ISong) => {
+                return (
+                  songItem.artist.toLowerCase() +
+                  " - " +
+                  songItem.songName.toLowerCase()
+                ).includes(searchFilter.toLowerCase());
+              })}
+            />
           </div>
         </div>
       </DragDropContext>

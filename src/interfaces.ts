@@ -59,11 +59,12 @@ export interface ISong {
   image: string;
 }
 
-export interface INewSong {
+export interface ISongFormData {
+  _id?: string;
   songName: string;
   album: string;
   artist: string;
-  image?: File;
+  image: string;
 }
 
 export interface IUser extends INewUser {

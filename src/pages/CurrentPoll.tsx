@@ -420,7 +420,14 @@ export const CurrentPoll = () => {
         setCurrentPoll(poll);
         apiService.pollResults(poll._id).then((votes) => {
           setVoteItems(
-            poll.songs.sort((a: ISong, b: ISong) => votes[b._id] - votes[a._id])
+            poll.songs
+              .sort((a: ISong, b: ISong) => {
+                const indexA = poll.songIds.indexOf(a._id);
+                const indexB = poll.songIds.indexOf(b._id);
+
+                return indexA > indexB ? 1 : -1;
+              })
+              .sort((a: ISong, b: ISong) => votes[b._id] - votes[a._id])
           );
         });
       })

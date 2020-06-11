@@ -1,5 +1,5 @@
 import httpService from "./httpService";
-import { INewSong, INewUser } from "../interfaces";
+import { INewUser, ISongFormData } from "../interfaces";
 import configService from "./configService";
 
 class APIService {
@@ -46,7 +46,7 @@ class APIService {
     );
   }
 
-  addNewSong(song: INewSong) {
+  addNewSong(song: ISongFormData) {
     return httpService.post(
       configService.getConfig()!.serverURL + "/song",
       song
