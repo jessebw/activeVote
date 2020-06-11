@@ -14,7 +14,7 @@ export const FormModal = styled.div`
     transform: translate(-50%, -50%);
     z-index: 2;
     text-align: center;
-    @media (max-height: 350px) {
+    @media (max-height: 610px) {
       top: 10%;
       height: auto;
       width: 80%;
