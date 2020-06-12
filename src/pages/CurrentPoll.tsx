@@ -586,6 +586,15 @@ export const CurrentPoll = () => {
               <h1 style={{ textAlign: "center", display: "block" }}>
                 {currentPoll && currentPoll.name}
               </h1>
+              <h2
+                style={{
+                  textAlign: "center",
+                  display: "block",
+                  color: "rgba(255, 255, 255, .2)",
+                }}
+              >
+                Brought To You By Hills Hats
+              </h2>
             </div>
           </Title>
           {voteItems.map((voteItem: IVoteItem, i: number) => {
