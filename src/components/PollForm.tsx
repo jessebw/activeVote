@@ -137,16 +137,18 @@ export const PollForm = (props: {
           })
       );
       setChosenItems(
-        songs.filter((song: ISong) => {
-          return props.songIds.indexOf(song._id as string) >= 0;
-        })
+        songs
+          .filter((song: ISong) => {
+            return props.songIds.indexOf(song._id as string) >= 0;
+          })
+          .sort((a: ISong, b: ISong) => {
+            const compare1: number = props.songIds.indexOf(a._id as string);
+            const compare2: number = props.songIds.indexOf(b._id as string);
+            return compare1 > compare2 ? 1 : -1;
+          })
       );
     });
   }, []);
-
-  // input field
-  // state to get value
-  // filter based on contains string
 
   const onDragEnd = (result: DropResult, provided: ResponderProvided) => {
     const { source, destination } = result;
