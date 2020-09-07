@@ -5,32 +5,41 @@ import styled from "styled-components";
 import { UserStatus } from "../../components/StyledComponents";
 import ReactGA from "react-ga";
 import {
-  BsBarChartFill,
+  BsGraphUp,
   BsPlus,
   BsListUl,
   BsReverseLayoutSidebarReverse,
   BsPeople,
+  BsCircleSlash
 } from "react-icons/bs";
 import { MdShowChart } from "react-icons/md";
 import { IUser } from "../../interfaces";
 
 const MenuComponent = styled.div`
-  display: inline-block;
+  // display: inline-block;
   flex: 0 0 auto;
-  nav {
-  }
+  width: 20%;
+  background-color: pink;
+
   a {
     display: flex;
     height: 50px;
     font-family: "Montserrat", sans-serif;
     color: rgba(0, 0, 0, 0.6);
-    text-align: center;
+    text-align: left;
     text-decoration: none;
+    line-height: 2.3em;
   }
+
 `;
 
+
+
 const NavMenu = styled.nav`
-  display: block;
+  // display: block;
+  margin: auto;
+  width: 85%;
+  margin-top: 100px;
   .active {
     font-weight: bold;
     color: dodgerblue;
@@ -50,7 +59,7 @@ const LogoutButton = styled.div`
 `;
 
 const NavText = styled.div`
-  width: 100%;
+margin-left: 20px;
 `;
 
 export const SideMenu = (props: { currentUser: any }) => {
@@ -60,7 +69,7 @@ export const SideMenu = (props: { currentUser: any }) => {
     <MenuComponent>
       <NavMenu>
         <NavLink to="/dashboard/results/:pollId">
-          <MdShowChart
+          <BsGraphUp
             style={{ width: "35px", height: "35px", color: "#000" }}
           />
           <NavText>STATS</NavText>
@@ -72,7 +81,7 @@ export const SideMenu = (props: { currentUser: any }) => {
               width: "35px",
               height: "35px",
               color: "#000",
-              margin: "0 auto",
+              // margin: "0 auto",
             }}
           />
           <NavText>ADD NEW POLL</NavText>
@@ -115,19 +124,22 @@ export const SideMenu = (props: { currentUser: any }) => {
           <BsPeople style={{ width: "35px", height: "35px", color: "#000" }} />
           <NavText>USERS</NavText>
         </NavLink>
+        <NavLink
+          to="/dashboard/"
+          onClick={(e: any) => {
+            ReactGA.event({
+              category: "Admin",
+              action: "Logged out",
+            });
+            sessionStorage.removeItem("auth");
+            dispatch({ type: "setAuth", payload: undefined });
+          }}
+        >
+          <BsCircleSlash style={{ width: "35px", height: "35px", color: "#000" }} />
+          <NavText>LOGOUT</NavText>
+        </NavLink>
       </NavMenu>
-      <LogoutButton
-        onClick={(e: any) => {
-          ReactGA.event({
-            category: "Admin",
-            action: "Logged out",
-          });
-          sessionStorage.removeItem("auth");
-          dispatch({ type: "setAuth", payload: undefined });
-        }}
-      >
-        LOGOUT
-      </LogoutButton>
+
       <UserStatus>
         Status:{" "}
         <b>

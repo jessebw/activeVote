@@ -1,8 +1,11 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, act } from "@testing-library/react";
 import { PollForm } from "../PollForm";
 import APIService from "../../services/apiService";
+import {GlobalState} from "../../state/globalState";
+import {delay} from "../jestHelpers";
 // import jest from "jest";
+
 
 test("should filter song pool by chosen songs", async () => {
   APIService.getAllSongs = () => {
@@ -53,20 +56,30 @@ test("should filter song pool by chosen songs", async () => {
     ]);
   };
 
-  const { container } = await render(
-    <PollForm
-      pollName=""
-      startDate={new Date()}
-      endDate={new Date()}
-      songIds={["5d26bb74e093861ab7e3e385", "5d26bbf2e093861ab7e3e386"]}
-      savingPoll={true}
-    ></PollForm>
-  );
+  var chosenSongs: HTMLElement;
+  var songPool: HTMLElement;
 
-  const chosenSongs = container.querySelector("*[data-testid]='chosenSongs'");
-  const songPool = container.querySelector("*[data-testid]='songPool'");
-  const testOne = songPool!.children[0].children.length;
-  const testTwo = chosenSongs!.children[0].children.length;
+  await act(async()=>{
+    const { container } = await render(
+    
+      <GlobalState initialState={{config:{serverURL: "", port: "8080"}}}><PollForm
+        pollName=""
+        startDate={new Date()}
+        endDate={new Date()}
+        songIds={["5d26bb74e093861ab7e3e385", "5d26bbf2e093861ab7e3e386"]}
+        savingPoll={true}
+      ></PollForm></GlobalState>
+    );
+    chosenSongs = container.querySelector('*[data-testid="chosenSongs"]') as HTMLElement;
+    songPool = container.querySelector('*[data-testid="songPool"]') as HTMLElement;
+  })
+  
+
+  await delay(500);
+
+  const testOne = songPool!.children[2].children.length;
+  const testTwo = chosenSongs!.children[2].children.length;
+
 
   expect(testOne).toBe(5);
 });

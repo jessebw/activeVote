@@ -378,10 +378,11 @@ const VoteForm = (props: {
 
 const NoPollError = styled.div`
   width: 300px;
-  height: 200px;
+  height: 300px;
   color: white;
   background-image: url(${logoBlack});
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
   background-color: rgb(28, 23, 26);
 `;
 
@@ -397,7 +398,9 @@ const NoCurrentPolls = () => {
         backgroundColor: "rgb(28,23,26)",
       }}
     >
-      <NoPollError>{/* your logo here */}</NoPollError>
+      <NoPollError>
+        Voting has finished for this Poll, please check back later.
+      </NoPollError>
     </div>
   );
 };
