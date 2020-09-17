@@ -26,6 +26,7 @@ import {
 import { TiTick } from "react-icons/ti";
 import { RiArrowGoBackFill } from "react-icons/ri";
 import { FaTachometerAlt } from "react-icons/fa";
+import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
 import { GoGraph } from "react-icons/go";
 import { GrAdd } from "react-icons/gr";
 import { MdShowChart } from "react-icons/md";
@@ -48,6 +49,8 @@ const MenuComponent = styled.div`
   // flex: 0 0 auto;
   // width: 20%;
   background-color: #1d1d1d;
+  padding-left: 10px;
+  padding-top: 50px;
 
   a {
     display: flex;
@@ -177,7 +180,7 @@ export const SideMenu = (props: { currentUser: any }) => {
           <NavText>LOGOUT</NavText>
         </NavLink>
       </NavMenu> */}
-      <ProSidebar>
+      <ProSidebar collapsed={true} width="auto">
         <SidebarHeader></SidebarHeader>
         <SidebarContent>
           <NavMenu>
@@ -188,7 +191,27 @@ export const SideMenu = (props: { currentUser: any }) => {
                 }}
               >
                 <MenuItem icon={<FaTachometerAlt />}>
-                  {!toggleVisible ? "" : <NavText>Dashboard</NavText>}
+                  {!toggleVisible ? (
+                    <HiOutlineChevronRight
+                      style={{
+                        fontSize: "2em",
+                        // float: "right",
+                        position: "absolute",
+                      }}
+                    />
+                  ) : (
+                    <NavText>
+                      Dashboard
+                      <HiOutlineChevronLeft
+                        style={{
+                          fontSize: "2em",
+                          position: "absolute",
+                          marginLeft: "10px",
+                          float: "right",
+                        }}
+                      />
+                    </NavText>
+                  )}
                 </MenuItem>
               </span>
             </Menu>

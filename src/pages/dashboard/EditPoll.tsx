@@ -6,6 +6,11 @@ import { IPoll } from "../../interfaces";
 import { toast } from "react-toastify";
 import { css } from "glamor";
 import ReactGA from "react-ga";
+import styled from "styled-components";
+
+const EditPollContainer = styled.div`
+  width: 50%;
+`;
 
 export const EditPoll = () => {
   let { id } = useParams();
@@ -22,7 +27,7 @@ export const EditPoll = () => {
   }, []);
 
   return (
-    <div>
+    <EditPollContainer>
       {poll && (
         <PollForm
           pollId={poll._id}
@@ -67,6 +72,6 @@ export const EditPoll = () => {
           }}
         />
       )}
-    </div>
+    </EditPollContainer>
   );
 };
