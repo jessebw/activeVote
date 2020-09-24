@@ -83,7 +83,7 @@ export const Users = () => {
     weightRange: "",
     showPassword: false,
   });
-  const [isShown, setIsShown] = useState(false);
+  const [hoverIndex, setHoverIndex] = useState<number>(-1);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -228,7 +228,7 @@ export const Users = () => {
 
       <div style={{ marginTop: "30px", width: "100%" }}>
         {users &&
-          users.map((user) => (
+          users.map((user, index) => (
             <ul key={user._id} style={{ listStyle: "none" }}>
               <li
                 style={{
@@ -238,11 +238,11 @@ export const Users = () => {
                   position: "relative",
                   overflow: "hidden",
                 }}
-                onMouseEnter={() => setIsShown(true)}
-                onMouseLeave={() => setIsShown(false)}
+                onMouseEnter={() => setHoverIndex(index)}
+                onMouseLeave={() => setHoverIndex(-1)}
               >
                 <span style={{ fontWeight: "bold" }}>{user.email}</span>
-                {isShown && (
+                {hoverIndex === index && (
                   <span
                     style={{
                       position: "absolute",

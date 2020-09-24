@@ -98,88 +98,6 @@ export const SideMenu = (props: { currentUser: any }) => {
 
   return (
     <MenuComponent>
-      {/* <h1>test</h1>
-      <NavMenu>
-        <NavLink to="/dashboard/results/:pollId">
-          <span
-            style={{
-              borderRadius: "50%",
-              backgroundColor: "white",
-              width: "50px",
-              height: "50px",
-            }}
-          >
-            <BsGraphUp
-              style={{ width: "35px", height: "35px", color: "#000" }}
-            />
-          </span>
-          <BsGraphUp style={{ width: "35px", height: "35px", color: "#000" }} />
-          <NavText>STATS</NavText>
-        </NavLink>
-
-        <NavLink activeClassName="active" to="/dashboard/create-new-poll">
-          <BsPlus
-            style={{
-              width: "35px",
-              height: "35px",
-              color: "#000",
-              // margin: "0 auto",
-            }}
-          />
-          <NavText>ADD NEW POLL</NavText>
-        </NavLink>
-        <NavLink
-          to="/dashboard/polls"
-          onClick={(e: any) => {
-            ReactGA.event({
-              category: "Admin",
-              action: "Nav to polls view",
-            });
-          }}
-        >
-          <BsReverseLayoutSidebarReverse
-            style={{ width: "35px", height: "35px", color: "#000" }}
-          />
-          <NavText>ALL POLLS</NavText>
-        </NavLink>
-        <NavLink
-          to="/dashboard/songs"
-          onClick={(e: any) => {
-            ReactGA.event({
-              category: "Admin",
-              action: "Nav to Songs view",
-            });
-          }}
-        >
-          <BsListUl style={{ width: "35px", height: "35px", color: "#000" }} />
-          <NavText>POLL ITEMS</NavText>
-        </NavLink>
-        <NavLink
-          to="/dashboard/users"
-          onClick={(e: any) => {
-            ReactGA.event({
-              category: "Admin",
-              action: "Nav to users view",
-            });
-          }}
-        >
-          <BsPeople style={{ width: "35px", height: "35px", color: "#000" }} />
-          <NavText>USERS</NavText>
-        </NavLink>
-        <NavLink
-          to="/dashboard/"
-          onClick={(e: any) => {
-            ReactGA.event({
-              category: "Admin",
-              action: "Logged out",
-            });
-            sessionStorage.removeItem("auth");
-            dispatch({ type: "setAuth", payload: undefined });
-          }}
-        >
-          <NavText>LOGOUT</NavText>
-        </NavLink>
-      </NavMenu> */}
       <ProSidebar collapsed={true} width="auto">
         <SidebarHeader></SidebarHeader>
         <SidebarContent>
@@ -195,7 +113,6 @@ export const SideMenu = (props: { currentUser: any }) => {
                     <HiOutlineChevronRight
                       style={{
                         fontSize: "2em",
-                        // float: "right",
                         position: "absolute",
                       }}
                     />
@@ -339,13 +256,8 @@ export const SideMenu = (props: { currentUser: any }) => {
               ""
             ) : (
               <NavText>
-                Status:{" "}
-                <b>
-                  {console.log(props.currentUser.email)}
-                  {props.currentUser.email}
-                  {globalState.auth ? " currently" : " not"}
-                </b>{" "}
-                logged in.
+                Status: <b>{globalState.auth ? " currently" : " not"}</b> logged
+                in.
               </NavText>
             )}
           </UserStatus>
