@@ -15,6 +15,13 @@ import "react-toastify/dist/ReactToastify.css";
 import { Lesson } from "./Lesson";
 import ReactGA from "react-ga";
 ReactGA.initialize("UA-163769226-1");
+import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
+
+const client = new ApolloClient({
+  uri: "http://localhost:4000/",
+  cache: new InMemoryCache(),
+});
 
 const PrivateRoute: any = ({ component: Component, ...rest }: any) => {
   const [globalState, dispatch] = useGlobalState();
@@ -69,14 +76,16 @@ const AppContent = () => {
 
   if (globalState.config && globalState.config.serverURL) {
     return (
-      <Router history={history}>
-        <Switch>
-          <Route exact path={"/lesson"} component={Lesson} />
-          <Route exact path={"/"} component={CurrentPoll} />
-          <PrivateRoute path={"/dashboard"} component={Dashboard} />
-          <Route exact path={"/login"} component={Login} />
-        </Switch>
-      </Router>
+      <ApolloProvider client={client}>
+        <Router history={history}>
+          <Switch>
+            <Route exact path={"/lesson"} component={Lesson} />
+            <Route exact path={"/"} component={CurrentPoll} />
+            <PrivateRoute path={"/dashboard"} component={Dashboard} />
+            <Route exact path={"/login"} component={Login} />
+          </Switch>
+        </Router>
+      </ApolloProvider>
     );
   } else {
     return <React.Fragment></React.Fragment>;

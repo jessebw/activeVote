@@ -261,6 +261,21 @@ export const SideMenu = (props: { currentUser: any }) => {
               </Menu>
             </NavLink>
             <NavLink
+              to="/dashboard/songsTwo"
+              onClick={(e: any) => {
+                ReactGA.event({
+                  category: "Admin",
+                  action: "Nav to Songs view",
+                });
+              }}
+            >
+              <Menu iconShape="circle">
+                <MenuItem icon={<BsBookmarkDash />}>
+                  {!toggleVisible ? "" : <NavText>All Songs</NavText>}
+                </MenuItem>
+              </Menu>
+            </NavLink>
+            <NavLink
               to="/dashboard/users"
               onClick={(e: any) => {
                 ReactGA.event({
@@ -275,17 +290,6 @@ export const SideMenu = (props: { currentUser: any }) => {
                 </MenuItem>
               </Menu>
             </NavLink>
-            {/* <NavLink
-            to="/dashboard/"
-            onClick={(e: any) => {
-              ReactGA.event({
-                category: "Admin",
-                action: "Logged out",
-              });
-              sessionStorage.removeItem("auth");
-              dispatch({ type: "setAuth", payload: undefined });
-            }}
-            > */}
             <span
               onClick={(e: any) => {
                 setSignOutVisible(!signOutVisible);

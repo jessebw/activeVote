@@ -11,6 +11,7 @@ import { PollResults } from "./PollResults";
 import ReactGA from "react-ga";
 import { IUser } from "../../interfaces";
 import { any } from "glamor";
+import { SongsTwo } from "./SongsTwo";
 
 const DashWrapper = styled.div`
   display: flex;
@@ -37,6 +38,7 @@ export const Dashboard = (props: { currentUser: IUser }) => {
         <Route path={`/dashboard/users`} component={Users} />
         <Route path={`/dashboard/create-new-poll`} component={CreateNewPoll} />
         <Route path={`/dashboard/songs`} component={Songs} />
+        <Route path={`/dashboard/songsTwo`} component={SongsTwo} />
         <Route path={`/dashboard/editpoll/:id`} component={EditPoll} />
         <Route path={`/dashboard/results/:pollId`} component={PollResults} />
       </div>
