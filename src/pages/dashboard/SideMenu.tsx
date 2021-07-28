@@ -6,21 +6,11 @@ import { UserStatus } from "../../components/StyledComponents";
 import ReactGA from "react-ga";
 
 import {
-  BsGraphUp,
   BsPlus,
   BsListUl,
-  BsReverseLayoutSidebarReverse,
-  BsPeople,
-  BsHeart,
-  BsListOl,
   BsBookmarkDash,
-  BsArrowLeftRight,
-  BsArrowRight,
-  BsArrowLeft,
   BsPerson,
   BsXCircle,
-  BsListCheck,
-  BsXSquare,
 } from "react-icons/bs";
 
 import { TiTick } from "react-icons/ti";
@@ -28,26 +18,17 @@ import { RiArrowGoBackFill } from "react-icons/ri";
 import { FaTachometerAlt } from "react-icons/fa";
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
 import { GoGraph } from "react-icons/go";
-import { GrAdd } from "react-icons/gr";
-import { MdShowChart } from "react-icons/md";
-import { IUser } from "../../interfaces";
 import {
   ProSidebar,
   Menu,
   MenuItem,
-  SubMenu,
   SidebarHeader,
   SidebarContent,
   SidebarFooter,
 } from "react-pro-sidebar";
 import "react-pro-sidebar/dist/css/styles.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCoffee, faTachometerAlt } from "@fortawesome/free-solid-svg-icons";
 
 const MenuComponent = styled.div`
-  // display: inline-block;
-  // flex: 0 0 auto;
-  // width: 20%;
   background-color: #1d1d1d;
   padding-left: 10px;
   padding-top: 50px;
@@ -65,10 +46,6 @@ const MenuComponent = styled.div`
 `;
 
 const NavMenu = styled.nav`
-  // display: block;
-  // margin: auto;
-  // width: 85%;
-  // margin-top: 100px;
   .active {
     font-weight: bold;
     // color: dodgerblue;
@@ -88,7 +65,7 @@ const LogoutButton = styled.div`
 `;
 
 const NavText = styled.div`
-  // margin-left: 10px;
+
 `;
 
 export const SideMenu = (props: { currentUser: any }) => {
@@ -173,7 +150,7 @@ export const SideMenu = (props: { currentUser: any }) => {
             >
               <Menu iconShape="circle">
                 <MenuItem icon={<BsBookmarkDash />}>
-                  {!toggleVisible ? "" : <NavText>Poll items</NavText>}
+                  {!toggleVisible ? "" : <NavText>All Songs</NavText>}
                 </MenuItem>
               </Menu>
             </NavLink>
@@ -183,21 +160,6 @@ export const SideMenu = (props: { currentUser: any }) => {
                 ReactGA.event({
                   category: "Admin",
                   action: "Nav to Songs view",
-                });
-              }}
-            >
-              <Menu iconShape="circle">
-                <MenuItem icon={<BsBookmarkDash />}>
-                  {!toggleVisible ? "" : <NavText>All Songs</NavText>}
-                </MenuItem>
-              </Menu>
-            </NavLink>
-            <NavLink
-              to="/dashboard/users"
-              onClick={(e: any) => {
-                ReactGA.event({
-                  category: "Admin",
-                  action: "Nav to users view",
                 });
               }}
             >

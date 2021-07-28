@@ -102,9 +102,10 @@ export const Polls = () => {
               >
                 {`${poll.name} - ${moment(
                   poll.createdDateTime,
-                  moment.defaultFormat
-                ).toDate()}`}
+                  moment.defaultFormat, 
+                ).format('MMMM Do YYYY, h:mm:ss a')}`}
               </p>
+              
               <nav>
                 <Link to={"/dashboard/editpoll/" + poll._id}>
                   <button

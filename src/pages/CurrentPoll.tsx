@@ -523,16 +523,18 @@ export const CurrentPoll = () => {
             88.6FM
           </p>
           <p style={{ color: "rgba(255,255,255, .5)" }}>
-            Email new submissions to music@radioactive.fm. The Top 11 is brought
-            to you by Hills Hats.
+            Email new submissions to music@radioactive.fm
           </p>
           <p style={{ fontSize: ".6em", color: "rgba(255,255,255, .5)" }}>
             Please only vote once, we do not collect your email address for any
             purpose other than voting.
           </p>
-          <ActiveButton style={{ marginTop: "50px", cursor: "pointer" }}>
+          {!voteItems || voteItems.length === 0 ? <div>Voting has finished for this poll</div> : <ActiveButton style={{ marginTop: "50px", cursor: "pointer" }}>
             Start Voting
-          </ActiveButton>
+          </ActiveButton>}
+          {/* <ActiveButton style={{ marginTop: "50px", cursor: "pointer" }}>
+            Start Voting
+          </ActiveButton> */}
         </div>
       </WelcomeModal>
     );

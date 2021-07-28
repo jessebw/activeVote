@@ -12,7 +12,6 @@ import configService from "./services/configService";
 import history from "./history";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Lesson } from "./Lesson";
 import ReactGA from "react-ga";
 ReactGA.initialize("UA-163769226-1");
 import { ApolloClient, InMemoryCache } from "@apollo/client";
@@ -79,7 +78,6 @@ const AppContent = () => {
       <ApolloProvider client={client}>
         <Router history={history}>
           <Switch>
-            <Route exact path={"/lesson"} component={Lesson} />
             <Route exact path={"/"} component={CurrentPoll} />
             <PrivateRoute path={"/dashboard"} component={Dashboard} />
             <Route exact path={"/login"} component={Login} />

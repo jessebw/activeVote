@@ -122,7 +122,6 @@ export const UserStatus = styled.div`
 `;
 
 export const PollFormWrapper = styled.div`
-  margin: 2em;
   button {
     :focus {
       outline: 0;
@@ -130,12 +129,14 @@ export const PollFormWrapper = styled.div`
   }
 `;
 
-export const PollPageWrapper = styled.div``;
+export const PollPageWrapper = styled.div`
+padding: 20px;
+`;
 
 export const StyledListItem = styled.div`
   background-color: #eaeffd;
-  margin: 5px;
   display: flex;
+  justify-content: center;
   > div {
     padding: 5px;
     flex: 1 1 auto;

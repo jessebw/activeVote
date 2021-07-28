@@ -27,6 +27,9 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import { disabled } from "glamor";
+import {
+  BsInfoSquare,
+} from "react-icons/bs";
 
 const ListItem = (props: { song: ISong }) => {
   const [globalState, dispatch] = useGlobalState();
@@ -49,6 +52,37 @@ const CustomButton = styled.button`
   height: 100%;
   line-height: 2em;
 `;
+
+const Input = styled.input`
+  width: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+  background-color: #fff;
+  border: none;
+  border-bottom: 1px dashed #000;
+
+  text-align: center;
+  :focus {
+    outline: 0;
+    background-color: #fff;
+  }
+`;
+
+const HeadingThree = styled.h3`
+border-bottom: 2px solid #000;
+text-align: center;
+text-transform: uppercase;
+margin: 0;
+`;
+
+const DragInfo = styled.div`
+color: rgba(0,0,0,.5);
+text-align: center;
+`;
+
 
 const DroppableList = (props: { listId: string; listMap: ISong[] }) => (
   <Droppable droppableId={props.listId}>
@@ -103,6 +137,7 @@ export const PollForm = (props: {
   const [chosenItems, setChosenItems] = useState<ISong[]>([]);
   const [deletePoll, setDeletePoll] = useState<boolean>(false);
   const [searchFilter, setSearchFilter] = useState<string>("");
+  const [toggleVisibleDrop, setToggleVisibleDrop] = useState<boolean>(false);
 
   const handleStartDateChange = (date: any) => {
     setStartDate(date);
@@ -280,20 +315,31 @@ export const PollForm = (props: {
               delete
             </CustomButton>
           )}
-          <input
-            type="search"
-            placeholder="search"
-            onChange={(event: any) => {
-              setSearchFilter(event.target.value);
-            }}
-          ></input>
         </div>
       </PollFormWrapper>
       <DragDropContext onDragEnd={onDragEnd}>
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", justifyContent: "center" }}>
           <div data-testid="chosenSongs" style={{ flex: "0 0 49%" }}>
-            <span>Drag into this area to create a poll</span>
-            <h3 style={{ borderBottom: "2px solid #000" }}>Poll ITEMS</h3>
+            <div>
+            <BsInfoSquare
+                        style={{
+                          fontSize: "1em",
+                          position: "absolute",
+                          marginLeft: "10px",
+                          float: "right",
+                        }}
+                        onClick={(e: any) => {
+                          setToggleVisibleDrop(!toggleVisibleDrop);
+                          setTimeout(() => {
+                            setToggleVisibleDrop(toggleVisibleDrop);
+                          }, 3000);
+                        }}
+                      />
+                      
+            
+            <HeadingThree>poll items</HeadingThree>
+            </div>
+            {!toggleVisibleDrop ? "" : <DragInfo>Drag into this area to create a poll</DragInfo>}
 
             <DroppableList listId="chosenSongs" listMap={chosenItems} />
           </div>
@@ -304,12 +350,17 @@ export const PollForm = (props: {
               borderLeft: "2px solid #000",
             }}
           >
-            <span style={{ paddingLeft: "5px" }}>
-              Drag from this area to create a poll
-            </span>
-            <h3 style={{ borderBottom: "2px solid #000", paddingLeft: "5px" }}>
-              ALL ITEMS
-            </h3>
+            <div>
+            <HeadingThree>all items</HeadingThree>
+            {!toggleVisibleDrop ? "" : <DragInfo>Drag from this area to create a poll</DragInfo>}
+            <Input
+            type="search"
+            placeholder="search"
+            onChange={(event: any) => {
+              setSearchFilter(event.target.value);
+            }}
+          ></Input>
+          </div>
             <DroppableList
               listId="songPool"
               listMap={songItems.filter((songItem: ISong) => {

@@ -5,16 +5,16 @@ import { IGlobalState, TStateAction } from "../interfaces";
 export const initialState: IGlobalState = {};
 
 export const reducer = (
-  prevState: IGlobalState,
+  currentState: IGlobalState,
   action: TStateAction
 ): IGlobalState => {
   switch (action.type) {
     case "setAuth":
-      return { ...prevState, auth: action.payload };
+      return { ...currentState, auth: action.payload };
     case "setConfig":
-      return { ...prevState, config: action.payload };
+      return { ...currentState, config: action.payload };
     default:
-      return prevState;
+      return currentState;
   }
 };
 

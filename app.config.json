@@ -1,4 +1,5 @@
 {
-  "serverURL": "http://activevoteserver.deverall.co.nz",
+  "serverURL": "http://api.radioactive.fm/",
   "port": "80"
 }
+
