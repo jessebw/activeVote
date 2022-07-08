@@ -26,7 +26,7 @@
     "graphql": "^15.3.0",
     "jwt-decode": "^2.2.0",
     "material-ui-icons": "^1.0.0-beta.36",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "normalize.css": "^8.0.1",
     "react": "^16.8.6",
     "react-avatar-editor": "^12.0.0-beta.0",
